@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode *reverseList (ListNode *head)
+    {
+        ListNode *prevNode, *nextNode, *p;
+        prevNode = NULL;
+        p = head;
+        while (p != NULL)
+        {
+            nextNode = p->next;
+            p->next = prevNode;
+            prevNode = p;
+            p = nextNode;
+        }
+        head = prevNode;
+        return head;
+    }
+    void reorderList(ListNode *head) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        //step 1: find the beginning of the second half of the list
+        if (head == NULL)
+            return;
+        //assume now the input list is nonempty
+        ListNode *slow, *fast;
+        slow = fast = head;
+        while (fast != NULL && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *head_second = slow;
+        if (fast != NULL) //odd number of nodes;
+            head_second = slow->next;
+        //step 2: reverse the second half of the list
+        head_second = reverseList (head_second);
+        ListNode *p = head;
+        ListNode *q = head_second;
+        while (p->next != q && q != NULL)
+        {   
+            //insert q right after p
+            ListNode *qNext = q->next;
+            q->next = p->next;
+            p->next = q;
+            p = p->next->next;
+            q = qNext;
+        }
+        if (q == NULL) //odd number of nodes
+        {
+            p->next = NULL;
+        }
+    }
+};
