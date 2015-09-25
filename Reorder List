@@ -6,7 +6,7 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-```cpp
+
 class Solution {
 public:
     ListNode *lastNode (ListNode *head)
@@ -80,4 +80,3 @@ public:
         }//endif
     }
 };
-```
