@@ -6,7 +6,7 @@ You have the following 3 operations permitted on a word:
     Delete a character
     Replace a character
 
-/* Dynamic Programming: O(n^{2}) Time, O(n^{2}) Space */
+/* Dynamic Programming: O(mn) Time, O(mn) Space */
 class Solution {
 public:    
     /**
