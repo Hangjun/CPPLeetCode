@@ -1,4 +1,4 @@
- Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively.
+Given a string s1, we may represent it as a binary tree by partitioning it to two non-empty substrings recursively.
 
 Below is one possible representation of s1 = "great":
 
