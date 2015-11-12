@@ -11,6 +11,8 @@ Here is an example of version numbers ordering:
 0.1 < 1.1 < 1.2 < 13.37
 */
 
+Be careful with corner cases like 1.0.0001.0 and 1.0.1 actually being the same version.
+
 class Solution {
 public:
     int compareVersion(string version1, string version2) {
