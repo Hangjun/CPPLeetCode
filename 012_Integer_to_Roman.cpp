@@ -32,3 +32,35 @@ public:
         return res;
     }
 };
+
+
+Here is another way of handling the subtractive notation: instead of viewing \verb+IX+ as $10 - 1$, we can view it additively as 
+$1 + (10 - 2 *1)$. Therefore we can simply push all the roman numeral bases into a hash table with keys their corresponding 
+values. We then scan the input string, and if we find such an \emph{increasing} consecutively characters, we do the subtraction:
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int res = 0;
+        unordered_map<char, int> ht;
+        romanHashInit(ht);
+        for (int i = 0; i < s.size(); i++) {
+            if (ht.find(s[i]) == ht.end()) return 0;
+            res += ht[s[i]];
+            if (i > 0 && ht[s[i]] > ht[s[i-1]]) {
+                res -= 2 * ht[s[i-1]];
+            }
+        }
+        return res;
+    }
+    
+    void romanHashInit(unordered_map<char, int> &ht) {
+        ht['I'] = 1;
+        ht['V'] = 5;
+        ht['X'] = 10;
+        ht['L'] = 50;
+        ht['C'] = 100;
+        ht['D'] = 500;
+        ht['M'] = 1000;
+    }
+};
