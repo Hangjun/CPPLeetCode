@@ -6,6 +6,9 @@ For example, given n = 3, a solution set is:
 "((()))", "(()())", "(())()", "()(())", "()()()" 
 */
 
+/* 
+Analysis:
+
 This is an obvious backtracking problem. The question is in what order do we generate all the parentheses. 
 A first idea is to generate (n-1) pairs first, and then loop on the possible positions to insert the nth. But not only is this 
 too complicated, it is also time consuming since inserting a character into a string is a linear operation.
@@ -15,6 +18,7 @@ are the constraints in terms of the order in which left and right parentheses ca
 long as the number of left parentheses is less than $n$, we can also push \verb+'('+ into a local solution and get a legal string.
 On the other hand, to be able to push \verb+')'+ to a local solution, we need to make sure that the number of \verb+'('+'s is 
 larger than the number of \verb+')'+'s. And that is also a sufficient condition. 
+*/
 
 class Solution {
 public:
