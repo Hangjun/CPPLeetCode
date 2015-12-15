@@ -16,7 +16,7 @@ public:
             if (s[i] != t[j]) {
                 if (haveDiffered) return false;
                 haveDiffered = true;
-                // if s.size() < t.size() (as opposed to s.size() == t.size(),
+                // if s.size() < t.size() (as opposed to s.size() == t.size()),
                 // we need to make i stay by decrementing it by one
                 if (s.size() < t.size()) {
                     i--;
