@@ -11,7 +11,7 @@ You may assume no duplicate exists in the array.
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        if (nums.empty()) return -1;
+        if (nums.empty()) return INT_MAX;
         int left = 0, right = nums.size()-1;
         while (left < right) {
             int mid = left + (right - left) / 2;
