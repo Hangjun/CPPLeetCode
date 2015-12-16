@@ -19,7 +19,7 @@ Note:
     All words contain only lowercase alphabetic characters.
 */
 
-
+/*
 This is similar to finding the shortest path between two nodes in a graph, and here a node is a string, and there is an edge
 between two strings if and only if they differ by only one character, and they both exist in the \verb+wordList+. 
 
@@ -27,6 +27,8 @@ To find the shortest path, we use BFS. There are three main components of the so
 1. Given a string, how to find its neighboring strings?
 2. How to make sure we don't visit a visited node?
 3. How to backtrack to print out the shortest path?
+*/
+
 
 class Solution {
 public:
@@ -74,7 +76,7 @@ public:
     }
 };
 
-
+/*
 Notice that on Line 67 above, once we find a legitimate neighbor word, we erase it from the dictionary. This severs the same purpose as a visited array. Now why can we erase this word? To justify this, there are two cases: 
 
 1. First, this word won't be reached on a later traversal. In this case we can certainly erase it from the dictionary.
@@ -85,6 +87,7 @@ If, on the other hand, this word will be reached at a later traversal. That mean
 However, if we were to print out all the minimal length paths or simply all paths from beginWord to endWord, we cannot simply erase any intermediate word.
 
 We have mentioned that this problem is really finding the smallest path from one word to another, where each step is restricted to one edit distance away. If we want to clearly separate each level during our traversal, we can use two queues instead of one. This is very similar to the Binary Tree Level Order Traversal problem:
+*/
 
 class Solution {
 public:
