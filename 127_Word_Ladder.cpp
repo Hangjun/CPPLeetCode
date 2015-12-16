@@ -60,8 +60,8 @@ public:
         vector<string> neighbors;
         for (int i = 0; i < curWord.size(); i++) {
             // change one character at a time
+            char c = curWord[i];
             for (char j = 'a'; j <= 'z'; j++) {
-                char c = curWord[i];
                 if (c == j) continue;
                 curWord[i] = j;
                 if (wordList.count(curWord)) {
@@ -122,8 +122,8 @@ public:
     void findNeighbors(string s, unordered_set<string> &wordList,
     queue<string> &nextLevel) {
         for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
             for (char j = 'a'; j <= 'z'; j++) {
-                char c = s[i];
                 if (j == c) continue;
                 s[i] = j;
                 if (wordList.count(s)) {
