@@ -22,7 +22,7 @@ public:
     }
 };
 
-// Submission #2: O(1)
+// Submission #2: O(1). Accepted.
 // Idea: Compute the largest integer that is a power of 3. Then n is a power of 3 iff n divides it. 
 
 class Solution {
