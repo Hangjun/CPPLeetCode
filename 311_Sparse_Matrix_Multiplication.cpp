@@ -29,38 +29,39 @@ public:
         int n = A[0].size();
         int k = B[0].size();
         vector<vector<int>> res(m, vector<int>(k, 0));
-        // store coordinates of non-zero entries of A into A1
-        vector<pair<int, int>> A1;
-        // store row index-->col index for non-zero entries of B into B1
-        unordered_map<int, vector<int>> B1;
         
+        // serialize non-zeros elems of A
+        vector<pair<int, int>> AReduce;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (A[i][j]) {
-                    A1.push_back(make_pair(i, j));
+                    AReduce.push_back(make_pair(i, j));
                 }
             }
         }
         
+        // given (i, j) in AReduce, need to find all nonzeros elems along
+        // row j
+        unordered_map<int, vector<int>> BReduce;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < k; j++) {
                 if (B[i][j]) {
-                    B1[i].push_back(j);
+                    BReduce[i].push_back(j);
                 }
             }
         }
         
-        for (int i = 0; i < A1.size(); i++) {
-            int xA = A1[i].first;
-            int yA = A1[i].second;
-            int valA = A[xA][yA];
-            // search for non-zero entries in B with row index y1
-            int xB = yA;
-            vector<int> v = B1[xB];
-            for (int j = 0; j < v.size(); j++) {
-                int yB = v[j];
-                int valB = B[xB][yB];
-                res[xA][yB] += valA * valB;
+        // multiply AReduce with BReduce
+        for (int i = 0; i < AReduce.size(); i++) {
+            int x1 = AReduce[i].first;
+            int y1 = AReduce[i].second;
+            int val1 = A[x1][y1];
+            // scan row y1 in BReduce
+            int x2 = y1;
+            for (int j = 0; j < BReduce[x2].size(); j++) {
+                int y2 = BReduce[x2][j];
+                int val2 = B[x2][y2];
+                res[x1][y2] += val1 * val2;
             }
         }
         
