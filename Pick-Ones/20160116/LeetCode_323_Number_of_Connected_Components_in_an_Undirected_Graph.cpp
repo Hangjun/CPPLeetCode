@@ -293,5 +293,47 @@ public:
     }
 };
 
+// Submission #5: A more compact implementation: Accepted
+class Solution {
+public:
+    int countComponents(int n, vector<pair<int, int>>& edges) {
+        if (edges.empty()) return n;
+        if (n < 2) return 1;
+        vector<int> parent(n);
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+        int count = 0;
+        for (int i = 0; i < edges.size(); i++) {
+            int n1 = edges[i].first;
+            int n2 = edges[i].second;
+            int p1 = find(parent, n1);
+            int p2 = find(parent, n2);
+            if (p1 != p2) {
+                unite(parent, n1, n2);
+                count++;
+            }
+        }
+        return n - count;
+    }
+    
+    int find(vector<int> &parent, int node) {
+        if (node != parent[node]) {
+            // path compression from node --> ultimate parent node
+            parent[node] = find(parent, parent[node]);
+        }
+        return parent[node];
+    }
+    
+    void unite(vector<int> &parent, int n1, int n2) {
+        int p1 = find(parent, n1);
+        int p2 = find(parent, n2);
+        if (p1 != p2) {
+            // unite the parent nodes, NOT n1, n2!
+            parent[p1] = min(p1, p2);
+            parent[p2] = min(p1, p2);
+        }
+    }
+};
 
 
