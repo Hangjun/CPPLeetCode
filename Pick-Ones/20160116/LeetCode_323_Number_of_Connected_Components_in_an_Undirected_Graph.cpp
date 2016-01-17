@@ -27,7 +27,8 @@ Input: 4
 [[0,1],[2,3],[1,2]]
 Output: 2
 Expected: 1 
-*
+*/
+
 class Solution {
 public:
     int countComponents(int n, vector<pair<int, int>>& edges) {
@@ -171,6 +172,7 @@ Input: 10
 Output: 4
 Expected: 3 
 */
+
 /* Analysis:
 Updating the parent index at the end still does not combind the parents of node 3,5,7,8 with 1,4,9.
 */
@@ -231,3 +233,65 @@ public:
         }
     }
 };
+
+/* Analysis:
+The bug resides in the union function: when merging two components, my implementation is not able to change the parent for EVERY node in 
+the two components. On lines 231 and 232, the parent nodes should be unioned, i.e. it should be something like parent[p1] = min(p1, p2);
+parent[p2] = min(p1, p2).
+*/
+
+// Submission #4: Accepted
+class Solution {
+public:
+    int countComponents(int n, vector<pair<int, int>>& edges) {
+        // corner cases
+        if (edges.empty()) return n;
+        if (n < 2) return 1;
+        // initialize parent table
+        vector<int> parent(n, -1);
+        int count = 0;
+        for (int i = 0; i < edges.size(); i++) {
+            int n1 = edges[i].first;
+            int n2 = edges[i].second;
+            // there is an edge between node n1 and n2, merge them
+            // initialize the parent node
+            int p1 = find(parent, n1);
+            int p2 = find(parent, n2);
+            if (p1 !=  p2) {
+                // union the two nodes
+                myUnion(parent, n1, n2);
+                count++;
+            }
+        }
+        return n - count;
+    }
+    
+    int find(vector<int> &parent, int node) {
+        if (parent[node] == -1) {
+            parent[node] = node;
+            return parent[node];
+        }
+        int p = node;
+        while(p != parent[p]) p = parent[p];
+        // path compression along node --> p
+        int f = node;
+        while (f != p) {
+            int tmp = parent[f];
+            parent[f] = p;
+            f = tmp;
+        }
+        return p;
+    }
+    
+    void myUnion(vector<int> &parent, int n1, int n2) {
+        int p1 = find(parent, n1);
+        int p2 = find(parent, n2);
+        if (p1 != p2) {
+            parent[p1] = min(p1, p2);
+            parent[p2] = min(p1, p2);
+        }
+    }
+};
+
+
+
