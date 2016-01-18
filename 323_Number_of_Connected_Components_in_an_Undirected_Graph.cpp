@@ -64,3 +64,46 @@ public:
     }
 };
 
+// BFS solution
+class Solution {
+public:
+    int countComponents(int n, vector<pair<int, int>>& edges) {
+        if (edges.empty()) return n;
+        if (n < 2) return 1;
+        // re-represent the graph using adjacency matrix and use BFS
+        // we can use either vector<unordered_set> or vector<list>
+        vector<unordered_set<int>> adj(n);
+        for (int i = 0; i < edges.size(); i++) {
+            pair<int, int> e = edges[i];
+            adj[e.first].insert(e.second);
+            adj[e.second].insert(e.first);
+        }
+        vector<bool> visited(n, false);
+        int components = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                bfs(adj, i, visited);
+                components++;
+            }
+        }
+        return components;
+    }
+    
+    void bfs(vector<unordered_set<int>> &adj, int index, vector<bool> &visited) {
+        visited[index] = true;
+        queue<int> q;
+        q.push(index);
+        while (!q.empty()) {
+            int curNode = q.front();
+            q.pop();
+            // level order search its unvisited neighbors
+            unordered_set<int>::iterator it;
+            for (it = adj[curNode].begin(); it != adj[curNode].end(); it++) {
+                if (!visited[*it]) {
+                    visited[*it] = true;
+                    q.push(*it);
+                }
+            }
+        }
+    }
+};
