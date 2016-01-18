@@ -203,7 +203,6 @@ private:
     
     bool inbound(vector<vector<char>> &grid, int x, int y) {
         return (x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size());
-    }    
-    
+    }
 };
 
