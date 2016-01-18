@@ -107,3 +107,38 @@ public:
         }
     }
 };
+
+// DFS solution
+class Solution {
+public:
+    int countComponents(int n, vector<pair<int, int>>& edges) {
+        if (edges.empty()) return n;
+        if (n < 2) return 1;
+        // construct adjancy list representation of the graph
+        vector<unordered_set<int>> adj(n); // adj size = n
+        for (int i = 0; i < edges.size(); i++) {
+            pair<int, int> e = edges[i];
+            adj[e.first].insert(e.second);
+            adj[e.second].insert(e.first);
+        }
+        int components = 0;
+        vector<bool> visited(n, false);
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(adj, i, visited);
+                components++;
+            }
+        }
+        return components;
+    }
+    
+    void dfs(vector<unordered_set<int>> &adj, int index, vector<bool> &visited) {
+        visited[index] = true;
+        // adj[index] contains all vertices incident to index
+        for (auto it = adj[index].begin(); it != adj[index].end(); it++) {
+            if (!visited[*it]) {
+                dfs(adj, *it, visited);
+            }
+        }
+    }
+};
