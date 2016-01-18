@@ -206,3 +206,50 @@ private:
     }
 };
 
+// BFS solution
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty() || grid[0].empty()) return 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        int components = 0;
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+        queue<pair<int, int>> q;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    // BFS on (i, j): make visited first before while-loop
+                    visited[i][j] = true;
+                    q.push(make_pair(i, j));
+                    // leve order search its neighbors
+                    while(!q.empty()) {
+                        pair<int, int> curNode = q.front();
+                        q.pop();
+                        int x = curNode.first;
+                        int y = curNode.second;
+                        for (int k = 0; k < 4; k++) {
+                            int nx = x + dx[k];
+                            int ny = y + dy[k];
+                            if (inbound(grid, nx, ny) && grid[nx][ny] == '1' && !visited[nx][ny]) {
+                                visited[nx][ny] = true;
+                                q.push(make_pair(nx, ny));
+                            }
+                        }
+                    }
+                    // end of while loop: found all nodes reachable from (i, j)
+                    components++;
+                }
+            }
+        }
+        return components;
+    }
+    
+private:
+    int dx[4] = {0, 1, 0, -1};
+    int dy[4] = {-1, 0, 1, 0};
+    
+    bool inbound(vector<vector<char>> &grid, int x, int y) {
+        return (x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size());
+    }
+};
