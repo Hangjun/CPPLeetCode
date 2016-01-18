@@ -47,7 +47,7 @@ public:
                     // update parent node once
                     int pt = find(parent, t);
                     // search neighboring island nodes
-                    for (int k = 1; k <= 4; k++) {
+                    for (int k = 0; k < 4; k++) {
                         int nx = i + dx[k];
                         int ny = j + dy[k];
                         if(inbound(grid, nx, ny) && grid[nx][ny] == '1') {
