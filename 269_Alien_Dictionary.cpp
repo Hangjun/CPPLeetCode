@@ -21,7 +21,7 @@ Note:
     There may be multiple valid order of letters, return any one of them is fine.
 */
 
-// DFS cycle detection approach:
+// DFS topological sort approach:
 class Solution {
 public:
     string alienOrder(vector<string>& words) {
