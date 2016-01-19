@@ -82,3 +82,57 @@ private:
         return false;
     }
 };
+
+// We can also use the in-degree theory and BFS:
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> courseOrder;
+        if (numCourses == 0 && !prerequisites.empty()) 
+            return courseOrder;
+        if (prerequisites.empty()) {
+            //no prerequisites
+            for (int i = 0; i < numCourses; i++)
+                courseOrder.push_back(i);
+            return courseOrder;
+        }
+        unordered_map<int, int> inDegree;
+        inDegree.clear();
+        for (int i = 0; i < prerequisites.size(); i++)
+            inDegree[prerequisites[i].first]++;
+        //find the course without any prerequisites
+        queue<int> prereqCourses;
+        int totalDegree = 0;
+        for (int i = 0; i < numCourses; i++) {
+            totalDegree += inDegree[i];
+            if (inDegree[i] == 0) {
+                prereqCourses.push(i);
+                courseOrder.push_back(i);
+            }
+        }
+        if (prereqCourses.empty()) 
+            return courseOrder;
+        //caution: it is totalDegree != 0 && !prereqCourses.empty(), not ||
+        while (totalDegree != 0 && !prereqCourses.empty()) {
+            int prereq = prereqCourses.front();
+            prereqCourses.pop();
+            /*  now we have taken course rereq, scan the prereqs to update 
+                the prereq vector
+            */
+            for (int i = 0; i < prerequisites.size(); i++) {
+                if (prerequisites[i].second == prereq) {
+                    inDegree[prerequisites[i].first]--;
+                    totalDegree--;
+                    if (inDegree[prerequisites[i].first] == 0) {
+                        prereqCourses.push(prerequisites[i].first);
+                        courseOrder.push_back(prerequisites[i].first);
+                    }
+                }
+            }
+        }
+        if (totalDegree == 0)
+            return courseOrder;
+        courseOrder.clear();
+        return courseOrder;
+    }
+};
