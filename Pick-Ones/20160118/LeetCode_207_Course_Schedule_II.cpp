@@ -28,7 +28,7 @@ Hints:
     Topological sort could also be done via BFS.
 */
 
-/* Submission #1: DFS cycle dection: Failed: 
+/* Submission #1: DFS cycle detection: Failed: 
 Submission Result: Runtime Error
 Last executed input: 2
 [[1,0]] 
