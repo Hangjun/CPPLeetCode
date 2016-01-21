@@ -99,13 +99,6 @@ int main()
     return 0;
 }
 
-
-/* Analysis:
-Can just use a visited vector to keep track of visited nodes, and we reset visited = false when completely finished with each dfs 
-traversal, and we report a cycle as soon as we run into an already visited node? 
-*/
-
-
 // another graph represetation
 struct DirectedGraphNode {
     int label;
@@ -142,5 +135,63 @@ bool isCyclic(vector<DirectedGraphNode *> nodes) {
             }
         }
     }
+    return false;
+}
+
+
+
+/* Analysis:
+Can just use a visited vector to keep track of visited nodes, and we reset visited = false when completely finished with each dfs 
+traversal, and we report a cycle as soon as we run into an already visited node? 
+
+If we reset the value of visited before returning from each dfs call, I think the algorithm still holds (need to double check!!). The problem 
+is that a node might be visited multiple times. This impacts the performance greatly. Here is the implementation with just the visited array, 
+for future references.
+*/
+
+// This function is a variation of DFSUytil() in http://www.geeksforgeeks.org/archives/18212
+bool Graph::isCyclicDFS(int v, vector<bool> &visited)
+{
+    // Mark the current node as visited and part of recursion stack
+    visited[v] = true;
+
+    // Recur for all the vertices adjacent to this vertex
+    list<int>::iterator i;
+    for(i = adj[v].begin(); i != adj[v].end(); ++i)
+    {
+        if (!visited[*i]) {
+            if (isCyclicDFS(*i, visited)) {
+                return true;
+            }
+        } else if (visited[*i]) { // if *i has been visited, a cycle is found
+            return true;
+        }
+    }
+    visited[v] = false;
+    return false;
+}
+ 
+// Returns true if the graph contains a cycle, else false.
+// This function is a variation of DFS() in http://www.geeksforgeeks.org/archives/18212
+bool Graph::isCyclic()
+{
+    // Mark all the vertices as not visited and not part of recursion
+    // stack
+    vector<bool> visited(V);
+
+    for(int i = 0; i < V; i++)
+    {
+        visited[i] = false;
+    }
+ 
+    // Call the recursive helper function to detect cycle in different
+    // DFS trees
+    for(int i = 0; i < V; i++)
+        if (!visited[i]) {
+            if (isCyclicDFS(i, visited)) {
+                return true;
+            }
+        }
+ 
     return false;
 }
