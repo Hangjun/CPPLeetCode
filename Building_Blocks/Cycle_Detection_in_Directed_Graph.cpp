@@ -38,10 +38,13 @@ bool Graph::isCyclicDFS(int v, vector<bool> &visited, vector<bool> &inStack)
     list<int>::iterator i;
     for(i = adj[v].begin(); i != adj[v].end(); ++i)
     {
-        if ( !visited[*i] && isCyclicDFS(*i, visited, inStack) )
+        if (!visited[*i]) {
+            if (isCyclicDFS(*i, visited, inStack)) {
+                return true;
+            }
+        } else if (inStack[*it]) {
             return true;
-        else if (inStack[*i])
-            return true;
+        }
     }
     inStack[v] = false;  // remove the vertex from recursion stack
     return false;
