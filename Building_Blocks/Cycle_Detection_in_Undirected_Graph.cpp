@@ -40,7 +40,12 @@ bool isCyclic(vector<UndirectedGraphNode *> &nodes) {
 }
 
 /* Analysis:
-1. For undirected graph, we do not need to keep track of which nodes are in stack. In fact, we can't. Suppose A-B is an edge, and we start 
+1. We asked the question of whether we can just use a visited vector to keep track of visited nodes, and we reset visited = false when 
+completely finished with each dfs traversal. Can we report a cycle as soon as we run into an already visited node? The answer is NO. Just 
+let A-B be an edge. We start the dfs from A, and recurse onto B. When at node B, it sees that A is a visited node, but this is certainly not 
+a cycle. 
+
+2. For undirected graph, we do not need to keep track of which nodes are in stack. In fact, we can't. Suppose A-B is an edge, and we start 
 the dfs call on node A. It sees B as an unvisited node, and recurse onto B. B sees that its only neighbor A has been visited, thus if we 
 use the previous inStack trick, it's going to report that we have a cycle, which is wrong. 
 
@@ -48,7 +53,7 @@ The upshot is that, the very nature that an undirected edge can go both ways pro
 Once we run into a node that has been visited already, we only need to check whether it is same node as the parent node of the current node. 
 Draw a (undirected) cycle out and convince yourself that this is indeed the case. 
 
-2. The logic on lines 16-21 above is critical. If a node is unvisited, we need to recursively run dfs on it. In this case, even if the we do 
+3. The logic on lines 16-21 above is critical. If a node is unvisited, we need to recursively run dfs on it. In this case, even if the we do 
 find a cycle eminating from that node, we should NOT test whether it equals to its parent node any more. Had we written:
 if (visited.find(*it) && dfs(nodes, *it, visited, parent)) {
     return true;
