@@ -1,3 +1,7 @@
+/* 
+Test whether a directed graph contains a directed edge.
+*/
+
 #include<iostream>
 #include <list>
 #include <vector>
@@ -94,6 +98,12 @@ int main()
         cout << "Graph doesn't contain cycle";
     return 0;
 }
+
+
+/* Analysis:
+Can just use a visited vector to keep track of visited nodes, and we reset visited = false when completely finished with each dfs 
+traversal, and we report a cycle as soon as we run into an already visited node? 
+*/
 
 
 // another graph represetation
