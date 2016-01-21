@@ -109,8 +109,10 @@ unordered_set<DirectedGraphNode *> &visited, unordered_set<DirectedGraphNode *> 
     inStack.insert(curNode);
     for (int i = 0; i < curNode->neighbors.size(); i++) {
         DirectedGraphNode *nb = curNode->neighbors[i];
-        if (visited.find(nb) == visited.end() && isCyclicDFS(nodes, nb, visited, inStack)) {
-            return true;
+        if (visited.find(nb) == visited.end()) { {
+            if (isCyclicDFS(nodes, nb, visited, inStack)) {
+                return true;
+            }
         } else if (inStack.find(nb) != inStack.end()) {
             return true;
         }
