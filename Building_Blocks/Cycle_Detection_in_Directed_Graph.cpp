@@ -42,7 +42,7 @@ bool Graph::isCyclicDFS(int v, vector<bool> &visited, vector<bool> &inStack)
             if (isCyclicDFS(*i, visited, inStack)) {
                 return true;
             }
-        } else if (inStack[*it]) {
+        } else if (inStack[*i]) { // if *i has been visited, check if it's currently on stack
             return true;
         }
     }
