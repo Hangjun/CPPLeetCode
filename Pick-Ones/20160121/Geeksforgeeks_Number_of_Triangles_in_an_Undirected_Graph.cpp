@@ -52,8 +52,8 @@ int trianglesInUndirectedGraph(vector<vector<int>> &graph) {
 
 
 int main() {
-vector<vector<graph>> = {{0,1,1,0}, {1,0,1,1}, {1,1,0,1}, {0,1,1,0}};
-cout << trianglesInUndirectedGraph(graph) << endl;
+	vector<vector<graph>> = {{0,1,1,0}, {1,0,1,1}, {1,1,0,1}, {0,1,1,0}};
+	cout << trianglesInUndirectedGraph(graph) << endl;
 	return 0;
 }
 
