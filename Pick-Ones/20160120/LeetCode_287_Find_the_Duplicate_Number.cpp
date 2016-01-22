@@ -9,3 +9,35 @@ Note:
     There is only one duplicate number in the array, but it could be repeated more than once.
 
 */
+
+// Submission #1: Accepted.
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // all numbers are within [left, right] = [1,n]
+        int left = 1;
+        int right = nums.size()-1;
+        // loop-invariant: duplicate is contained withtin [left, right], inclusive
+        while (left < right) {
+            int mid = left + (right - left)/2;
+            if (containsDup(nums, left, mid)) {
+                right = mid;
+            } else {
+                left = mid+1;
+            }
+        }
+        return left;
+    }
+    
+private:
+    bool containsDup(vector<int> &nums, int lb, int up) {
+        int count = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] >= lb && nums[i] <= up) {
+                count++;
+            }
+        }
+        return (count > up - lb + 1) ? true : false;
+    }
+};
