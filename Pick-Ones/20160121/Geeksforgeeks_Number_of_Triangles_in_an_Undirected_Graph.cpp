@@ -44,8 +44,6 @@ int trianglesInUndirectedGraph(vector<vector<int>> &graph) {
     return trace(graphCubed)/6;
 }
 
-int main() {
-	vector<vector<graph>> = {{0,1,1,0}, {1,0,1,1}, {1,1,0,1}, {0,1,1,0}};
-    cout << trianglesInUndirectedGraph(graph) << endl;
-	return 0;
-}
+
+
+
