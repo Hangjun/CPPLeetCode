@@ -52,4 +52,3 @@ int main() {
     cout << trianglesInUndirectedGraph(graph) << endl;
 	return 0;
 }
-
