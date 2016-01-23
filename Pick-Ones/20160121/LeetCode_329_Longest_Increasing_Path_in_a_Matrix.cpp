@@ -66,7 +66,7 @@ private:
             int nx = x + dx[i];
             int ny = y + dy[i];
             if (inbound(matrix, nx, ny) && !visited[nx][ny] && matrix[nx][ny] > matrix[x][y]) {
-                // skip from (x, y) up to (nx, ny): extend a bit
+                // route (x, y) to go through (nx, ny) to get a longer path
                 dp[x][y] = max(dp[x][y], dp[nx][ny]);
             }
         }
