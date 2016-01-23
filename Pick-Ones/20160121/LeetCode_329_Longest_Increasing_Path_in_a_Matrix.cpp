@@ -231,7 +231,6 @@ private:
     int dfs(vector<vector<int>> &matrix, int x, int y, vector<vector<bool>> &visited, vector<vector<int>> &dp) {
         //if (dp[x][y] != 0) return dp[x][y];
         if (visited[x][y]) return dp[x][y];
-        
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
@@ -278,6 +277,7 @@ private:
     int dfs(vector<vector<int>> &matrix, int x, int y, vector<vector<int>> &dp) {
         //if (dp[x][y] != 0) return dp[x][y];
         if (dp[x][y] != -1) return dp[x][y];
+        dp[x][y] = 1;
         
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
