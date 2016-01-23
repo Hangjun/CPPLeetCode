@@ -296,3 +296,6 @@ private:
 };
 
 
+/* 
+Final remark: we cannot use BFS for this problem, since BFS does not guarrante that when we reach (i, j) again, its value is optimal.
+*/
