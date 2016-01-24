@@ -63,7 +63,7 @@ public:
         int maxLen = INT_MIN;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                // dfs returns maximum length of the increasing path that reaches (i, j)
+                // dfs returns maximum length of the increasing path that starts from (i, j)
                 int curLen = dfs(matrix, i, j, dp);
                 maxLen = max(maxLen, curLen);
             }
@@ -108,7 +108,7 @@ public:
         int maxLen = INT_MIN;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                // dfs returns maximum length of the increasing path that reaches (i, j)
+                // dfs returns maximum length of the increasing path that starts from (i, j)
                 int curLen = dfs(matrix, i, j, visited, dp);
                 maxLen = max(maxLen, curLen);
             }
@@ -121,7 +121,6 @@ private:
     int dy[4] = {-1, 0, 1, 0};
     
     int dfs(vector<vector<int>> &matrix, int x, int y, vector<vector<bool>> &visited, vector<vector<int>> &dp) {
-        //if (dp[x][y] != 0) return dp[x][y];
         if (visited[x][y]) return dp[x][y];
         
         for (int i = 0; i < 4; i++) {
