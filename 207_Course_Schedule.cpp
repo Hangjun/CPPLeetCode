@@ -83,42 +83,35 @@ We also use the in-degree in graph theory to represent dependencies of courses. 
 class Solution {
 public:
     bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
-        if (numCourses == 0 && !prerequisites.empty()) 
-            return false;
-        if (prerequisites.empty()) 
-            return true;
-        unordered_map<int, int> inDegree;
-        inDegree.clear();
-        for (int i = 0; i < prerequisites.size(); i++)
+        if (prerequisites.empty()) return true;
+        // inDegree[i] = k means courses i has k prerequisites
+        // courses without any prerequisites can be taken immedinately
+        vector<int> inDegree(numCourses, 0);
+        for (int i = 0; i < prerequisites.size(); i++) {
             inDegree[prerequisites[i].first]++;
-        //find the course without any prerequisites
+        }
         queue<int> prereqCourses;
         int totalDegree = 0;
         for (int i = 0; i < numCourses; i++) {
             totalDegree += inDegree[i];
-            if (inDegree[i] == 0)
+            if (inDegree[i] == 0) {
                 prereqCourses.push(i);
+            }
         }
         if (prereqCourses.empty()) return false;
-        //caution: it is totalDegree != 0 && !prereqCourses.empty(), not ||
         while (totalDegree != 0 && !prereqCourses.empty()) {
-            int prereq = prereqCourses.front();
+            int curCourse = prereqCourses.front();
             prereqCourses.pop();
-            /*  now we have taken course rereq, scan the prereqs to update 
-                the prereq vector
-            */
             for (int i = 0; i < prerequisites.size(); i++) {
-                if (prerequisites[i].second == prereq) {
-                    inDegree[prerequisites[i].first]--;
-                    totalDegree--;
-                    if (inDegree[prerequisites[i].first] == 0)
+                if (prerequisites[i].second == curCourse) {
+                    --totalDegree;
+                    if (--inDegree[prerequisites[i].first] == 0) {
                         prereqCourses.push(prerequisites[i].first);
+                    }
                 }
             }
         }
-        if (totalDegree)
-            return false;
-        return true;
+        return totalDegree == 0;
     }
 };
 
