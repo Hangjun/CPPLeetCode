@@ -87,52 +87,48 @@ private:
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
-        vector<int> courseOrder;
-        if (numCourses == 0 && !prerequisites.empty()) 
-            return courseOrder;
+        vector<int> order;
         if (prerequisites.empty()) {
-            //no prerequisites
-            for (int i = 0; i < numCourses; i++)
-                courseOrder.push_back(i);
-            return courseOrder;
+            for (int i = 0; i < numCourses; i++) {
+                order.push_back(i);
+            }
+            return order;
         }
-        unordered_map<int, int> inDegree;
-        inDegree.clear();
-        for (int i = 0; i < prerequisites.size(); i++)
+        // construct in-degree table
+        vector<int> inDegree(numCourses, 0);
+        for (int i = 0; i < prerequisites.size(); i++) {
             inDegree[prerequisites[i].first]++;
-        //find the course without any prerequisites
-        queue<int> prereqCourses;
+        }
         int totalDegree = 0;
+        queue<int> prereqCourses;
         for (int i = 0; i < numCourses; i++) {
             totalDegree += inDegree[i];
             if (inDegree[i] == 0) {
                 prereqCourses.push(i);
-                courseOrder.push_back(i);
+                order.push_back(i);
             }
         }
-        if (prereqCourses.empty()) 
-            return courseOrder;
-        //caution: it is totalDegree != 0 && !prereqCourses.empty(), not ||
+        if (prereqCourses.empty()) {
+            order.clear();
+            return order;
+        }
         while (totalDegree != 0 && !prereqCourses.empty()) {
-            int prereq = prereqCourses.front();
+            int curCourse = prereqCourses.front();
             prereqCourses.pop();
-            /*  now we have taken course rereq, scan the prereqs to update 
-                the prereq vector
-            */
             for (int i = 0; i < prerequisites.size(); i++) {
-                if (prerequisites[i].second == prereq) {
-                    inDegree[prerequisites[i].first]--;
+                if (prerequisites[i].second == curCourse) {
                     totalDegree--;
-                    if (inDegree[prerequisites[i].first] == 0) {
+                    if (--inDegree[prerequisites[i].first] == 0) {
                         prereqCourses.push(prerequisites[i].first);
-                        courseOrder.push_back(prerequisites[i].first);
+                        order.push_back(prerequisites[i].first);
                     }
                 }
             }
         }
-        if (totalDegree == 0)
-            return courseOrder;
-        courseOrder.clear();
-        return courseOrder;
+        if (totalDegree != 0) {
+            order.clear();
+            return order;
+        }
+        return order;
     }
 };
