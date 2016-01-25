@@ -83,7 +83,8 @@ public:
 };
 
 /* Analysis:
-The while-loop terminated before we have a chance to push course 1 into the final order.
+The while-loop terminated before we have a chance to push course 1 into the final order. Also checking total != 0 in the while-loop is 
+redundent.
 */
 
 // Submission #2: Accepted.
@@ -108,22 +109,20 @@ public:
             totalDegree += inDegree[i];
             if (inDegree[i] == 0) {
                 prereqCourses.push(i);
-                order.push_back(i);
             }
         }
         if (prereqCourses.empty()) {
-            order.clear();
             return order;
         }
-        while (totalDegree != 0 && !prereqCourses.empty()) {
+        while (!prereqCourses.empty()) {
             int curCourse = prereqCourses.front();
+            order.push_back(curCourse);
             prereqCourses.pop();
             for (int i = 0; i < prerequisites.size(); i++) {
                 if (prerequisites[i].second == curCourse) {
                     totalDegree--;
                     if (--inDegree[prerequisites[i].first] == 0) {
                         prereqCourses.push(prerequisites[i].first);
-                        order.push_back(prerequisites[i].first);
                     }
                 }
             }
