@@ -52,7 +52,7 @@ public:
             }
         }
         if (prereqCourses.empty()) return false;
-        while (totalDegree != 0 && !prereqCourses.empty()) {
+        while (!prereqCourses.empty()) {
             int curCourse = prereqCourses.front();
             prereqCourses.pop();
             for (int i = 0; i < prerequisites.size(); i++) {
