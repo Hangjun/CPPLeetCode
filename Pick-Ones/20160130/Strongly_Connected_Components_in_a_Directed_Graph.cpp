@@ -57,7 +57,7 @@ vector<vector<int>> Graph::computeSCC() {
             backwardDFS(adj_rev, i, visited, timeStamp, t);
         }
     }
-    // mem_set(visited, false, sizeof(bool) * V);
+    // mem_set(visited, false, sizeof(bool) * V); // I don't know why this cannot be compiled in codechef.
     for (int i = 0; i < V; i++) {visited[i] = false;}
     vector<vector<int>> res;
     // DFS on the original graph in the order of decreasing finishing times
@@ -66,15 +66,9 @@ vector<vector<int>> Graph::computeSCC() {
         if (!visited[curNode]) {
             vector<int> component;
             forwardDFS(curNode, visited, component);
-            cout << "found one scc: ";
-            for (int i = 0; i < component.size(); i++) {
-                cout << component[i] << "  ";
-            }
-            cout << endl;
             res.push_back(component);
         }
     }
-    cout << res.size() << " scc's found!" << endl;
     return res;
 }
 
