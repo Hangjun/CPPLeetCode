@@ -8,7 +8,6 @@ We use Kosaraju's algorithm to compute the SCCs. The algorithm uses two DFS, and
 
 #include <iostream>
 #include <unordered_set>
-#include <unordered_map>
 #include <vector>
 #include <stdio.h>
 #include <string.h>
@@ -20,7 +19,7 @@ class Graph
 {
     int V;    // No. of vertices in graph
     unordered_set<int> *adj; // Pointer to an array containing adjacency lists
-    void backwardDFS(vector<unordered_set<int>> &adj_rev, int curNode, vector<bool> &visited, unordered_map<int, int> &timeStamp, int &t);
+    void backwardDFS(vector<unordered_set<int>> &adj_rev, int curNode, vector<bool> &visited, vector<int> &timeStamp, int &t);
     void forwardDFS(int curNode, vector<bool> &visited, vector<int> &component);
     
 public:
@@ -48,7 +47,7 @@ vector<vector<int>> Graph::computeSCC() {
             adj_rev[*it].insert(i);
         }
     }
-    unordered_map<int, int> timeStamp;
+    vector<int> timeStamp(V);
     vector<bool> visited(V, false);
     int t = 0;
     // DFS on the reverse graph to compute the finishing times
@@ -57,11 +56,11 @@ vector<vector<int>> Graph::computeSCC() {
             backwardDFS(adj_rev, i, visited, timeStamp, t);
         }
     }
-    // mem_set(visited, false, sizeof(bool) * V); // I don't know why this cannot be compiled in codechef.
+    // mem_set(visited, false, sizeof(bool) * V);
     for (int i = 0; i < V; i++) {visited[i] = false;}
     vector<vector<int>> res;
     // DFS on the original graph in the order of decreasing finishing times
-    for (int i = V; i > 0; i--) {
+    for (int i = V-1; i >= 0; i--) {
         int curNode = timeStamp[i];
         if (!visited[curNode]) {
             vector<int> component;
@@ -72,14 +71,14 @@ vector<vector<int>> Graph::computeSCC() {
     return res;
 }
 
-void Graph::backwardDFS(vector<unordered_set<int>> &adj_rev, int curNode, vector<bool> &visited, unordered_map<int, int> &timeStamp, int &t) {
+void Graph::backwardDFS(vector<unordered_set<int>> &adj_rev, int curNode, vector<bool> &visited, vector<int> &timeStamp, int &t) {
     visited[curNode] = true;
     for (auto it = adj_rev[curNode].begin(); it != adj_rev[curNode].end(); it++) {
         if (!visited[*it]) {
             backwardDFS(adj_rev, *it, visited, timeStamp, t);
         }
     }
-    timeStamp[++t] = curNode;
+    timeStamp[t++] = curNode;
     return;
 }
 
