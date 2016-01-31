@@ -68,7 +68,6 @@ parent node. It is because of the && that we have to evaluate the entire express
 // Another graph representation
 
 // A C++ Program to detect cycle in an undirected graph
-// A C++ Program to detect cycle in an undirected graph
 #include<iostream>
 #include <list>
 #include <limits.h>
