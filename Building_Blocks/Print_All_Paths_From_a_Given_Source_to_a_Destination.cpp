@@ -54,6 +54,10 @@ void Graph::printAllPathsDFS(int curNode, int target, vector<bool> &visited, vec
     curPath.push_back(curNode);
     if (curNode == target) {
         paths.push_back(curPath);
+        // is there a better to implemention this backtracking to avoid the repeatition below?
+        visited[curNode] = false;
+        curPath.pop_back();
+        return;
     }
     for (auto it = adj[curNode].begin(); it != adj[curNode].end(); it++) {
         if (!visited[*it]) {
