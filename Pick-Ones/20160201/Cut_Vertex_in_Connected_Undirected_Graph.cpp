@@ -79,7 +79,7 @@ void Graph::computeCutVertexDFS(int u, vector<bool> &visited, vector<int> &dfs, 
             children++;
             computeCutVertexDFS(v, visited, dfs, low, parent, cv, t);
             
-            // check if the subtree rooted with v has a connection to one of the ancestors of u
+            // (u, v) is a tree edge: check if the subtree rooted with v has a smaller low value than low[u]
             low[u] = min(low[u], low[v]);
             
             if (parent[u] == -1) { // if u is root
@@ -87,8 +87,8 @@ void Graph::computeCutVertexDFS(int u, vector<bool> &visited, vector<int> &dfs, 
             } else if (low[u] >= dfs[u]) {
                 cv[u] = true;
             }
-        } else if (v != parent[u]) { // back edge
-            // see if we can get a lower depth via the back edge (u, v)
+        } else if (v != parent[u]) {
+            // (u, v) is a back edge:  check if we can get a lower depth via the back edge (u, v)
             low[u] = min(low[u], dfs[v]);
         }
     }
