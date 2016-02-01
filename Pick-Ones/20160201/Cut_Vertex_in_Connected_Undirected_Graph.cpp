@@ -85,7 +85,7 @@ void Graph::computeCutVertexDFS(int u, vector<bool> &visited, vector<int> &dfs, 
             
             if (parent[u] == -1) { // if u is root
                 cv[u] = (children > 1);
-            } else if (low[u] >= dfs[u]) {
+            } else if (low[v] >= dfs[u]) {
                 cv[u] = true;
             }
         } else if (v != parent[u]) {
@@ -124,6 +124,28 @@ int main() {
     g3.addEdge(3, 5);
     g3.addEdge(4, 5);
     g3.computeCutVertex();
+    
+    cout << "\nArticulation points in fourth graph \n";
+    Graph g4(13);
+    g4.addEdge(0,1);
+    g4.addEdge(1,2);
+    g4.addEdge(2,3);
+    g4.addEdge(3,4);
+    g4.addEdge(4,5);
+    g4.addEdge(5,6);
+    g4.addEdge(2,6);
+    g4.addEdge(3,5);
+    g4.addEdge(2,7);
+    g4.addEdge(7,8);
+    g4.addEdge(7,9);
+    g4.addEdge(1,9);
+    g4.addEdge(0,9);
+    g4.addEdge(9,10);
+    g4.addEdge(10,11);
+    g4.addEdge(9,11);
+    g4.addEdge(11,12);
+    g4.computeCutVertex();
+    
 	return 0;
 }
 
