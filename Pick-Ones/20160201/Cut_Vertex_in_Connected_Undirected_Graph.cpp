@@ -5,11 +5,12 @@ Compute all cut vertices in a connected undirected graph in linear time (in the 
 */
 
 /* Analysis:
-This is a difficult problem. See the following references for details (listed in decreasing order of helpfulness).
+This is a difficult problem. See the following references for details (listed in decreasing order of clarity and helpfulness).
 1. http://pisces.ck.tp.edu.tw/~peng/index.php?action=showfile&file=fb1f19a9be617037cb419c5d454b184bead47e243
 2. http://www.cs.cmu.edu/afs/cs/academic/class/15451-s14/LectureNotes/lecture11.pdf
 3. https://en.wikipedia.org/wiki/Biconnected_component
 4. http://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
+5. https://courses.cs.washington.edu/courses/cse421/04su/slides/artic.pdf
 */
 
 #include<iostream>
