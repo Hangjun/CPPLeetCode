@@ -1,3 +1,20 @@
+/*
+A biconnected component (also known as a block or 2-connected component) is a maximal biconnected subgraph. Given a connected undirected 
+graph, it has a single connected components, but it may have multiple biconnected components. 
+
+Given a connected undirected graph, compute its biconnected components.
+*/
+
+
+/* Analysis:
+This problem builds upon the problem where we need to compute all the articulation points. 
+
+References:
+1. http://www.cs.umd.edu/class/fall2005/cmsc451/bicon.pdf
+2. http://www.geeksforgeeks.org/biconnected-components/
+*/
+
+
 #include <iostream>
 #include <unordered_set>
 #include <vector>
@@ -66,7 +83,6 @@ vector<vector<Edge>> Graph::computeBCC() {
 void Graph::computeBCCDFS(int u, vector<bool> &visited, vector<int> &dfs, vector<int> &low, vector<int> &parent, stack<Edge> &st, int &t, vector<vector<Edge>> &res) {
     visited[u] = true;
     dfs[u] = low[u] = ++t;
-    cout << "begin DFS: dfs[" << u << "] = " << dfs[u] << ", low[" << u << "] = " << low[u] << endl;
     int children = 0;
     for (auto it = adj[u].begin(); it != adj[u].end(); it++) {
         int v = *it;
@@ -79,7 +95,6 @@ void Graph::computeBCCDFS(int u, vector<bool> &visited, vector<int> &dfs, vector
             
             // if u is a vertex cut, pop all stored edges up until (u, v) -> it is a BCC
             if (parent[u] == -1 && children > 1 || parent[u] != -1 && low[v] >= dfs[u]) {
-                cout << "u = " << u << " is a vertex cut." << endl;
                 vector<Edge> curBCC;
                 Edge e;
                 do {
@@ -89,13 +104,14 @@ void Graph::computeBCCDFS(int u, vector<bool> &visited, vector<int> &dfs, vector
                 } while (e.u != u || e.v != v);
                 res.push_back(curBCC);
             }
-        } else if (v != parent[u]) {
-            cout << "(" << u << "," << v << ") is a back edge" << endl; 
+        } else if (v != parent[u] && dfs[v] < dfs[u]) {
+        	// (u, v) is a back edge from u to its ancestor v
+        	// if dfs[v] > dfs[u], then we have already visited the back edge (v, u) previously (technically a forward edge) but we 
+        	// cannot distinguish back edge and forward in undirected graphs
             low[u] = min(low[u], dfs[v]);
             st.push(Edge(u, v));
         }
     }
-    cout << "end DFS: dfs[" << u << "] = " << dfs[u] << ", low[" << u << "] = " << low[u] << endl;
 }
 
 int main() {
@@ -120,3 +136,70 @@ int main() {
 }
 
 
+/* Analysis:
+On line 107, we added the dfs[v] < dfs[u] condition to reduce the redundancy: if dfs[v] > dfs[u], then we have already visited the back 
+edge (v, u) earlier. To help understand the entire dfs[] low[] computation, consider running the above algorithm on the graph:
+
+
+
+begin DFS: dfs[0] = 1, low[0] = 1
+pushing (0, 6) into stack
+begin DFS: dfs[6] = 2, low[6] = 2
+pushing (6, 5) into stack
+begin DFS: dfs[5] = 3, low[5] = 3
+pushing (5, 8) into stack
+begin DFS: dfs[8] = 4, low[8] = 4
+pushing (8, 9) into stack
+begin DFS: dfs[9] = 5, low[9] = 5
+end DFS: dfs[9] = 5, low[9] = 5
+u = 8 is a vertex cut.
+popping (8, 9) out of stack, into curBCC
+pushing (8, 7) into stack
+begin DFS: dfs[7] = 6, low[7] = 6
+(7,5) is a back edge
+pushing (7,5) into stack
+end DFS: dfs[7] = 6, low[7] = 3
+end DFS: dfs[8] = 4, low[8] = 3
+u = 5 is a vertex cut.
+popping (7, 5) out of stack, into curBCC
+popping (8, 7) out of stack, into curBCC
+popping (5, 8) out of stack, into curBCC
+pushing (5, 1) into stack
+begin DFS: dfs[1] = 7, low[1] = 7
+pushing (1, 3) into stack
+begin DFS: dfs[3] = 8, low[3] = 8
+pushing (3, 4) into stack
+begin DFS: dfs[4] = 9, low[4] = 9
+pushing (4, 2) into stack
+begin DFS: dfs[2] = 10, low[2] = 10
+(2,3) is a back edge
+pushing (2,3) into stack
+(2,1) is a back edge
+pushing (2,1) into stack
+end DFS: dfs[2] = 10, low[2] = 7
+end DFS: dfs[4] = 9, low[4] = 7
+end DFS: dfs[3] = 8, low[3] = 7
+u = 1 is a vertex cut.
+popping (2, 1) out of stack, into curBCC
+popping (2, 3) out of stack, into curBCC
+popping (4, 2) out of stack, into curBCC
+popping (3, 4) out of stack, into curBCC
+popping (1, 3) out of stack, into curBCC
+(1,0) is a back edge
+pushing (1,0) into stack
+end DFS: dfs[1] = 7, low[1] = 1
+end DFS: dfs[5] = 3, low[5] = 1
+end DFS: dfs[6] = 2, low[6] = 1
+end DFS: dfs[0] = 1, low[0] = 1
+popping remaining edge (1, 0) out of stack
+popping remaining edge (5, 1) out of stack
+popping remaining edge (6, 5) out of stack
+popping remaining edge (0, 6) out of stack
+begin DFS: dfs[10] = 11, low[10] = 11
+pushing (10, 11) into stack
+begin DFS: dfs[11] = 12, low[11] = 12
+end DFS: dfs[11] = 12, low[11] = 12
+end DFS: dfs[10] = 11, low[10] = 11
+popping remaining edge (10, 11) out of stack
+
+*/
