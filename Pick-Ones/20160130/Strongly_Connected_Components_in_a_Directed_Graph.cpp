@@ -27,7 +27,7 @@ public:
     void addEdge(int u, int v);
     vector<vector<int>> computeSCC();
 };
- 
+
 Graph::Graph(int V)
 {
     this->V = V;
@@ -134,3 +134,11 @@ int main() {
 	vector<vector<int>> scc = g.computeSCC();
 	return 0;
 }
+
+
+/* Analysis:
+Kosaraju's algorithm requires two passes of DFS. Can the SCC's be found using only a single DFS? The answer is yes. Tarjan’s Algorithm 
+for computing SCC's of a directed graph also runs in linear time with the added bonus that we only need to traverse the graph once. 
+See:
+https://github.com/Hangjun/MyLeetCode/blob/master/Pick-Ones/20160201/Tarjan_Algorithm_for_Computing_SCC_in_Directed_Graph.cpp
+*/
