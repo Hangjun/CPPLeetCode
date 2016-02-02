@@ -5,9 +5,15 @@ only requires a single DFS traversal.
 */
 
 /* Wikipedia:
-The nodes are placed on a stack in the order in which they are visited. When the depth-first search recursively explores a node v and its descendants, those nodes are not all necessarily popped from the stack when this recursive call returns. The crucial invariant property is that a node remains on the stack after exploration if and only if it has a path to some node earlier on the stack.
+The nodes are placed on a stack in the order in which they are visited. When the depth-first search recursively explores a node v and 
+its descendants, those nodes are not all necessarily popped from the stack when this recursive call returns. The crucial invariant 
+property is that a node remains on the stack after exploration if and only if it has a path to some node earlier on the stack.
 
-At the end of the call that explores v and its descendants, we know whether v itself has a path to any node earlier on the stack. If so, the call returns, leaving v on the stack to preserve the invariant. If not, then v must be the root of its strongly connected component, which consists of v together with any later nodes on the stack (such nodes all have paths back to v but not to any earlier node, because if they had paths to earlier nodes then v would also have paths to earlier nodes which is false ). This entire component is then popped from the stack and returned, again preserving the invariant.
+At the end of the call that explores v and its descendants, we know whether v itself has a path to any node earlier on the stack. 
+If so, the call returns, leaving v on the stack to preserve the invariant. If not, then v must be the root of its strongly connected 
+component, which consists of v together with any later nodes on the stack (such nodes all have paths back to v but not to any earlier 
+node, because if they had paths to earlier nodes then v would also have paths to earlier nodes which is false ). This entire component 
+is then popped from the stack and returned, again preserving the invariant.
 */
 
 #include <iostream>
