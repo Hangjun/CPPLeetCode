@@ -138,9 +138,8 @@ int main() {
 
 /* Analysis:
 On line 107, we added the dfs[v] < dfs[u] condition to reduce the redundancy: if dfs[v] > dfs[u], then we have already visited the back 
-edge (v, u) earlier. To help understand the entire dfs[] low[] computation, consider running the above algorithm on the graph:
-
-
+edge (v, u) earlier. To help understand the entire dfs[] low[] computation, consider running the above algorithm on the graph given in 
+the main function. Here is how the algorithm runs:
 
 begin DFS: dfs[0] = 1, low[0] = 1
 pushing (0, 6) into stack
@@ -201,5 +200,4 @@ begin DFS: dfs[11] = 12, low[11] = 12
 end DFS: dfs[11] = 12, low[11] = 12
 end DFS: dfs[10] = 11, low[10] = 11
 popping remaining edge (10, 11) out of stack
-
 */
