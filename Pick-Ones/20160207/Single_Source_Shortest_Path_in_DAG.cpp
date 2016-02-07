@@ -1,0 +1,3 @@
+/*
+Compute single source short pahts in a directed acyclic graph in linear time.
+*/
