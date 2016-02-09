@@ -64,6 +64,7 @@ void Graph::initialize_single_source(int s) {
 
 void Graph::relax(int u, int v, vector<vector<int>> &adj, Heap<pair<int, int>>& minHeap) {
     if (dist[v] > dist[u] + adj[u][v]) {
+        /* This part can also be improved by a single heap operation: decreaseKey */
         miHeap.delete(v);
         dist[v] = dist[u] + adj[u][v];
         v.push(make_pair(v, dist[v]));
