@@ -71,4 +71,3 @@ void Graph::relax(int u, int v, vector<vector<int>> &adj, Heap<pair<int, int>>& 
         parent[v] = u;
     }
 }
-
