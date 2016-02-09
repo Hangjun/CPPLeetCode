@@ -13,7 +13,7 @@ private:
     vector<int> parent; // parent node for tracing back shortest paths
     vector<int> dist; // shortest path estimates
     void initialize_single_source(int s);
-    void relax(int u, int v, vector<vector<int>> &adj);
+    void relax(int u, int v, vector<vector<int>> &adj, Heap<pair<int, int>>& minHeap);
     
 public:
     Graph(int _V);
@@ -38,17 +38,17 @@ void Graph::addEdge(int u, int v, int w) {
 void Graph::dijkstra(int s) {
     unordered_set<int> explored;
     initialize_single_source(s);
-    Heap<pair<int, int>, false> minHeap; // the heap APIs are not complete
+    Heap<pair<int, int>> minHeap (false); // the heap APIs are not complete
     for (int i = 0; i < V; i++) {
         minHeap.push(make_pair<i, dist[i]>);
     }
     
     while (!minHeap.empty()) {
-        int u = minHeap.pop();
+        int u = minHeap.pop().first;
         explored.insert(u);
         for (int v = 0; v < V; v++) {
             if (adj[u][v] != 0) {
-                relax(u, v, adj);
+                relax(u, v, adj, minHeap);
             }
         }
     }
@@ -62,9 +62,11 @@ void Graph::initialize_single_source(int s) {
     dist[s] = 0;
 }
 
-void Graph::relax(int u, int v, vector<vector<int>> &adj) {
+void Graph::relax(int u, int v, vector<vector<int>> &adj, Heap<pair<int, int>>& minHeap) {
     if (dist[v] > dist[u] + adj[u][v]) {
+        miHeap.delete(v);
         dist[v] = dist[u] + adj[u][v];
+        v.push(make_pair(v, dist[v]));
         parent[v] = u;
     }
 }
