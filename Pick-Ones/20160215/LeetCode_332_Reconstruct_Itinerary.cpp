@@ -58,20 +58,21 @@ public:
 
 /* Analysis:
 There are several important points that I'm missing here:
-1. The struggle that I had was that I was having a hard time recording visited edges. A better data structure can be used to overcome this 
-difficulty. Instead of using unordered_map<string, vector<string>> ht, and then sort the value vector<string> associated with each starting 
-city, which is the key, we can simply use unordered<string, map<string, int>> ht. Here the map data structure will sort the destinations given 
+1. I was having a hard time recording visited edges. A better data structure can be used to overcome this difficulty. 
+Instead of using unordered_map<string, vector<string>> ht, and then sort the value vector<string> associated with each starting city, 
+which is the key, we can simply use unordered<string, map<string, int>> ht. Here the map data structure will sort the destinations given 
 a starting city automatically. Moreover, ht[u][v], which is an int, can be used to detect visitedness of the directed edge (u, v).
 
 2. Moreover, since there maybe many solutions, the stopping criterion for the DFS needs to be more clever. Instead of search for node, we can 
 simply stop as soon as the result contains n+1 nodes, where n is the number of tickets. This stopping criterion is more natural.
 
 3. I completely ignored the possibility of not being able to find a complete itinerary starting at some city. Thus no backtracking mechnism 
-was implemented. 
+was implemented. Again, this different from a graph search where no backtracking is needed. 
 
 The complete algorithm works as follow: we traverse the directed graph of ticket network starting from "JFK" via depth first search. At any 
 intermediate stage, if the path (i.e. answer) has already included (n+1) cities, we are done, and return success. If the DFS returns to a node 
-u and no solution of length (n+1) is found, that means that no complete itinerary exist starting/resuming from u - backtracking is needed.
+u and no solution of length (n+1) is found, that means that no complete itinerary exist starting/resuming from u - backtracking is needed 
+to try to start from the next city (in lexi-order) after u.
 
 Reference: https://www.hrwhisper.me/leetcode-reconstruct-itinerary/
 */
