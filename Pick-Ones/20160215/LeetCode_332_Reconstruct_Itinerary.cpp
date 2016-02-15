@@ -18,7 +18,10 @@ Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it
 */
 
 /* Key:
-Data Structure!
+Data Structure! 
+1. If there are n tickets, the answer contains n+1 cities.
+2. Any ticket cannot be used twice, thus we must need to keep track of current usage of all the tickets.
+3. Need to be able to sort neighboring cities in lexi-order. Ideally we want to use a data structure that already supports that.
 */
 
 // Submission/Attemp #1: Does not compile since it is only an idea:
