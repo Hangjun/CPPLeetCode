@@ -68,7 +68,48 @@ public:
     }
 };
 
-// DFS version 1': Local solution passed in by copy instead of by reference, so that no manual backtracking needed upon returning.
+
+// DFS version #2: works but looks awkward (lines 96 - 100).
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        vector<int> path;
+        pathSumDFS(root, sum, path, res);
+        return res;
+    }
+    
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> &path, vector<vector<int>> &res) {
+        // recursion invariant: try curNode for this recursion
+        path.push_back(curNode->val);
+        // terminating condition: root-to-leaf path
+        if (curNode->left == NULL && curNode->right == NULL) {
+            if (target == curNode->val) {
+                res.push_back(path);
+            }
+        }
+        
+        // continue recursing on the child nodes
+        if (curNode->left) pathSumDFS(curNode->left, target-curNode->val, path, res);
+        if (curNode->right) pathSumDFS(curNode->right, target-curNode->val, path, res);
+        
+        // no path that sum up to target can be found eminating from curNode: backtrack
+        path.pop_back();
+    }
+};
+
+
+// DFS version 2': Local solution passed in by copy instead of by reference, so that no manual backtracking needed upon returning.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -103,7 +144,7 @@ public:
 };
 
 
-// DFS version #1'':
+// DFS version #3: Null node checking logic slightly modified.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -144,7 +185,7 @@ public:
 };
 
 
-// DFS version #2: works but looks awkward.
+// DFS version #3': Passing by copy trick used.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -158,32 +199,25 @@ class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
         vector<vector<int>> res;
-        if (!root) return res;
         vector<int> path;
         pathSumDFS(root, sum, path, res);
         return res;
     }
     
-    void pathSumDFS(TreeNode *curNode, int target, vector<int> &path, vector<vector<int>> &res) {
-        // recursion invariant: try curNode for this recursion
-        path.push_back(curNode->val);
-        // terminating condition: root-to-leaf path
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
+        if (curNode == NULL) return;
+        // terminating condition
         if (curNode->left == NULL && curNode->right == NULL) {
             if (target == curNode->val) {
+                path.push_back(curNode->val);
                 res.push_back(path);
             }
+            return;
         }
-        
-        // continue recursing on the child nodes
-        if (curNode->left) {
-            pathSumDFS(curNode->left, target-curNode->val, path, res);
-        }
-        
-        if (curNode->right) {
-            pathSumDFS(curNode->right, target-curNode->val, path, res);
-        }
-        
-        // no path that sum up to target can be found eminating from curNode: backtrack
-        path.pop_back();
+        // curNode is not leaf node, continue recursing
+        path.push_back(curNode->val);
+        pathSumDFS(curNode->left, target-curNode->val, path, res);
+        pathSumDFS(curNode->right, target-curNode->val, path, res);
     }
 };
+
