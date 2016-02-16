@@ -119,3 +119,87 @@ public:
 Now we can return as soon as the terminating conditions are checked (see line 100). Whereas in the first implementation, we have to clean 
 up the mess even if the terminating conditions are checked (see lines 53-57).
 */
+
+// Submission #3: Accepted. Yet another implementation: push after recurse, clean up before returning.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        vector<int> path;
+        pathSumDFS(root, sum, path, res);
+        return res;
+    }
+    
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> &path, vector<vector<int>> &res) {
+        if (curNode == NULL) return;
+        // terminating condition
+        if (curNode->left == NULL && curNode->right == NULL) {
+            if (target == curNode->val) {
+                path.push_back(curNode->val);
+                res.push_back(path);
+                path.pop_back();
+            }
+            return;
+        }
+        // curNode is not leaf node, continue recursing
+        path.push_back(curNode->val);
+        pathSumDFS(curNode->left, target-curNode->val, path, res);
+        pathSumDFS(curNode->right, target-curNode->val, path, res);
+        
+        // backtrack before returning
+        path.pop_back();
+    }
+};
+
+
+/* Submission #4: Accepted. Here is another neat implementation that passes the current tmp solution by copy instead of by reference. This 
+way we do not even need to clean up before returning!
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        vector<int> path;
+        pathSumDFS(root, sum, path, res);
+        return res;
+    }
+    
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
+        if (curNode == NULL) return;
+        // terminating condition
+        if (curNode->left == NULL && curNode->right == NULL) {
+            if (target == curNode->val) {
+                path.push_back(curNode->val);
+                res.push_back(path);
+                // path.pop_back();
+            }
+            return;
+        }
+        // curNode is not leaf node, continue recursing
+        path.push_back(curNode->val);
+        pathSumDFS(curNode->left, target-curNode->val, path, res);
+        pathSumDFS(curNode->right, target-curNode->val, path, res);
+        
+        // backtrack before returning: no explicit work needed
+        // path.pop_back();
+    }
+};
+
