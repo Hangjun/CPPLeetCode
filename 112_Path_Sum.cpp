@@ -14,7 +14,7 @@ Given the below binary tree and sum = 22,
 return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 */
 
-// Depth First Search
+// A more DFS looking implementation:
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -31,27 +31,42 @@ public:
         return hasPathSumDFS(root, sum);
     }
     
-    bool hasPathSumDFS(TreeNode *curNode, int &target) {
-        // terminating condition
+    bool hasPathSumDFS(TreeNode *curNode, int target) {
         if (curNode->left == NULL && curNode->right == NULL) {
             return target == curNode->val;
         }
         
-        // DFS step on curNode's children
         if (curNode->left) {
-            target -= curNode->val;
-            if (hasPathSumDFS(curNode->left, target)) return true;
-            target += curNode->val;
+            if (hasPathSumDFS(curNode->left, target - curNode->val)) {
+                return true;
+            }
         }
-        
         if (curNode->right) {
-            target -= curNode->val;
-            if (hasPathSumDFS(curNode->right, target)) return true;
-            target += curNode->val;
+            if (hasPathSumDFS(curNode->right, target - curNode->val)) {
+                return true;
+            }
         }
         
-        // the path starint from curNode does not sum up to the desired value
         return false;
+    }
+};
+
+// But really the above implementation is doing the following simple recursion:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+       if (!root) return false;
+       if (root->left == NULL && root->right == NULL) return sum == root->val;
+       return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
     }
 };
 
