@@ -201,3 +201,39 @@ public:
     }
 };
 
+/* Mimicing this trick, we can modify our first implementation (push after recurse, clean up before returning) to: */
+// Submission #5: Accepted.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        vector<int> path;
+        pathSumDFS(root, sum, path, res);
+        return res;
+    }
+    
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
+        path.push_back(curNode->val);
+        if (curNode->left == NULL && curNode->right == NULL) {
+            if (target == curNode->val) {
+                res.push_back(path);
+            }
+            return; // no explicit clean up needed
+        }
+        
+        if (curNode->left) pathSumDFS(curNode->left, target - curNode->val, path, res);
+        if (curNode->right) pathSumDFS(curNode->right, target - curNode->val, path, res);
+    }
+};
+
+/* Analysis: Now comparing this version to Submission #4 and Submission #5, we see that they only differ by the NULL node checking */
