@@ -19,7 +19,8 @@ return
 
 /* Key points:
 1. We need to return all the legal paths. Thus the DFS cannot simply return a bool indicating whether A path exists. 
-2. There are again two styles of DFS: (1) push before recurse, clean up after returning; (2) push after recurse, clean up before returning.
+2. There are again several styles of DFS: (1) push before recurse, clean up after returning; (2) push after recurse, clean up before returning; 
+(3) push after recurse, clean up before returning.
 */
 
 
