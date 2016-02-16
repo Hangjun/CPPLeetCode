@@ -23,52 +23,7 @@ return
 (3) push after recurse, clean up before returning.
 */
 
-
-// Submission #1: Accepted.
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    vector<vector<int>> pathSum(TreeNode* root, int sum) {
-        vector<vector<int>> res;
-        if (!root) return res;
-        vector<int> path;
-        pathSumDFS(root, sum, path, res);
-        return res;
-    }
-    
-    void pathSumDFS(TreeNode *curNode, int target, vector<int> &path, vector<vector<int>> &res) {
-        // recursion invariant: try curNode for this recursion
-        path.push_back(curNode->val);
-        // terminating condition: root-to-leaf path
-        if (curNode->left == NULL && curNode->right == NULL) {
-            if (target == curNode->val) {
-                res.push_back(path);
-            }
-        }
-        
-        // continue recursing on the child nodes
-        if (curNode->left) {
-            pathSumDFS(curNode->left, target-curNode->val, path, res);
-        }
-        
-        if (curNode->right) {
-            pathSumDFS(curNode->right, target-curNode->val, path, res);
-        }
-        
-        // no path that sum up to target can be found eminating from curNode: backtrack
-        path.pop_back();
-    }
-};
-
-// Submission #2: Accepted. Different style.
+// DFS version #1:
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -113,12 +68,42 @@ public:
     }
 };
 
-/* Analysis:
-Now we can return as soon as the terminating conditions are checked (see line 100). Whereas in the first implementation, we have to clean 
-up the mess even if the terminating conditions are checked (see lines 53-57).
-*/
+// DFS version 1': Local solution passed in by copy instead of by reference, so that no manual backtracking needed upon returning.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        vector<int> path;
+        pathSumDFS(root, sum, path, res);
+        return res;
+    }
+    
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
+        path.push_back(curNode->val);
+        if (curNode->left == NULL && curNode->right == NULL) {
+            if (target == curNode->val) {
+                res.push_back(path);
+            }
+            return; // no explicit clean up needed
+        }
+        
+        if (curNode->left) pathSumDFS(curNode->left, target - curNode->val, path, res);
+        if (curNode->right) pathSumDFS(curNode->right, target - curNode->val, path, res);
+    }
+};
 
-// Submission #3: Accepted. Yet another implementation: push after recurse, clean up before returning.
+
+// DFS version #1'':
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -159,50 +144,7 @@ public:
 };
 
 
-/* Submission #4: Accepted. Here is another neat implementation that passes the current tmp solution by copy instead of by reference. This 
-way we do not even need to clean up before returning!
-*/
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    vector<vector<int>> pathSum(TreeNode* root, int sum) {
-        vector<vector<int>> res;
-        vector<int> path;
-        pathSumDFS(root, sum, path, res);
-        return res;
-    }
-    
-    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
-        if (curNode == NULL) return;
-        // terminating condition
-        if (curNode->left == NULL && curNode->right == NULL) {
-            if (target == curNode->val) {
-                path.push_back(curNode->val);
-                res.push_back(path);
-                // path.pop_back();
-            }
-            return;
-        }
-        // curNode is not leaf node, continue recursing
-        path.push_back(curNode->val);
-        pathSumDFS(curNode->left, target-curNode->val, path, res);
-        pathSumDFS(curNode->right, target-curNode->val, path, res);
-        
-        // backtrack before returning: no explicit work needed
-        // path.pop_back();
-    }
-};
-
-/* Mimicing this trick, we can modify our first implementation (push after recurse, clean up before returning) to: */
-// Submission #5: Accepted.
+// DFS version #2: works but looks awkward.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -222,18 +164,26 @@ public:
         return res;
     }
     
-    void pathSumDFS(TreeNode *curNode, int target, vector<int> path, vector<vector<int>> &res) {
+    void pathSumDFS(TreeNode *curNode, int target, vector<int> &path, vector<vector<int>> &res) {
+        // recursion invariant: try curNode for this recursion
         path.push_back(curNode->val);
+        // terminating condition: root-to-leaf path
         if (curNode->left == NULL && curNode->right == NULL) {
             if (target == curNode->val) {
                 res.push_back(path);
             }
-            return; // no explicit clean up needed
         }
         
-        if (curNode->left) pathSumDFS(curNode->left, target - curNode->val, path, res);
-        if (curNode->right) pathSumDFS(curNode->right, target - curNode->val, path, res);
+        // continue recursing on the child nodes
+        if (curNode->left) {
+            pathSumDFS(curNode->left, target-curNode->val, path, res);
+        }
+        
+        if (curNode->right) {
+            pathSumDFS(curNode->right, target-curNode->val, path, res);
+        }
+        
+        // no path that sum up to target can be found eminating from curNode: backtrack
+        path.pop_back();
     }
 };
-
-/* Analysis: Now comparing this version to Submission #4 and Submission #5, we see that they only differ by the NULL node checking */
