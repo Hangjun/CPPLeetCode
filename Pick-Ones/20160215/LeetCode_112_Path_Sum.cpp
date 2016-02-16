@@ -209,5 +209,62 @@ public:
 };
 
 
+/* Analysis:
+why do we need to backtrack on the target value? We don't need intermediate path sums to be passed upward or downward. target should just be 
+an int, not int &.
+*/
+// Submission #5: DFS logic further simplified: Accepted.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if (!root) return false;
+        return hasPathSumDFS(root, sum);
+    }
+    
+    bool hasPathSumDFS(TreeNode *curNode, int target) {
+        if (curNode->left == NULL && curNode->right == NULL) {
+            return target == curNode->val;
+        }
+        
+        if (curNode->left) {
+            if (hasPathSumDFS(curNode->left, target - curNode->val)) {
+                return true;
+            }
+        }
+        if (curNode->right) {
+            if (hasPathSumDFS(curNode->right, target - curNode->val)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+};
 
-
+// Submission #6: Further simplied:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+       if (!root) return false;
+       if (root->left == NULL && root->right == NULL) return sum == root->val;
+       return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+    }
+};
