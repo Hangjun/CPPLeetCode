@@ -104,6 +104,23 @@ does that after returning back to upper level.
 
 The first implementation is natural in this problem since we know "JFK" is the starting node, and there exists at least one solution. The 
 second implementation is more robust in that it deals with the case where no desired itinerary exists. 
+
+From another perspective, the DFS prototype for graph traversal is:
+    dfs (u) {
+        visited[u] = true;
+        
+        for all v in neighbors(u) {
+            if (!visited[v]) {
+                dfs(v);
+            }
+        }
+        
+        // backtrack at the current level
+        visited[u] = false; // optional depending on whether we need to search again
+    }
+
+It seems that the second implementation fits the above prototype better as it cleans up the mess right where it fails, instead of doing 
+that after returning back to upper level.
 */
 
 
