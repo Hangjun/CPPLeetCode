@@ -57,22 +57,31 @@ public:
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        // left-mid-right
-        vector<int> res;
-        if (!root) return res;
-        stack<TreeNode *> st;
-        TreeNode *curNode = root;
-        while (curNode || !st.empty()) {
-            if (curNode) {
-                st.push(curNode);
-                curNode = curNode->left;
-            } else { // curNode == NULL, backtrack
-                TreeNode *tmpNode = st.top();
-                st.pop();
-                res.push_back(tmpNode->val);
-                curNode = tmpNode->right;
+        vector<int> nodeValues;
+        if (root == NULL) return nodeValues;
+        TreeNode *curNode, *preNode;
+        curNode = root;
+        while (curNode != NULL) {
+            //check if it is the leftmost
+            if (curNode->left == NULL) {
+                nodeValues.push_back(curNode->val);
+                curNode = curNode->right;
+            } else {
+                preNode = curNode->left;
+                //find the predecesor of curNode by walking preNode to its rightmost
+                while(preNode->right != NULL && preNode->right != curNode)
+                    preNode = preNode->right;
+                if (preNode->right == NULL) {
+                    //link preNode back to curNode
+                    preNode->right = curNode;
+                    curNode = curNode->left;
+                } else { //preNode is already linked to curNode, reset this link to NULL
+                    preNode->right = NULL;
+                    nodeValues.push_back(curNode->val);
+                    curNode = curNode->right;
+                }
             }
         }
-        return res;
+        return nodeValues;
     }
 };
