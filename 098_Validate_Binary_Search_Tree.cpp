@@ -8,6 +8,11 @@ Assume a BST is defined as follows:
     Both the left and right subtrees must also be binary search trees.
 */
 
+/* 
+Time: O(n)
+Space: O(logn)
+*/
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -18,11 +23,6 @@ Assume a BST is defined as follows:
  * };
  */
  
-/* 
-Time: O(n)
-Space: O(logn)
-*/
-
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
