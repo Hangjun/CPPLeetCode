@@ -46,3 +46,42 @@ public:
         return true;
     }
 };
+
+
+
+/* Solution #2:
+Time: O(n)
+Space: O(logn)
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root == NULL) return true;
+        if (root->left == NULL && root->right == NULL) return true;
+        if (!isValidBST(root->left) || !isValidBST(root->right)) return false;
+        
+        if (root->left != NULL) {
+            TreeNode *prevNode = root->left;
+            while (prevNode->right != NULL) prevNode = prevNode->right;
+            if (prevNode->val >= root->val) return false;
+        }
+        
+        if (root->right != NULL) {
+            TreeNode *nextNode = root->right;
+            while (nextNode->left != NULL) nextNode = nextNode->left;
+            if (root->val >= nextNode->val) return false;
+        }
+        
+        return true;
+    }
+};
