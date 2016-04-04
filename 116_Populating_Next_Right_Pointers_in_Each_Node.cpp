@@ -34,6 +34,36 @@ After calling your function, the tree should look like:
     4->5->6->7 -> NULL
 */
 
+
+// Recursive Solution:
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if (!root) return;
+        connectTwoTrees(root->left, root->right);
+    }
+    void connectTwoTrees(TreeLinkNode *leftTree, TreeLinkNode *rightTree) {
+        if (!leftTree) return;
+        leftTree->next = rightTree;
+        if (leftTree->right)
+            connectTwoTrees(leftTree->right, rightTree->left);
+        //recurse
+        connectTwoTrees(leftTree->left, leftTree->right);
+        connectTwoTrees(rightTree->left, rightTree->right);
+    }
+};
+
+
+
+// Iterative Solution:
 /**
  * Definition for binary tree with next pointer.
  * struct TreeLinkNode {
