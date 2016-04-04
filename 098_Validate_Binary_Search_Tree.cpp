@@ -17,6 +17,12 @@ Assume a BST is defined as follows:
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ 
+/* 
+Time: O(n)
+Space: O(logn)
+*/
+
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
