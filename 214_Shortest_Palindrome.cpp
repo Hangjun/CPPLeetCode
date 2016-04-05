@@ -14,7 +14,7 @@ needed is simply the total length of the string minus the length of that LPS. Th
 algorithm runs in O(n^2) time.
 */
 
-/* Solution #1:
+/* Solution #1: Time Limit Exceeded.
 Time: O(n^2)
 Space: O(1)
 */
