@@ -25,43 +25,31 @@ public:
         int n = s.size();
         if (n <= 1)  return s;
         int lpsLen = prefixLPSLength(s);
-        if (lpsLen == s.size()) // s is palindromic
-            return s;
-        string prefix = s.substr(lpsLen, n-lpsLen);
+        // s is palindromic
+        if (lpsLen == n return s;
+        string prefix = s.substr(lpsLen, n - lpsLen);
         reverse(prefix.begin(), prefix.end());
-        return prefix+s;
+        return prefix + s;
     }
     
     int prefixLPSLength(string s) {
-        // greedy search
-        int n = s.size();
-        int j = n;
-        while (j > 1) {
+        // greedy search for palindrome prefix of size j
+        int j = s.size();
+        while (j >= 1) {
             // test if size-j substring is palindromic
-            if (validPalindrome(s.substr(0, j)))
-                return j;
-            else
-                j--;
+            if (validPalindrome(s.substr(0, j))) return j;
+            j--;
         }
-        // j == 1
-        return j;
     }
 
     bool validPalindrome(string s) {
-        if (s.empty())  return true;
-        int n = s.size();
-        int i = 0, j = n-1;
-        while (i<j) {
-            if (s[i] == s[j]) {
+        if (s.empty() || s.size() == 1)  return true;
+        int i = 0, j = s.size() - 1;
+        while (i < j && s[i] == s[j]) {
                 i++;
                 j--;
-            } else
-                break;
         }
-        if (i < j)
-            return false;
-        else 
-            return true;
+        return i >= j;
     }
 };
 
@@ -89,7 +77,7 @@ public:
             return s;
         string prefix = s.substr(lpsLen, n-lpsLen);
         reverse(prefix.begin(), prefix.end());
-        return prefix+s;
+        return prefix + s;
     }
     
     string preProcessing(string s) {
@@ -104,8 +92,8 @@ public:
         vector<int>next(n, -1);
         int j = -1;
         for (int i = 1; i < n; i++) {
-            while (j >= 0 && s[i] != s[j+1]) j = next[j];
-            if (s[i] == s[j+1]) j++;
+            while (j >= 0 && s[i] != s[j+1]) {j = next[j];}
+            if (s[i] == s[j+1]) {j++;}
             next[i] = j;
         }
         return next[n-1];
