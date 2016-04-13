@@ -9,7 +9,7 @@ Note:
     Minimize the total number of operations.
 */
 
-/* Solution: Two Pointers.
+/* Solution: Two Pointers
 Time: O(n)
 Space: O(1)
 */
