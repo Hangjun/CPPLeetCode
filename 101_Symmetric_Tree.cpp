@@ -51,6 +51,9 @@ public:
     }
 };
 
+/* 
+Remark: The key of the recursive solution is to realize that the recursive step is to compare two subtrees, not necessarily belonging to the same parent node.
+/*
 
 // Iterative Solution
 /**
