@@ -51,3 +51,33 @@ public:
         return sum;
     }
 };
+
+// Another DFS solution in which at the beginning of each recursion, curSum = current sum including the current node's value.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        if (!root) return 0;
+        int sum = 0;
+        int curSum = root->val;
+        sumNumbersDFS(root, curSum, sum);
+        return sum;
+    }
+    
+    void sumNumbersDFS(TreeNode *curNode, int curSum, int &sum) {
+        if (curNode->left == NULL && curNode->right == NULL) {
+            sum += curSum;
+            return;
+        }
+        if (curNode->left) sumNumbersDFS(curNode->left, curSum * 10 + curNode->left->val, sum);
+        if (curNode->right) sumNumbersDFS(curNode->right, curSum * 10 + curNode->right->val, sum);
+    }
+};
