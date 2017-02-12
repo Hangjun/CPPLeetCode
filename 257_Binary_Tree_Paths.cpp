@@ -23,6 +23,36 @@ Several key points:
 */
 
 
+// Clean DFS soution:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        if (!root) return paths;
+        binaryTreePathsDFS(root, to_string(root->val), paths);
+        return paths;
+    }
+    
+    void binaryTreePathsDFS(TreeNode *curNode, string curPath, vector<string> &paths) {
+        if (!curNode->left && !curNode->right) {
+            paths.push_back(curPath);
+            return;
+        }
+        if (curNode->left) binaryTreePathsDFS(curNode->left, curPath + "->" + to_string(curNode->left->val), paths);
+        if (curNode->right) binaryTreePathsDFS(curNode->right, curPath + "->" + to_string(curNode->right->val), paths);
+    }
+};
+
+
 // DFS version #1: push after recurse, clean up before returning.
 /**
  * Definition for a binary tree node.
