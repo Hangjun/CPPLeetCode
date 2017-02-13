@@ -44,16 +44,21 @@ One should recognize the similarity between this problem and Problem 199: https:
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
-        if (!root) return res;
-        rightSideViewDFS(root, 1, res);
+    int findBottomLeftValue(TreeNode* root) {
+        int res = 0;
+        int heightReached = 0;
+        findBottomLeftValueRecur(root, 1, heightReached, res);
         return res;
     }
     
-    void rightSideViewDFS(TreeNode *curNode, int level, vector<int> &res) {
-        if (level > res.size()) res.push_back(curNode->val);
-        if (curNode->right) rightSideViewDFS(curNode->right, level+1, res);
-        if (curNode->left) rightSideViewDFS(curNode->left, level+1, res);
+    void findBottomLeftValueRecur(TreeNode *curNode, int depth, int &heightReached, int &res) {
+        // a new left node with deeper depth
+        if (heightReached < depth) {
+            heightReached = depth;
+            res = curNode->val;
+        }
+        // go left first
+        if (curNode->left) findBottomLeftValueRecur(curNode->left, depth+1, heightReached, res);
+        if (curNode->right) findBottomLeftValueRecur(curNode->right, depth+1, heightReached, res);
     }
 };
