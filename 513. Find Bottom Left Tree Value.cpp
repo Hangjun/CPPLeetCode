@@ -53,7 +53,7 @@ public:
     
     void findBottomLeftValueRecur(TreeNode *curNode, int depth, int &heightReached, int &res) {
         // a new left node with deeper depth
-        if (heightReached < depth) {
+        if (depth > heightReached) {
             heightReached = depth;
             res = curNode->val;
         }
