@@ -29,7 +29,7 @@ public:
 
     /** @return the next smallest number */
     int next() {
-        while (curNode || !st.empty()) {
+        while (curNode) { // CAUTION: it is wrong to have curNode || !st.empty() here. The terminating condition is checked by hasNext(). This is merely the if (curNode) in any traverals.
             st.push(curNode);
             curNode = curNode->left;
         }
