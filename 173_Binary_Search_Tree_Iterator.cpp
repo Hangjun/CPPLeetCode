@@ -24,12 +24,12 @@ public:
 
     /** @return whether we have a next smallest number */
     bool hasNext() {
-        return curNode != NULL || !st.empty();
+        return curNode || !st.empty();
     }
 
     /** @return the next smallest number */
     int next() {
-        while (curNode != NULL) {
+        while (curNode || !st.empty()) {
             st.push(curNode);
             curNode = curNode->left;
         }
