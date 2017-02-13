@@ -67,3 +67,5 @@ public:
         return candidate;
     }
 };
+
+// Remark: The same idea can be modified to find the predecessor as well.
