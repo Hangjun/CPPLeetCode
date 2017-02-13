@@ -17,30 +17,30 @@ You may assume that duplicates do not exist in the tree.
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if (preorder.size() != inorder.size())
-            return NULL;
+        if (preorder.size() != inorder.size()) return NULL;
         int n = preorder.size();
         return buildTreeRecur(preorder, inorder, 0, n-1, 0, n-1);
     }
     
     TreeNode *buildTreeRecur(vector<int> &preorder, vector<int> &inorder, int preStart, int preEnd, int inStart, int inEnd) {
-        if (preStart > preEnd || inStart > inEnd)
-            return NULL;
+        if (preStart > preEnd || inStart > inEnd) return NULL;
+        // root is the first element of preorder vector
         TreeNode *root = new TreeNode(preorder[preStart]);
-        int rootIndex = -1;
-        for (int i = inStart; i <= inEnd; i++) {
-            if (inorder[i] == root->val) {
-                rootIndex = i;
-                break;
-            }
-        }
-        if (rootIndex == -1) return NULL;
-        //left subtree size = rootIndex - inStart
-        //right subtree size = inEnd - rootIndex
+        
+        // find the index of root node in inorder to find the left subtree and right subtree split
+        int rootIndex = 0;
+        /* 
+         * preordern and inorder are from the same tree, so rootIndex must be well-defined
+         */
+        while (inorder[rootIndex] != root->val && rootIndex <= inEnd) rootIndex++; 
+        
         int leftTreeSize = rootIndex - inStart;
         int rightTreeSize = inEnd - rootIndex;
+        
+        // recursively build left and right subtree
         root->left = buildTreeRecur(preorder, inorder, preStart+1, preStart+leftTreeSize, inStart, rootIndex-1);
         root->right = buildTreeRecur(preorder, inorder, preEnd-rightTreeSize+1, preEnd, rootIndex+1, inEnd);
+        
         return root;
     }
 };
