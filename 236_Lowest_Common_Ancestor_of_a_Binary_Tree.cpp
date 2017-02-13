@@ -14,6 +14,8 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
 For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
 */
 
+// A staightfoward algorithm is to compare the paths from root to p and root to q. The first node that's different is the LCA:
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -27,32 +29,36 @@ class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if (!root) return NULL;
+        
         vector<TreeNode *> pathToP = findPath(root, p);
         vector<TreeNode *> pathToQ = findPath(root, q);
+        
+        // find the first differnt node in the two paths
         int n = min(pathToP.size(), pathToQ.size());
         int i = 0;
         while (i < n && pathToP[i] == pathToQ[i]) i++;
-        if (i < n) return pathToP[i-1]; // i is at least 1 (root lies on both paths)
-        // now i == n
+        if (i < n) return pathToP[i-1];
         return i == pathToP.size() ? p : q;
     }
     
-    vector<TreeNode *> findPath(TreeNode *root, TreeNode *target) {
+    vector<TreeNode *> findPath(TreeNode *start, TreeNode *end) {
         vector<TreeNode *> path;
-        findPathDFS(root, target, path);
+        vector<TreeNode *> tmpPath;
+        findPathDFS(start, end, tmpPath, path);
         return path;
     }
     
-    bool findPathDFS(TreeNode *curNode, const TreeNode *target, vector<TreeNode *> &path) {
-        path.push_back(curNode);
-        // check for terminating condition
-        if (curNode == target) return true; 
+    void findPathDFS(TreeNode *curNode, const TreeNode *target, vector<TreeNode *> &tmpPath, vector<TreeNode *> &path) {
+        if (!path.empty()) return;
+        tmpPath.push_back(curNode);
+        if (curNode == target) {
+            path = tmpPath;
+            return;
+        }
+            
+        if (curNode->left) findPathDFS(curNode->left, target, tmpPath, path);
+        if (curNode->right) findPathDFS(curNode->right, target, tmpPath, path);
         
-        if (curNode->left && findPathDFS(curNode->left, target, path)) return true;
-        if (curNode->right && findPathDFS(curNode->right, target, path)) return true;
-        
-        // backtrack
-        path.pop_back();
-        return false;
+        tmpPath.pop_back();
     }
 };
