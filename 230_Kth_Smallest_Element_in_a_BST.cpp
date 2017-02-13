@@ -15,6 +15,7 @@ Hint:
 
 */
 
+// A straightforward solution is to note that the inorder traversal of a BST is a strictly increasing sequence:
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -41,5 +42,37 @@ public:
                 curNode = tmpNode->right;
             }
         }
+    }
+};
+
+/* Analysis:
+One drawback of the above solution is that it is very slow if we are going to perform many such lookups. An improvement is to record the number of nodes of the subtree rooted at every node, so then we can perform a binary search to find the desired node. This is in spirit very similar to the quick select algorithm. If we can modify the tree structure, we can simply preprocess the tree to have have the count value for each node. In that case, each such lookup takes O(height) time.
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        if (!root) return INT_MIN;
+        int count = countNodes(root->left);
+        if (k <= count) { // search left
+            return kthSmallest(root->left, k);
+        } else if (k > count + 1) {
+            return kthSmallest(root->right, k-count-1);
+        }
+        return root->val;
+    }
+    
+    int countNodes(TreeNode *root) {
+        if (!root) return 0;
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
