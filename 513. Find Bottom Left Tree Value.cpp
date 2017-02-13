@@ -62,3 +62,20 @@ public:
         if (curNode->right) findBottomLeftValueRecur(curNode->right, depth+1, heightReached, res);
     }
 };
+
+// Just to compare, below is the solution to Problem 199.
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        rightSideViewDFS(root, 1, res);
+        return res;
+    }
+    
+    void rightSideViewDFS(TreeNode *curNode, int level, vector<int> &res) {
+        if (level > res.size()) res.push_back(curNode->val);
+        if (curNode->right) rightSideViewDFS(curNode->right, level+1, res);
+        if (curNode->left) rightSideViewDFS(curNode->left, level+1, res);
+    }
+};
