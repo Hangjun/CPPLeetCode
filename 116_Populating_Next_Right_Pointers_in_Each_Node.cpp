@@ -48,16 +48,15 @@ class Solution {
 public:
     void connect(TreeLinkNode *root) {
         if (!root) return;
-        connectTwoTrees(root->left, root->right);
+        connectRecur(root->left, root->right);
     }
-    void connectTwoTrees(TreeLinkNode *leftTree, TreeLinkNode *rightTree) {
-        if (!leftTree) return;
-        leftTree->next = rightTree;
-        if (leftTree->right)
-            connectTwoTrees(leftTree->right, rightTree->left);
-        //recurse
-        connectTwoTrees(leftTree->left, leftTree->right);
-        connectTwoTrees(rightTree->left, rightTree->right);
+    
+    void connectRecur(TreeLinkNode *l, TreeLinkNode *r) {
+        if (!l) return;
+        l->next = r;
+        if (l->right) connectRecur(l->right, r->left);
+        connectRecur(l->left, l->right);
+        connectRecur(r->left, r->right);
     }
 };
 
