@@ -13,6 +13,8 @@ Given the following binary tree,
 You should return [1, 3, 4]. 
 */
 
+
+// A straightfoward solution is to use BFS to scan each level, and fetch the right most node from each level:
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -57,3 +59,36 @@ public:
         return result;
     }
 };
+
+
+// A much cleaner solution is to use DFS and directly fetches the right most node from each level in a mid-right-left traverse order:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        rightSideViewDFS(root, 1, res);
+        return res;
+    }
+    
+    void rightSideViewDFS(TreeNode *curNode, int level, vector<int> &res) {
+        if (level > res.size()) res.push_back(curNode->val);
+        if (curNode->right) rightSideViewDFS(curNode->right, level+1, res);
+        if (curNode->left) rightSideViewDFS(curNode->left, level+1, res);
+    }
+};
+
+/* Analysis:
+The traverse order is mid-right-left. The level variable keeps track of the current level we are current in. The idea is that "if (level > res.size())", the either the current node is the right most node of this level (following the curNode->right branch) that hasn't been included yet, or this current node, following the curNode->left branch, is a left child, however, its right sibling does not exist. In either case, we should include this node.
+
+The key is, we should include a node at EVERY level. The mid-right-left traverse guarantees that the current node must be the right most if if (level > res.size()).
+*/
