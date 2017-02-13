@@ -14,16 +14,17 @@ Given an array where elements are sorted in ascending order, convert it to a hei
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        int n = nums.size();
-        int left = 0, right = n-1;
-        return sortedArrayToBSTRecur(nums, left, right);
+        if (nums.empty()) return NULL;
+        return sortedArrayToBSTRecur(nums, 0, num.size()-1);
     }
     TreeNode* sortedArrayToBSTRecur(vector<int> &nums, int start, int end) {
         if (start > end) return NULL;
-        int mid = start + (end - start)/2;
-        TreeNode *root = new TreeNode(nums[mid]);
-        root->left = sortedArrayToBSTRecur(nums, start, mid-1);
-        root->right = sortedArrayToBSTRecur(nums, mid+1, end);
+        int rootIndex = start + (end - start)/2;
+        TreeNode *root = new TreeNode(nums[rootIndex]);
+        
+        root->left = sortedArrayToBSTRecur(nums, start, rootIndex-1);
+        root->right = sortedArrayToBSTRecur(nums, rootIndex+1, end);
+        
         return root;
     }
 };
