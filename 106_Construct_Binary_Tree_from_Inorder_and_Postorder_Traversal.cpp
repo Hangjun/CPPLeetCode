@@ -25,21 +25,16 @@ public:
     TreeNode *buildTreeRecur(vector<int> &inorder, vector<int> &postorder, int inStart, int inEnd, int postStart, int postEnd) {
         if (inStart > inEnd || postStart > postEnd) return NULL;
         TreeNode *root = new TreeNode(postorder[postEnd]);
-        int rootIndex = -1;
-        for (int i = inStart; i <= inEnd; i++) {
-            if (inorder[i] == root->val) {
-                rootIndex = i;
-                break;
-            }
-        }
-        if (rootIndex == -1) return NULL;
-        /*  key: compute the ends points of the left/right subtree for 
-            the next recursion
-        */
+        
+        int rootIndex = 0;
+        while (inorder[rootIndex] != root->val && rootIndex <= inEnd) rootIndex++;
+        
         int leftTreeSize = rootIndex-inStart;
         int rightTreeSize = inEnd-rootIndex;
+        
         root->left = buildTreeRecur(inorder, postorder, inStart, rootIndex-1, postStart, postStart+leftTreeSize-1);
         root->right = buildTreeRecur(inorder, postorder, rootIndex+1, inEnd, postEnd-rightTreeSize, postEnd-1);
+        
         return root;
     }
 };
