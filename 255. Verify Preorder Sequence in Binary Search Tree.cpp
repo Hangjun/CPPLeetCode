@@ -48,3 +48,29 @@ public:
         return true;
     }
 };
+
+/* Another neat and yet fundamental solution is via divide-and-conquer. A BST must satisfiy at every node its left subtree are smaller than it, and the the right subtree is larger than it.
+
+Therefore, start from the preorder array, we can recursively find the left and right subtree, and test BST-ness recursively.
+*/
+class Solution {
+public:
+    bool verifyPreorder(vector<int>& preorder) {
+        return verifyRecur(preorder, 0, preorder.size()-1);
+    }
+    
+    bool verifyRecur(vector<int> &preorder, int start, int end) {
+        if (start >= end) return true;
+        int m = -1;
+        int pivot = preorder[start];
+        for (int i = start+1; i <= end; i++) {
+            // i here is the right child
+            if (m == -1 && preorder[i] > pivot) m = i;
+            // any node after the right child should be larger than pivot
+            if (m != -1 && preorder[i] < pivot) return false;
+        }
+        
+        if (m == -1) return verifyRecur(preorder, start+1, end);
+        return verifyRecur(preorder, start+1, m-1) && verifyRecur(preorder, m, end);
+    }
+};
