@@ -56,3 +56,6 @@ public:
         return max(map[curNode->val], max(findModeCountDFS(curNode->left, map), findModeCountDFS(curNode->right, map)));
     } 
 };
+
+
+// The above solution uses O(n) space. Can we use O(1) space? The answer to this question is Morris traversal.
