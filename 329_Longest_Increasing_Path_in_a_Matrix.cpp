@@ -56,41 +56,34 @@ class Solution {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         if (matrix.empty() || matrix[0].empty()) return 0;
-        int m = matrix.size();
-        int n = matrix[0].size();
-        // dp[i][j] = length of longest increasing path that STARTS from (i,j)
+        int m = matrix.size(), n = matrix[0].size();
         vector<vector<int>> dp(m, vector<int>(n, 0));
-        int maxLen = INT_MIN;
+        int maxLen = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                // dfs returns maximum length of the increasing path that starts from (i, j)
-                int curLen = dfs(matrix, i, j, dp);
-                maxLen = max(maxLen, curLen);
+                maxLen = max(maxLen, dfs(matrix, i, j, m, n, dp));
             }
         }
+        
         return maxLen;
     }
     
-private:
-    int dx[4] = {0, 1, 0, -1};
-    int dy[4] = {-1, 0, 1, 0};
-    
-    int dfs(vector<vector<int>> &matrix, int x, int y, vector<vector<int>> &dp) {
-        if (dp[x][y] != 0) return dp[x][y];
-
+    int dfs(vector<vector<int>> &matrix, int x, int y, int m, int n, vector<vector<int>> &dp) {
+        // if visited, just return - result already optimal
+        if (dp[x][y]) return dp[x][y];
+        
+        int dx[4] = {0, 1, 0, -1};
+        int dy[4] = {-1, 0, 1, 0};
+        
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-            if (inbound(matrix, nx, ny) && matrix[nx][ny] > matrix[x][y]) {
-                // route (x, y) to go through (nx, ny) to get a longer path
-                dp[x][y] = max(dp[x][y], dfs(matrix, nx, ny, dp));
-            }
+            if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
+            if (matrix[nx][ny] <= matrix[x][y]) continue;
+            dp[x][y] = max(dp[x][y], dfs(matrix, nx, ny, m, n, dp));
         }
+        
         return ++dp[x][y];
-    }
-    
-    bool inbound(vector<vector<int>> &matrix, int x, int y) {
-        return (x >= 0 && x < matrix.size() && y >= 0 && y < matrix[0].size()); 
     }
 };
 
