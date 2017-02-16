@@ -100,6 +100,8 @@ Analysis:
 The reason that we have this simpler DFS solution is that this problem is slightly different from the ski problem in that the path has to be a parent->child path. Therefore, for a given node, we can compute the longest increasing consecutive sequence that reaches it. In the ski problem, also the first solution, we were computing the longest paths eminating from the current node.
 
 We now present an iterative solution that sequentially traverses the tree top-to-bottom level by level, and computes the above "terminating optimal value" for every node.
+
+Time: O(n), Space: O(n)
 */
 
 /**
