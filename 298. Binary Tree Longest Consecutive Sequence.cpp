@@ -91,3 +91,54 @@ public:
         return max(len, max(longestConsecutiveRecur(curNode->left, curNode, len), longestConsecutiveRecur(curNode->right, curNode, len)));
     }
 };
+
+
+/* 
+
+Analysis:
+
+The reason that we have this simpler DFS solution is that this problem is slightly different from the ski problem in that the path has to be a parent->child path. Therefore, for a given node, we can compute the longest increasing consecutive sequence that reaches it. In the ski problem, also the first solution, we were computing the longest paths eminating from the current node.
+
+We now present an iterative solution that sequentially traverses the tree top-to-bottom level by level, and computes the above "terminating optimal value" for every node.
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int longestConsecutive(TreeNode* root) {
+        if (!root) return 0;
+        int maxLen = 0;
+        queue<pair<TreeNode *, int>> q;
+        q.push(pair<TreeNode *, int>(root, 1));
+        
+        while (!q.empty()) {
+            pair<TreeNode *, int> p = q.front();
+            q.pop();
+            TreeNode *curNode = p.first;
+            int curLen = p.second;
+            maxLen = max(maxLen, curLen);
+            if (curNode->left) {
+                if (curNode->left->val == curNode->val+1)
+                    q.push(pair<TreeNode *, int>(curNode->left, curLen+1));
+                else
+                    q.push(pair<TreeNode *, int>(curNode->left, 1));
+            }
+            if (curNode->right) {
+                if (curNode->right->val == curNode->val+1)
+                    q.push(pair<TreeNode *, int>(curNode->right, curLen+1));
+                else
+                    q.push(pair<TreeNode *, int>(curNode->right, 1));
+            }
+        }
+        
+        return maxLen;
+    }
+};
