@@ -29,7 +29,7 @@ public:
             while (hs.find(prev) != hs.end()) hs.erase(prev--);
             while (hs.find(next) != hs.end()) hs.erase(next++);
             
-            maxLen = max(maxLen, next - prev - 1);
+            maxLen = max(maxLen, next - prev - 1); // next-prev+1-2: (-2) because both next and prev will be incremented once more before the while loop breaks
         }
         
         return maxLen;
