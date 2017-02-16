@@ -37,7 +37,7 @@ public:
 
 
 /* Solution #2: Monotonic Array
-Time: O(n)
+Time: O(nlogn): logn to compute the lower_bound using binary search
 Space: O(n)
 */
 
