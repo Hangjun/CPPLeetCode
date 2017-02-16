@@ -6,6 +6,8 @@ In a complete binary tree every level, except possibly the last, is completely f
 possible. It can have between 1 and 2h nodes inclusive at the last level h.
 */
 
+
+// Time O((logn)^2).
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
