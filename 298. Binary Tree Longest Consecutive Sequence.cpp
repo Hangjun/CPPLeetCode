@@ -144,3 +144,6 @@ public:
         return maxLen;
     }
 };
+
+/* Key: The tree structure (there is a unique path from root to any node) allows us to compute terminating optimal value as opposed to eminating optimal value, and trust it that it's indeed the optmial.
+*/
