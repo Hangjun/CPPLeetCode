@@ -51,3 +51,30 @@ public:
         return maxLen;
     }
 };
+
+/*
+The above solutions in the worse case will scan the string twice. Instead of recording whether the character has appeared or not, we can record the last location of this character so that whenever we see this character again, we can immediately jump the back pointer forward to the last location of this duplicate character and plus 1. 
+
+One catch is that, when updating the left pointer, we need to put a max: left = max(ht[s[right]], left). This is because we can have a situation like "a......b......b......a". With the max, the left pointer will go backwards when we reach a, and results in a wrong maxLen calculation. The inner duplicating pairs have already put constraints on how the maxLen can be, and thus having the max will not miss the correct maxLen.
+
+Time: O(n), space: O(1), 1 pass.
+*/
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if (s.empty()) return 0;
+        int maxLen = 0;
+        unordered_map<char, int> ht; // character->index in s
+        int left = 0, right = 0;
+        for (int left = 0, right = 0; right < s.size(); right++) {
+            if (ht.find(s[right]) != ht.end()) {
+                left = max(ht[s[right]], left);
+            }
+            maxLen = max(maxLen, right - left + 1);
+            ht[s[right]] = right + 1;
+        }
+        
+        return maxLen;
+    }
+};
