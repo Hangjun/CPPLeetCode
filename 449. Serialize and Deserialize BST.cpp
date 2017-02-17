@@ -57,8 +57,86 @@ void serializePrivate(TreeNode *root, ostringstream &out) {
     }
 };
 
+
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
 // codec.deserialize(codec.serialize(root));
 
 
+/* The above solution works for any binary tree, and does not use the property that the tree is a BST. How can we come up with a more compact encoding utilizing the BST structure? 
+
+Recall that we need either inorder + preorder or inorder postorder in order to reconstruct a binary tree. However, for a binary search tree, we can reconstruct it by using its preorder traversals along (see problem 255. Verify Preorder Sequence in Binary Search Tree, https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/).
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        ostringstream out; // out stores the preorder traversal of this BST
+        preorder(root, out);
+        return out.str();
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream in(data);
+        vector<int> preorder;
+        string val;
+        while (in >> val && val != " ") {
+            preorder.push_back(stoi(val));
+        }
+        return constructBST(preorder, 0, preorder.size()-1);
+    }
+    
+private:
+    void preorder(TreeNode *root, ostringstream &out) {
+        if (!root) return;
+        stack<TreeNode *> st;
+        TreeNode *curNode = root;
+        while (curNode || !st.empty()) {
+            if (curNode) {
+                out << curNode->val << " ";
+                st.push(curNode);
+                curNode = curNode->left;
+            } else {
+                TreeNode *readyNode = st.top();
+                st.pop();
+                curNode = readyNode->right;
+            }
+        }
+    }
+    
+    TreeNode *constructBST(vector<int> &preorder, int start, int end) {
+        if (start > end) return NULL;
+        TreeNode *root = new TreeNode (preorder[start]);
+        // find the right subtree
+        int m = -1;
+        for (int i = start+1; i <= end; i++) {
+            if (m == -1 && preorder[i] > root->val) {
+                m = i;
+                break;
+            }
+        }
+        if (m == -1) {
+            root->left = constructBST(preorder, start+1, end);
+        } else {
+            root->left = constructBST(preorder, start+1, m-1);
+            root->right = constructBST(preorder, m, end);
+        }
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
