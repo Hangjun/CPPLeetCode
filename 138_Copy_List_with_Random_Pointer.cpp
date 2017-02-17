@@ -15,28 +15,26 @@ Return a deep copy of the list.
 class Solution {
 public:
     RandomListNode *copyRandomList(RandomListNode *head) {
-        if (head == NULL) return head;
-        RandomListNode *dummyNode = new RandomListNode(0);
+        if (!head) return NULL;
+        RandomListNode *dummyNode = new RandomListNode(-1);
+        
+        RandomListNode *copyHead = dummyNode;
         unordered_map<RandomListNode *, RandomListNode *> ht;
-
-        RandomListNode *p = head;
-        RandomListNode *q = dummyNode;
-        while (p != NULL) {
-            q->next = new RandomListNode(p->label);
-            q = q->next;
-            ht[p] = q;
-            p = p->next;
+        RandomListNode *curNode = head;
+        
+        while (curNode) {
+            copyHead->next = new RandomListNode(curNode->label);
+            copyHead = copyHead->next;
+            ht[curNode] = copyHead;
+            curNode = curNode->next;
         }
         
-        p = head;
-        q = dummyNode->next;
-        while (p != NULL) {
-            q->random = ht[p->random];
-            p = p->next;
-            q = q->next;
+        curNode = head;
+        while (curNode) {
+            ht[curNode]->random = ht[curNode->random];
+            curNode = curNode->next;
         }
         
         return dummyNode->next;
     }
 };
-
