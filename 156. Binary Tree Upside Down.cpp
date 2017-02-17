@@ -16,3 +16,60 @@ return the root of the binary tree [4,5,2,#,#,3,1].
    3   1  
 */
 
+// Recursive solution. Time O(n), Space O(nlogn).
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        if (!root || !root->left)  return root;
+        TreeNode *newRoot = upsideDownBinaryTree(root->left);
+        root->left->left = root->right;
+        root->left->right = root;
+        root->left = NULL;
+        root->right = NULL;
+        
+        return newRoot;
+    }
+};
+
+// Iterative solution. Time O(n), Space O(1).
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        if (!root || !root->left)  return root;
+        TreeNode *prevNode, *curNode, *nextNode, *tmpNode;
+        
+        prevNode = nextNode = tmpNode = NULL;
+        curNode = root;
+        
+        while (curNode) {
+            nextNode = curNode->left;
+            
+            curNode->left = tmpNode;
+            tmpNode = curNode->right;
+            curNode->right = prevNode;
+            
+            prevNode = curNode;
+            curNode = nextNode;
+        }
+        
+        return prevNode;
+    }
+};
