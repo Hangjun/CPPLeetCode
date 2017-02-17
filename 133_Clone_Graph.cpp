@@ -35,42 +35,28 @@ Visually, the graph looks like the following:
 class Solution {
 public:
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
-        if (node == NULL) return NULL;
-        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> ht;
+        if (!node) return NULL;
+        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> ht; // old node -> cloned node
         ht[node] = new UndirectedGraphNode(node->label);
         queue<UndirectedGraphNode *> q;
         q.push(node);
         
+        /*
+         * Loop invariant: at the beginning of each loop, the front node's been cloned already, but its neighboring nodes
+         * might not.
+         */
         while (!q.empty()) {
-            // loop invariant: q.front() has already been cloned
             UndirectedGraphNode *curNode = q.front();
             q.pop();
-            UndirectedGraphNode *curNodeCopy = ht[curNode];
-            // clone curNode->neighbors
-            for (int i = 0; i < curNode->neighbors.size(); i++) {
-                UndirectedGraphNode *nb = curNode->neighbors[i];
-                if (ht.find(nb) != ht.end()) {
-                    curNodeCopy->neighbors.push_back(ht[nb]);
-                } else {
-                    UndirectedGraphNode *tmp = new UndirectedGraphNode(nb->label);
-                    curNodeCopy->neighbors.push_back(tmp);
-                    ht[nb] = tmp;
-                    q.push(nb);
-                }
+            vector<UndirectedGraphNode *> neighborNodes = curNode->neighbors;
+            for(auto n : neighborNodes) {
+                if (ht.find(n) == ht.end()) {
+                    ht[n] = new UndirectedGraphNode(n->label);
+                    q.push(n);
+                } 
+                ht[curNode]->neighbors.push_back(ht[n]);
             }
         }
-        
         return ht[node];
     }
 };
-
-/*
-Key logic: every node in the queue satisfies two properties:
-1. it has been cloned already;
-2. its neighbors either have not been cloned, or the neighboring nodes have been cloned, but this particular neighboring information has 
-not been cloned over.
-Every node will be pushed onto the queue exactly once. Therefore, given the front node of the queue a, and b a neighbor node of a. Let
-a' = ht[a]. If b' = ht[b] exist, then it must be the case that a' does NOT recoginize b' as its neighbor yet since otherwise a appears in 
-queue twice. This justifies line 53. Moreover, we cannot push b onto the queue since ht[b] exists means that it has already been on the
-queue already (i.e. b must have gone through line 58 previously. It may still in the queue has been popped out already).
-*/
