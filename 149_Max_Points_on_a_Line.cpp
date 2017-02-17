@@ -68,30 +68,28 @@ class Solution {
 public:
     int maxPoints(vector<Point>& points) {
         if (points.size() <= 2) return points.size();
-        // slope->frequency
-        unordered_map<float, int> ht;
-        int res = 2;
+        int res = 2; // at least two points
+        unordered_map<long double, int> ht; // slope->frequency
         for (int i = 0; i < points.size(); i++) {
+            // compute the number points on the lines eminating from points[i]
             ht.clear();
             int dup = 1;
-            // no slope = INT_MIN; used to handle all dups or empty points case
-            ht[INT_MIN] = 0; 
-            for (int j = 0; j < points.size(); j++) {
-                if (j == i) continue;
-                if (points[j].x == points[i].x && points[j].y == points[i].y) {
+            ht[INT_MIN] = 0; // in case all points are the same point
+            for (int j = i+1; j < points.size(); j++) {
+                int dx = points[j].x - points[i].x;
+                int dy = points[j].y - points[i].y;
+                if (dx == 0 && dy == 0) {
                     dup++;
                     continue;
                 }
-                int dx = points[j].x - points[i].x;
-                int dy = points[j].y - points[i].y;
-                float slope = (dx == 0) ? INT_MAX : (float)dy/dx;
+                auto slope = (dx == 0) ? INT_MAX : static_cast<long double> (dy) / dx; // increase precision to pass newly added test case
                 ht[slope]++;
             }
-            unordered_map<float, int>::iterator it;
-            for (it = ht.begin(); it != ht.end(); it++) {
-                res = max(res, it->second + dup);
+            for (auto n : ht) {
+                res = max(res, n.second+dup);
             }
         }
+        
         return res;
     }
 };
