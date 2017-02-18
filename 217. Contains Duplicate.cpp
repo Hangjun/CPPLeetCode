@@ -5,6 +5,6 @@ Given an array of integers, find if the array contains any duplicates. Your func
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        return set<int>(nums.begin(), nums.end()).size() < nums.size();
+        return unordered_set<int>(nums.begin(), nums.end()).size() < nums.size();
     }
 };
