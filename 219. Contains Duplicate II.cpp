@@ -11,7 +11,7 @@ class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
         if (nums.empty() || k <= 0) return false;
-        set<int> s; // sliding window set of size k
+        unordered_set<int> s; // sliding window set of size k
         
         for (int i = 0; i < nums.size(); i++) {
             if (s.size() > k) s.erase(nums[i-1-k]); // latest inserted number in s is nums[i-1]
