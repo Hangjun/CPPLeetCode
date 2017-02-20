@@ -30,3 +30,24 @@ public:
         return closest;
     }
 };
+
+// Recursive solution.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int closestValue(TreeNode* root, double target) {
+        int curVal = root->val;
+        TreeNode *child = target < curVal ? root->left : root->right;
+        if (!child) return curVal;
+        int closestRecur = closestValue(child, target);
+        return abs(curVal-target) < abs(closestRecur-target) ? curVal : closestRecur;
+    }
+};
