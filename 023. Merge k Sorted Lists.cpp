@@ -51,6 +51,49 @@ public:
 /*
 The second solution is to first implement the merge of 2 lists, and then use divide-and-conquer to recursively merge the k lists. Note that this problem requires in-place merge, unlike in Problem 21 (https://leetcode.com/problems/merge-two-sorted-lists/?tab=Description).
 */
-
-
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return NULL;
+        int curSize = lists.size();
+        while (curSize > 1) {
+            int halfSize = (1 + curSize) / 2;
+            // merge i and i+halfSize
+            for (int i = 0; i < curSize && i + halfSize < curSize; i++) {
+                ListNode *res = mergeTwoLists(lists[i], lists[i+halfSize]);
+                lists[i] = res;
+            }
+            curSize = halfSize;
+        }
+        return lists[0];
+    }
+    
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode *dummyNode = new ListNode(-1);
+        ListNode *prevNode = dummyNode;
+        prevNode->next = l1;
+        
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                l1 = l1->next;
+            } else {
+                ListNode *tmp = l2->next;
+                prevNode->next = l2;
+                l2->next = l1;
+                l2 = tmp;
+            }
+            prevNode = prevNode->next;
+        }
+        
+        if (l2) prevNode->next = l2;
+        return dummyNode->next;
+    }
+};
