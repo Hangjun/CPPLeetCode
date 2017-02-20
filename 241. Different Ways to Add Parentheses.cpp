@@ -71,3 +71,43 @@ public:
 private:
     unordered_map<string, vector<int>> ht;
 };
+
+// There is also an iterative DP solution:
+class Solution {
+public:
+    vector<int> diffWaysToCompute(string input) {
+        vector<int> nums;
+        vector<char> ops;
+        int i = 0;
+        while (true) {
+            int num = 0;
+            while (i < input.size() && isdigit(input[i]))
+                num = num * 10 + input[i++] - '0';
+            nums.push_back(num);
+            if (i < input.size())
+                ops.push_back(input[i++]);
+            else break;
+        }
+        int n = nums.size();
+        vector<vector<vector<int>>> res(n, vector<vector<int>>(n));
+        for (i = 0; i < n; i++)
+        res[i][i].push_back(nums[i]);
+        
+        for (i = n-2; i >= 0; i--)  // for (int j = 1; j < n; j++)
+            for (int j = i+1; j < n; j++) // for (i = j-1; i >= 0; i--)
+                for (int k = i; k < j; k++)
+                    for (int left: res[i][k])
+                        for (int right: res[k+1][j])
+                            res[i][j].push_back(operate(ops[k], left, right));
+        
+        return res[0][n-1];
+  }
+private:
+    int operate(char op, int l, int r) {
+        switch (op) {
+            case '+': return l + r;
+            case '-': return l - r;
+            default: return l * r;
+        }
+    }
+};
