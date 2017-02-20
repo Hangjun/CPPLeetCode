@@ -13,35 +13,28 @@ Merge two sorted linked lists and return it as a new list. The new list should b
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode *dummy = new ListNode(0);
-        ListNode *head = dummy;
-        ListNode *p = l1;
-        ListNode *q = l2;
+        ListNode *dummyNode = new ListNode(-1);
+        ListNode *head = dummyNode;
         
-        while (p && q) {
-            if (p->val <= q->val) {
-                head->next = new ListNode(p->val);
-                p = p->next;
-            } else {
-                head->next = new ListNode(q->val);
-                q = q->next;
+        while (l1 || l2) {
+            if (l1 && l2) {
+                if (l1->val < l2->val) {
+                    head->next = new ListNode(l1->val);
+                    l1 = l1->next;
+                } else {
+                    head->next = new ListNode(l2->val);
+                    l2 = l2->next;
+                }
+            } else if (l1) {
+                head->next = new ListNode(l1->val);
+                l1 = l1->next;
+            } else if (l2) {
+                head->next = new ListNode(l2->val);
+                l2 = l2->next;
             }
             head = head->next;
         }
         
-        // either l1 or l2 is fully traversed
-        while (p) {
-            head->next = new ListNode(p->val);
-            p = p->next;
-            head = head->next;
-        }
-        
-        while (q) {
-            head->next = new ListNode(q->val);
-            q = q->next;
-            head = head->next;
-        }
-        
-        return dummy->next;
+        return dummyNode->next;
     }
 };
