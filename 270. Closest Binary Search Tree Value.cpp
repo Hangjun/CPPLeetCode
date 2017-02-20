@@ -6,6 +6,7 @@ Given target value is a floating point.
 You are guaranteed to have only one unique value in the BST that is closest to the target.
 */
 
+// Iterative solution: walk down the tree and update closest value.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
