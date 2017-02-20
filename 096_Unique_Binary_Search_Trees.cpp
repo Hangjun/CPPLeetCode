@@ -21,14 +21,13 @@ Since there are $n$ possible roots, the total number $dp[n]$ is given by
 class Solution {
 public:
     int numTrees(int n) {
-        vector<int> dp(n+1, 0);
-        dp[0] = 1;
-        dp[1] = 1;
-        for(int i = 2; i <=n; i++) {
+        vector<int> numBST(n+1, 0); // number of distinct BSTs with n nodes
+        numBST[0] = 1;
+        for (int i = 1; i <= n; i++) {
             for (int j = 0; j < i; j++) {
-                dp[i] += dp[j]*dp[i-j-1];
+                numBST[i] += numBST[j] * numBST[i-1-j];
             }
         }
-        return dp[n];
+        return numBST[n];
     }
 };
