@@ -18,4 +18,41 @@ return [2], since 2 happens twice, however -5 only occur once.
 Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
 */
 
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        vector<int> res;
+        if (!root) return res;
+        unordered_map<int, int> ht; // subtree sum -> frequency
+        int maxCount = 1;
+        findFrequentTreeSumDFS(root, ht, maxCount);
+        
+        for (auto t : ht) {
+            if (t.second == maxCount) res.push_back(t.first);
+        }
+        
+        return res;    
+    }
+    
+    int findFrequentTreeSumDFS(TreeNode *curNode, unordered_map<int, int> &ht, int &maxCount) {
+        int sum = 0;
+        if (!curNode) return sum;
+        sum = curNode->val;
+        sum += findFrequentTreeSumDFS(curNode->left, ht, maxCount);
+        sum += findFrequentTreeSumDFS(curNode->right, ht, maxCount);
+        
+        ht[sum]++;
+        maxCount = max(maxCount, ht[sum]);
+        return sum;
+    }
+    
+};
