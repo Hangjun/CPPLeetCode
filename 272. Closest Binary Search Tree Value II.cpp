@@ -27,4 +27,51 @@ Time: O(logn + k)
 Space: O(n)
 */
 
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> closestKValues(TreeNode* root, double target, int k) {
+        vector<int> res;
+        vector<int> pred; // in descending order
+        vector<int> succ; // in ascending order 
+        inorder(root, target, pred, succ, k);
+        int i = 0, j = 0;
+        // "merge sort"
+        while (res.size() < k) {
+            if (i == pred.size()) {
+                res.push_back(succ[j++]);
+            } else if (j == succ.size()) {
+                res.push_back(pred[i++]);
+            } else if (succ[j] - target < target - pred[i]) {
+                res.push_back(succ[j++]);
+            } else {
+                res.push_back(pred[i++]);
+            }
+        }
+        
+        return res;
+    }
+    
+    void inorder(TreeNode *curNode, double target, vector<int> &pred, vector<int> &succ, int k) {
+        if (!curNode) return;
+        if (target <= curNode->val) {
+            inorder(curNode->left, target, pred, succ, k);
+            if (succ.size() >= k) return;
+            succ.push_back(curNode->val);
+            inorder(curNode->right, target, pred, succ, k);
+        } else {
+            inorder(curNode->right, target, pred, succ, k);
+            if (pred.size() >= k) return;
+            pred.push_back(curNode->val);
+            inorder(curNode->left, target, pred, succ, k);
+        }
+    }
+};
