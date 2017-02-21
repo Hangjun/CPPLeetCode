@@ -50,3 +50,10 @@ public:
         return false;
     }  
 };
+
+/* Remark: with the same technique, we can also compute the largest univalued subtree. More generally, define a specific tree structure S, this same technique can be used to compute:
+1. number of substrees satisfying this property;
+2. largest subtree satisfying this property.
+
+This is an important algorithmic paradigm for this particular tree problems.
+*/
