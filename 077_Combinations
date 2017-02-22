@@ -14,6 +14,7 @@ If n = 4 and k = 2, a solution is:
 ]
 */
 
+// Backtracking solution:
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
@@ -36,5 +37,29 @@ public:
             combineDFS(i+1, n, k, curSoln, res);
             curSoln.pop_back();
         }
+    }
+};
+
+// Iterative solution:
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        if (n == 0 || k == 0) return res;
+        int i = 0;
+        vector<int> curSoln(k, 0);
+        while (i >= 0) {
+            curSoln[i]++;
+            if (curSoln[i] > n) {
+                --i;
+            } else if (i == k-1) {
+                res.push_back(curSoln);
+            } else {
+                ++i;
+                curSoln[i] = curSoln[i-1];
+            }
+        }
+        
+        return res;
     }
 };
