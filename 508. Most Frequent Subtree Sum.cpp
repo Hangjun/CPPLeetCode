@@ -56,3 +56,7 @@ public:
     }
     
 };
+
+/* 
+Remark: this is essentially the same problem as Problem 501 (https://github.com/Hangjun/MyLeetCode/blob/master/501.%20Find%20Mode%20in%20Binary%20Search%20Tree.cpp)
+*/
