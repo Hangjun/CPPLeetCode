@@ -15,12 +15,10 @@ Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node wi
 class Solution {
 public:
     void deleteNode(ListNode* node) {
-        if (!node->next) return;
+        if (!node || !node->next) return;
         
         ListNode *nextNode = node->next;
         node->val = nextNode->val;
         node->next = nextNode->next;
-        
-        return;
     }
 };
