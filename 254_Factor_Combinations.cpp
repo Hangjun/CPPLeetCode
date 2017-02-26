@@ -46,26 +46,45 @@ output:
 
 */
 
+// DFS recursive solution
 class Solution {
 public:
     vector<vector<int>> getFactors(int n) {
-        return getFactorsHelper(n, 2);
-    }
-    
-    vector<vector<int>> getFactorsHelper(int n, int start) {
         vector<vector<int>> res;
-        // i <= n/i is better than i*i <= n: prevents overflow
-        for (int i = start; i <= n/i; i++) {
-            if (n % i == 0) {
-                res.push_back({i, n/i});
-                vector<vector<int>> nextLevel = getFactorsHelper(n/i, i);
-                // append i in front of each solution in nextLevel
-                for (int j = 0; j < nextLevel.size(); j++) {
-                    nextLevel[j].insert(nextLevel[j].begin(), i);
-                    res.push_back(nextLevel[j]);
-                }
-            }
-        }
+        if (n <= 1) return res;
+        vector<int> curSoln;
+        getFactorsDFS(n, 2, curSoln, res);
         return res;
     }
+    
+    void getFactorsDFS(int n, int start, vector<int> &curSoln, vector<vector<int>> &res) {
+        if (n <= 1) return;
+        
+        for (int i = start; i <= n/i; i++) {
+            if (n % i) continue;
+            curSoln.push_back(i);
+            curSoln.push_back(n/i);
+            res.push_back(curSoln);
+            curSoln.pop_back();
+            getFactorsDFS(n/i, i, curSoln, res);
+            curSoln.pop_back();
+        }
+    }
 };
+
+// Iterative solution (Python)
+class Solution(object):
+    def getFactors(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        todo, res = [(n, 2, [])], []
+        while todo:
+            n, i, curSoln = todo.pop()
+            while i <= n/i:
+                if (n % i == 0):
+                    res += curSoln + [i, n/i],
+                    todo += (n/i, i, curSoln+[i]),
+                i += 1
+        return res
