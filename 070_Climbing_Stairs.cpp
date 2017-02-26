@@ -3,7 +3,7 @@ You are climbing a stair case. It takes n steps to reach to the top.
 
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 */
-
+// Time O(n), Space O(1)
 class Solution {
 public:
     int climbStairs(int n) {
@@ -47,5 +47,22 @@ public:
         }
         
         return dp[n];
+    }
+};
+
+// Notice that we are wasting a lot of space in the above implementations: only the immediate 2(resp. k) results are relevant. We can improve it to O(1):
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n <= 1) return n;
+        int first = 1;
+        int second = 2;
+        int third = second;
+        for (int i = 3; i <= n; i++) {
+            third = first + second;
+            first = second;
+            second = third;
+        }
+        return third;
     }
 };
