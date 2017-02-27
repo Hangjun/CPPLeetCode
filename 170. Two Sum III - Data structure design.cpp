@@ -22,21 +22,19 @@ public:
     
     /** Add the number to an internal data structure.. */
     void add(int number) {
-        ht[number] = nums.size();
-        nums.push_back(number);
+        ++ht[number];
     }
     
     /** Find if there exists any pair of numbers which sum is equal to the value. */
     bool find(int value) {
-        for (int i = 0; i < nums.size(); i++) {
-            if (ht.find(value - nums[i]) != ht.end() && ht[value-nums[i]] != i){
+        for (auto p : ht) {
+            int diff = value - p.first;
+            if ((diff != p.first && ht.count(diff)) || (diff == p.first && p.second > 1)) 
                 return true;
-            }
         }
         return false;
     }
 private:
-    vector<int> nums;
     unordered_map<int, int> ht;
 };
 
