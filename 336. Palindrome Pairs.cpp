@@ -32,7 +32,7 @@ public:
                 if (isPal(firstHalf)) {
                     string tmp = secondHalf;
                     reverse(tmp.begin(), tmp.end());
-                    if (ht.find(tmp) != ht.end() && ht[tmp] != i) {
+                    if (ht.find(tmp) != ht.end() && ht[tmp] != i) { // ht[tmp] != i check is to deal with the case where word[i] is a single character
                         res.push_back(vector<int>{ht[tmp], i});
                     }
                 }
@@ -40,7 +40,7 @@ public:
                 if (isPal(secondHalf)) {
                     string tmp = firstHalf;
                     reverse(tmp.begin(), tmp.end());
-                    if (ht.find(tmp) != ht.end() && ht[tmp] != i && !secondHalf.empty()) {
+                    if (ht.find(tmp) != ht.end() && ht[tmp] != i && !secondHalf.empty()) { // !secondHalf.empty() check is to avoid duplicates
                         res.push_back(vector<int>{i, ht[tmp]});
                     }
                 }
