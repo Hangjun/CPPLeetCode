@@ -32,4 +32,26 @@ public:
     }
 };
 
-// We can improve the space complexity to O(1) using the method of rolling array:
+/* 
+Analysis: We can improve the space complexity to O(1) using the method of rolling array, as only two rows (dp[i-1][] and dp[i][]) are needed.
+*/
+// Time: O(n), Space: O(1). n = number of houses.
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        if (costs.empty() || costs[0].empty()) return 0;
+        int res = INT_MAX;
+        int m = costs.size(), n = costs[0].size();
+        vector<vector<int>> dp(2, vector<int>(n)); // dp[i][j] = min cost of painting up to house i with color j
+        dp[0] = costs[0];
+        
+        for (int i = 1; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i%2][j] = min(dp[(i-1)%2][(j+1)%n], dp[(i-1)%2][(j+2)%n]) + costs[i][j];
+            }
+        }
+        
+        for (int j = 0; j < n; j++) { res = min(res, dp[(m-1)%2][j]); }
+        return res;
+    }
+};
