@@ -59,5 +59,5 @@ private:
 };
 
 /* Analysis:
-Checking all possible prefixes palindomic or not takes too much time. This can definitely be optimized via better palindomic checking algorithms (e.g. Manacher's algorithm), and better data structures (e.g. prefix tree). We now use a prefix tree to speed up the above implementation.
+Checking all possible prefixes palindomic or not takes too much time. This can definitely be optimized via better palindomic checking algorithms (e.g. Manacher's algorithm).
 */
