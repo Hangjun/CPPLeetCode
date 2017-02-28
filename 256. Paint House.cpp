@@ -29,7 +29,7 @@ public:
             dp[i][2] = min(dp[i-1][0], dp[i-1][1]) + costs[i][2];
         }
         
-        for (int j = 0; j < n; j++) { res = min(res, dp[m-1][j]); }
+        for (int j = 0; j < n; j++) res = min(res, dp[m-1][j]);
         return res;
     }
 };
@@ -53,7 +53,7 @@ public:
             }
         }
         
-        for (int j = 0; j < n; j++) { res = min(res, dp[(m-1)%2][j]); }
+        for (int j = 0; j < n; j++) res = min(res, dp[(m-1)%2][j]);
         return res;
     }
 };
