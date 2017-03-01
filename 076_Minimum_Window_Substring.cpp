@@ -28,9 +28,7 @@ public:
         int i = 0;
         for (int j = 0; j < s.size(); j++) {
             if (needToFind[s[j]] == 0) continue;
-            if (hasFound[s[j]]++ < needToFind[s[j]]) {count++;
-                cout << "count = " << count << endl;
-            }
+            if (hasFound[s[j]]++ < needToFind[s[j]]) { count++; }
             if (count == t.size()) { // found all of t's characters
                 // compute window size: shrink i to the right as far as possible before
                 while (needToFind[s[i]] == 0 || hasFound[s[i]] > needToFind[s[i]]) {
