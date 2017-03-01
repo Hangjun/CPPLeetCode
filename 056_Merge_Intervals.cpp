@@ -6,7 +6,7 @@ Given [1,3],[2,6],[8,10],[15,18],
 return [1,6],[8,10],[15,18]. 
 */
 
-
+// Time: O(nlogn), Space: O(1). n = number of intervals.
 /**
  * Definition for an interval.
  * struct Interval {
@@ -22,17 +22,11 @@ public:
         vector<Interval> res;
         if (intervals.empty()) return res;
         sort(intervals.begin(), intervals.end(), [](Interval i1, Interval i2){return i1.start < i2.start || i1.start == i2.start && i1.end < i2.end;});
-        Interval lastInterval = intervals[0];
+        res.push_back(intervals[0]);
         for (int i = 1; i < intervals.size(); i++) {
-            if (lastInterval.end >= intervals[i].start && lastInterval.start <= intervals[i].end) {
-                lastInterval.start = min(lastInterval.start, intervals[i].start);
-                lastInterval.end = max(lastInterval.end, intervals[i].end);
-            } else {
-                res.push_back(lastInterval);
-                lastInterval = intervals[i];
-            }
+            if (res.back().end < intervals[i].start) res.push_back(intervals[i]);
+            else res.back().end = max(res.back().end, intervals[i].end);
         }
-        res.push_back(lastInterval);
         return res;
     }
 };
