@@ -38,8 +38,7 @@ public:
         int count = 2;
         ListNode *curNode = head->next;
         while (curNode) {
-            int n = rand() % count;
-            if (n == 0) res = curNode->val;
+            if (rand() % count == 1) res = curNode->val;
             curNode = curNode->next;
             count++;
         }
