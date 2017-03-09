@@ -28,14 +28,12 @@ public:
         int left = 0, right = nums.size()-1;
         if (a >= 0) {
             int index = nums.size()-1;
-            while (left <= right) {
+            while (left <= right)
                 res[index--] = quad(nums[left], a, b, c) > quad(nums[right], a, b, c) ? quad(nums[left++], a, b, c) : quad(nums[right--], a, b, c);
-                }
-            } else {
+        } else {
             int index = 0;
-            while (left <= right) {
+            while (left <= right)
                 res[index++] = quad(nums[left], a, b, c) < quad(nums[right], a, b, c) ? quad(nums[left++], a, b, c) : quad(nums[right--], a, b, c);
-            }
         }
         return res;
     }
