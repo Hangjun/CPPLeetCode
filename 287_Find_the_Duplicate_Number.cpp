@@ -35,6 +35,8 @@ the array, but it could be repeated more than once." This suggests that we shoul
 We repeatedly divide the possible range [1,n] into two pieces: [left, mid] and [mid+1, right]. The key observation is that, if there are no 
 duplicate, then there should be exactly mid - left + 1 many elements within the first range, and right-mid many element in the second range. 
 Thus if there are more elements than desired, we know that there is a duplicate in that range. It is the range that we subdividing!
+
+Time: O(nlogn), Space: O(1).
 */
 
 class Solution {
@@ -66,3 +68,25 @@ private:
         return (count > up - lb + 1) ? true : false;
     }
 };
+
+// Or more concicsely:
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int left = 1, right = nums.size()-1;
+        // loop invariant: duplicate is contained within [left, right] range
+        while (left < right) {
+            int mid = left + (right-left)/2;
+            int count = 0;
+            for (auto n : nums) {
+                if (n >= left && n <= mid) count++;
+            }
+            if (count > mid - left + 1) right = mid;
+            else left = mid+1;
+        }
+        return left;
+    }
+};
+
+/* There is actually a very neat O(n) time O(1) space solution using the idea of cycle detection in a linked list: https://discuss.leetcode.com/topic/25913/my-easy-understood-solution-with-o-n-time-and-o-1-space-without-modifying-the-array-with-clear-explanation/20. This solution is not the algorithm this problem is looking for, so we won't spend the time to further understand it.
+*/
