@@ -28,3 +28,23 @@ Check out this article if you're still stuck.
 The purely recursive implementation of minimax would be worthless for even a small n. You MUST use dynamic programming.
 As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?
 */
+
+// Minimax algorithm.
+class Solution {
+public:
+    int getMoneyAmount(int n) {
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0)); // dp[i][j] := maximum money needed in range [i, j]
+        return dfs(dp, 1, n);
+    }
+    
+    int dfs(vector<vector<int>> &dp, int start, int end) {
+        if (start >= end) return 0;
+        if (dp[start][end]) return dp[start][end];
+        int res = INT_MAX;
+        for (int i = start; i <= end; i++) {
+            int tmp = i + max(dfs(dp, start, i-1), dfs(dp, i+1, end));
+            res = min(res, tmp);
+        }
+        return dp[start][end] = res;
+    }
+};
