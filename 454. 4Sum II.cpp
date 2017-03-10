@@ -20,3 +20,24 @@ The two tuples are:
 2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 */
 
+// Hash table. Divide into two 2Sum problems. Time: O(n^2), Space: O(n^2). 1 hash table needed.
+class Solution {
+public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        int n = A.size();
+        int res = 0;
+        unordered_map<int, int> ht; // 2Sum -> count
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                ++ht[C[i]+D[j]];
+            }
+        }
+        
+        for (int i = 0; i < n; i++) { 
+            for (int j = 0; j < n; j++) {
+                res += ht.find(-(A[i]+B[j])) != ht.end() ? ht[-(A[i]+B[j])] : 0;
+            }
+        }
+        return res;
+    }
+};
