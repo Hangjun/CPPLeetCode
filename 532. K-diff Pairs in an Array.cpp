@@ -38,3 +38,31 @@ public:
         return res;
     }
 };
+
+// Sorting: Time: O(nlogn), Space: O(1).
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        if (nums.empty() || k < 0) return 0;
+        int res = 0;
+        sort(nums.begin(), nums.end());
+        int left = 0, right = 1;
+        while (right < nums.size()) {
+            int curDiff = nums[right]-nums[left];
+            if (curDiff < k) {
+                right++;
+            } else if (curDiff > k) {
+                left++;
+            } else {
+                res++;
+                left++;
+                right++;
+                // be careful about the de-dup logic: it's wrong to use left < right as a criteria as in 3Sum
+                while (left < nums.size() && nums[left] == nums[left-1]) left++;
+                while (right < nums.size() && nums[right] == nums[right-1]) right++;
+            }
+            if (left == right) right++;
+        }
+        return res;
+    }
+};
