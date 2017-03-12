@@ -106,3 +106,7 @@ public:
         return water;
     }
 };
+
+/* 
+Remark: the key takeaway of this problem is to note that, we drop water from the smaller height direction within. For each iteration, we first identify which side has a smaller heighter, and we can safely pouring water since we know that the other side has bigger height and can thus be provide a valid boundary. This realization is critical for the part II of this problem (https://leetcode.com/problems/trapping-rain-water-ii/?tab=Description).
+*/
