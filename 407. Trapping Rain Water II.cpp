@@ -28,7 +28,7 @@ class Cell {
 public:
     int x;
     int y;
-    int height;
+    int height; // effective height for pouring water
         
     Cell(int _x = 0, int _y = 0, int _height = 0) : x(_x), y(_y), height(_height) {}
     
