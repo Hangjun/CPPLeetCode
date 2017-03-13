@@ -22,7 +22,7 @@ The length of all the strings in the input won't exceed 1,000.
 /*
 Analysis: For each string in d, try to find it in s.
 
-Time: O(nm), Space: O(1). n = d.size(), m = s.size().
+Time: O(nk), Space: O(1). n = s.size(), k = d.size().
 */
 class Solution {
 public:
