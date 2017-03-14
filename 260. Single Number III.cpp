@@ -11,7 +11,7 @@ Your algorithm should run in linear runtime complexity. Could you implement it u
 */
 
 /*
-Analysis: We first xor all elements in the array. The resulting number is the xor of the two single numbers. To separate them, we find the first index of bit 1 in the previous result (the first bit that the two single numbers differ). Then we scan the array one more time such that for numbers that have that bit equal to 1, we xor it into one number, and for other numbers we xor them into another number. The resulting two numbers are the two single numbers we are looking for.
+Analysis: We first xor all elements in the array. The resulting number is the xor of the two single numbers. To separate them, we find the first index of bit 1 in the previous result (the first bit that the two single numbers differ). Then we scan the array one more time and based on whether not this bit is 1, we separate the numbers into two groups and reduce the problem to two original 2n+1 single number problems.
 
 Time: O(n), Space: O(1). 2 Passes. 2n+2 problem.
 */
