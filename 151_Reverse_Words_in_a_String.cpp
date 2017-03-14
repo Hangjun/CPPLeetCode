@@ -19,6 +19,7 @@ Clarification:
     Reduce them to a single space in the reversed string.
 */
 
+// Time: O(n), Space: O(n).
 class Solution {
 public:
     void reverseWords(string &s) {
@@ -46,5 +47,25 @@ public:
         for (int k = 0; k < res.size(); k++) {
             s += res[k];
         }
+    }
+};
+
+// Time: O(n), Space: O(1). Reverse the whole string first, and then reverse each individual word. Remove trailing zeros at last.
+class Solution {
+public:
+    void reverseWords(string &s) {
+        if (s.empty()) return;
+        reverse(s.begin(), s.end());
+        int globalIndex = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == ' ') continue;
+            if (globalIndex) s[globalIndex++] = ' '; // prepare for next word by adding a space
+            int j = i;
+            while (j < s.size() && s[j] != ' ') s[globalIndex++] = s[j++];
+            reverse(s.begin()+globalIndex-(j-i), s.begin()+globalIndex);
+            i = j;
+        }
+        
+        s.erase(s.begin()+globalIndex, s.end()); // remove trailing zeros
     }
 };
