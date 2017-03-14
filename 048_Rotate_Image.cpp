@@ -11,23 +11,18 @@ class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
         if (matrix.empty()) return;
-        
         int n = matrix.size();
         
-        // flip the matrix left to right
+        // rotate matrix left to right vertically
         for (int i = 0; i < n; i++) {
             int left = 0, right = n-1;
-            while (left < right) {
-                swap(matrix[i][left], matrix[i][right]);
-                left++;
-                right--;
-            }
+            while (left < right) swap(matrix[i][left++], matrix[i][right--]);
         }
         
-        // flip the matrix with respect to the bottom left - top right diagnoal
+        // rotate matrix w.r.t. bottom-right diagonal. Caution: do not over rotate!
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n-i; j++) {
-                swap(matrix[i][j], matrix[n-j-1][n-i-1]);
+            for (int j = 0; j < n-i; j++) { // i+j < n
+                swap(matrix[i][j], matrix[n-j-1][n-i-1]); // caution: not flip with matrix[n-i-1][n-j-1]!
             }
         }
     }
