@@ -23,30 +23,20 @@ If no valid conversion could be performed, a zero value is returned. If the corr
 class Solution {
 public:
     int myAtoi(string str) {
-        // corner case
-        if (str.empty() || str[0] == '\0') return 0;
+        if (str.empty()) return 0;
         int i = 0;
-        // skip blanks at the beginning
-        while (isspace(str[i])) i++;
-        
-        int minus = 1;
-        // fetch sign, if at all
-        if (str[i] == '-') {
-            minus = -1;
-            i++;
-        } else if (str[i] == '+') {
-            minus = 1;
-            i++;
-        }
+        int n = str.size();
+        while (i < n && isspace(str[i])) i++;
+        if (i == n) return 0;
+        int sign = 1;
+        if (str[i] == '+' || str[i] == '-') sign = 1 - 2 * (str[i++] == '-');
         
         long long res = 0;
-        while (isdigit(str[i])) {
-            res = res * 10 + (str[i] - '0');
+        while (i < n && isdigit(str[i])) {
+            res = res * 10 + (str[i]-'0');
             i++;
-            if (res > INT_MAX) {
-                return minus > 0 ? INT_MAX : INT_MIN;
-            }
+            if (res > INT_MAX) return sign == 1 ? INT_MAX : INT_MIN;
         }
-        return minus > 0 ? res : -res;
+        return sign * res;
     }
 };
