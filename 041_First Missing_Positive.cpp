@@ -20,28 +20,21 @@ is nums[nums[i] - 1]. However, after the swap, there are potentially two problem
 2. If nums[i] == nums[nums[i] - 1], then if we do the swap without checking this, we will result in an infinite loop: we will keep swapping 
 forever. 
 
-Therefore we need to check all four conditions before swapping: see line 33.
+Therefore we need to check all four conditions before swapping: see line 32.
 */
 
+// Time: O(n), Space: O(1). 2 Passes.
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
         int n = nums.size();
-        // the first missing positive must be within (0, n]
-        int i = 0; 
-        while (i < n) {
-            if (nums[i] != i+1 && nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[i] != i+1 && nums[nums[i]-1] != nums[i]) 
                 swap(nums[i], nums[nums[i]-1]);
-            } else {
-                i++;
-            }
         }
-        for (i = 0; i < nums.size(); i++) {
-            if (nums[i] != i+1) {
-                return i+1;
-            }
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i+1) return i+1;
         }
         return n+1;
     }
 };
-
