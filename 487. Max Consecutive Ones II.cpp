@@ -14,7 +14,11 @@ Follow up:
 What if the input numbers come in one by one as an infinite stream? In other words, you can't store all numbers coming from the stream as it's too large to hold in memory. Could you solve it efficiently?
 */
 
-// Time: O(n), Space: O(1). Two pointer sliding window solution. Works for any k: = number of zeros you can flip.
+/* 
+This problem is essentially the same as 159. Longest Substring with At Most Two Distinct Characters.
+
+Time: O(n), Space: O(1). Two pointer sliding window solution. Works for any k: = number of zeros you can flip.
+*/
 class Solution {
 public:
     int findMaxConsecutiveOnes(vector<int>& nums) {
