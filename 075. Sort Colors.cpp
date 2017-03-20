@@ -26,6 +26,7 @@ public:
         if (nums.empty()) return;
         int left = 0, right = nums.size()-1;
         int cur = 0;
+        // loop invariant: [0, left): color = 0; (left, cur]: color = 1; (right, size-1]: color = 2.
         while (cur <= right) {
             if (nums[cur] == 0) swap(nums[left++], nums[cur++]);
             else if (nums[cur] == 2) swap(nums[cur], nums[right--]);
