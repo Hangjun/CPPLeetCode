@@ -54,8 +54,9 @@ class Solution {
 public:
     int uniquePaths(int m, int n) {
         if (m < n) return uniquePaths(n, m);
-        vector<int> curRow(n, 1);
-        for (int i = 1; i < m; i++) {
+        vector<int> curRow(n, 0);
+        curRow[0] = 1;
+        for (int i = 0; i < m; i++) {
             for (int j = 1; j < n; j++)
                 curRow[j] += curRow[j-1];
         }
