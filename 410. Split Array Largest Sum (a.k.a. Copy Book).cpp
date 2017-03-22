@@ -68,7 +68,7 @@ public:
     }
 };
 
-// A slow but very beautiful DP solution. Time: O(nm^2), Space: O(nm).
+// A slow but very beautiful DP solution. Time: O(n^2 m), Space: O(nm).
 class Solution {
 public:
     int splitArray(vector<int>& nums, int m) {
