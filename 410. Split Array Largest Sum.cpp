@@ -65,3 +65,34 @@ public:
         return true;
     }
 };
+
+// A slow but very beautiful DP solution. Time: O(nm^2), Space: O(nm).
+class Solution {
+public:
+    int splitArray(vector<int>& nums, int m) {
+        int n = nums.size();
+        vector<long> partialSum(n, 0);
+        vector<vector<long>> dp(n, vector<long>(m+1, INT_MAX)); // dp[i][k] = max sum with k partitions on nums[0:i]
+        // generic state transfer function: dp[i][k] = min(dp[i][k], max(partialSum[j:i], dp[j][k-1])), for all k-1 <= j <= i
+        
+        for (int i = 0; i < n; i++) partialSum[i] = i == 0 ? nums[0] : (nums[i] + partialSum[i-1]);
+        
+        for (int i = 0; i < n; i++) {
+            int maxPartition = min(m, i+1); // [0:i] can have at most i+1 partitions
+            for (int k = 1; k <= maxPartition; k++) {
+                if (k == 1) {
+                    dp[i][k] = partialSum[i];
+                    continue;
+                }
+                for (int j = i; j >= k-1; j--) { // [0:j-1] with k-1 partitions and a single partition [j: i] 
+                    long partial = partialSum[i]-partialSum[j]+nums[j];
+                    if (partial > dp[i][k]) continue; // in case there is negative number: need to look all j
+                    dp[i][k] = min(dp[i][k], max(partial, dp[j-1][k-1]));
+                }
+            }
+        }
+        
+        return dp[n-1][m];
+        
+    }
+};
