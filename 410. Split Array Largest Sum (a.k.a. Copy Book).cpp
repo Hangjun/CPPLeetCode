@@ -32,7 +32,7 @@ Caution: We can do this also because the elements in the array are non-negative.
 
 Whenever we are looking for a minimum sized solution, try binary search.
 
-Time: O(n^2), n = nums.size(); Space: O(1).
+Time: O(nlog(total sum - max element)), n = nums.size(); Space: O(1).
 */
 class Solution {
 public:
