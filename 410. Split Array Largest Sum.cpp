@@ -26,6 +26,8 @@ Analysis: The non-dp solution should be straightforward. The maximum possible an
 
 Remark: This solution is very similar to the binary search solution to Problem 209. Minimum Size Subarray Sum (https://leetcode.com/problems/minimum-size-subarray-sum/#/description). 
 
+Caution: We can do this also because the elements in the array are non-negative. For arbitrary numbers, we cannot use greedy algorithm. In that case, DP is necessary.
+
 Whenever we are looking for a minimum sized solution, try binary search.
 
 Time: O(n^2), n = nums.size(); Space: O(1).
