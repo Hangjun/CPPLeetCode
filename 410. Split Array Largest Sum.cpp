@@ -73,7 +73,7 @@ public:
         int n = nums.size();
         vector<long> partialSum(n, 0);
         vector<vector<long>> dp(n, vector<long>(m+1, INT_MAX)); // dp[i][k] = max sum with k partitions on nums[0:i]
-        // generic state transfer function: dp[i][k] = min(dp[i][k], max(partialSum[j:i], dp[j][k-1])), for all k-1 <= j <= i
+        // generic state transfer function: dp[i][k] = min(dp[i][k], max(partialSum[j:i], dp[j-1][k-1])), for all k-1 <= j <= i
         
         for (int i = 0; i < n; i++) partialSum[i] = i == 0 ? nums[0] : (nums[i] + partialSum[i-1]);
         
