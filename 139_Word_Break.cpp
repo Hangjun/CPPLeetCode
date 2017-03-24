@@ -7,7 +7,7 @@ dict = ["leet", "code"].
 Return true because "leetcode" can be segmented as "leet code". 
 */
 
-The first idea is to use DFS:
+// The first idea is to use DFS:
 
 class Solution {
 public:
@@ -33,7 +33,9 @@ public:
     }
 };
 
-But this is reported Time Limit Exceeded. Therefore we need to optimize it. One way is to use dynamic programming:
+/* 
+Analysis: But this is reported Time Limit Exceeded. Therefore we need to optimize it. One way is to use dynamic programming:
+*/
 
 class Solution {
 public:
