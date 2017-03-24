@@ -35,26 +35,25 @@ public:
 
 /* 
 Analysis: But this is reported Time Limit Exceeded. Therefore we need to optimize it. One way is to use dynamic programming:
+
+Time: O(n^2), Space: O(n).
 */
 
 class Solution {
 public:
-    bool wordBreak(string s, unordered_set<string>& wordDict) {
+    bool wordBreak(string s, vector<string>& wordDict) {
         if (wordDict.empty()) return false;
-        if (s.empty()) return true; // empty string is trivially breakable
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
         int n = s.size();
-        // dp[i] = whether s[0,..,i-1] is breakable
-        vector<int> dp(n+1, false);
-        dp[0] = true;
+        vector<bool> dp(n+1, false); // dp[i] = s[0:i-1] is breakable or not
+        dp[0] = true; // empty strings are breakable
         
-        // state transfer: dp[i] = true iff s[0,...,j-1] is breakable
-        // wordDict and s[j,...,i] exists in wordDict
         for (int i = 0; i < n; i++) {
             for (int j = i; j >= 0; j--) {
-                if (dp[j] && wordDict.count(s.substr(j, i-j+1)))
-                    dp[i+1] = true;
+                if (dp[j] && dict.count(s.substr(j, i-j+1))) dp[i+1] = true;
             }
         }
+        
         return dp[n];
     }
 };
