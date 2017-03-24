@@ -59,5 +59,28 @@ public:
     }
 };
 
-// We can optimize the space complexity to O(sum):
+/* 
+We can optimize the space complexity to O(sum). We just need to make sure that when we compute dp[j], dp[j-nums[i-1]] is the same value as dp[i-1][j-nums[i-1]]. To do that, we compute dp[j] top-down.
 
+Space: O(sum).
+*/
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        for (int num : nums) sum += num;
+        if (sum % 2) return false;
+        sum /= 2;
+        int n = nums.size();
+        vector<bool> dp(sum+1, false);
+        dp[0] = true;
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = sum; j > 0; j--) {
+                if (j >= nums[i-1]) dp[j] = (dp[j] || dp[j-nums[i-1]]);
+            }
+        }
+       
+        return dp[sum];
+    }
+};
