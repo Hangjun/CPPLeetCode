@@ -7,31 +7,39 @@ dict = ["leet", "code"].
 Return true because "leetcode" can be segmented as "leet code". 
 */
 
-// The first idea is to use DFS:
+/* The first idea is to use DFS/BFS. It turns out that we get TLE error when using DFS, but the BFS solution is accepted:
+
+Time: O(n^2), Space: O(n)
+*/
 
 class Solution {
 public:
-    bool wordBreak(string s, unordered_set<string>& wordDict) {
-        if (s.empty() || wordDict.empty()) return false;
-        return wordBreakDFS(s, 0, wordDict);
-    }
-    // invariant: s.substr(0,start-1) is already found, testing s.substr(start)
-    bool wordBreakDFS(string s, int start, unordered_set<string> &wordDict) {
-        // terminate condition
-        if (start == s.size())  return true;
+    bool wordBreak(string s, vector<string>& wordDict) {
+        if (wordDict.empty()) return false;
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+        vector<bool> visited(s.size(), 0);
+        queue<int> q;
+        q.push(0);
         
-        for (int i = start; i < s.size(); i++) {
-            string curWord = s.substr(start, i-start+1);
-            if (wordDict.count(curWord)) {
-                // recurse on curWord
-                if (wordBreakDFS(s, i+1, wordDict)) {
-                    return true;
-                }
+        while (!q.empty()) {
+            int start = q.front();
+            q.pop();
+            if (visited[start]) continue;
+            visited[start] = true;
+            for (int end = start+1; end <= s.size(); end++) {
+                if (!dict.count(s.substr(start, end-start)) || visited[end]) continue;
+                if (end == s.size()) return true;
+                q.push(end);
             }
         }
+        
         return false;
     }
 };
+
+/*
+Remark: We have to use a visited array in the above BFS. For example, s = "aaa", and the dictionary contains "a", "aa" and "aaa". From the first 'a', we will include both index 1 and 2 into the queue. Then at index 1 (the second 'a'), we will include index 2 into the queue again, hence the repeated search.
+*/
 
 /* 
 Analysis: But this is reported Time Limit Exceeded. Therefore we need to optimize it. One way is to use dynamic programming:
