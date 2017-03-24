@@ -79,3 +79,7 @@ private:
         return strs;
     }
 };
+
+/*
+Notice the simiarity between this problem and Problem 254. Factor Combinations (https://leetcode.com/problems/factor-combinations/#/description).
+*/
