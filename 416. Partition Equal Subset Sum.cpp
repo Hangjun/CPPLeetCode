@@ -43,7 +43,7 @@ public:
         int n = nums.size();
         
         // dp[i][j] = whether the nums[0:i-1] has a subset that sums to j
-        vector<vector<bool>> dp(n+1, vector<bool>(sum, false));
+        vector<vector<bool>> dp(n+1, vector<bool>(sum+1, false));
         dp[0][0] = true; // empty set sums up to 0 sum
         for (int i = 1; i <= n; i++) dp[i][0] = true; // just don't select any number
         for (int j = 1; j <= sum; j++) dp[0][j] = false;
