@@ -433,7 +433,7 @@ public:
 ```
 
 ```c++
-// Rolling Arrays: Time: O(mn), Space: O(min(m, n)).
+// Rolling Arrays: Time: O(mn), Space: O(min(m, n)). Two Rows.
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {
@@ -465,7 +465,38 @@ public:
 };
 ```
 
-Further optimizing it to a single row is tricky since there the previous diagonal value cannot be easily fetched (it is the previous value of dp[j-1]). We need extra bookkeeping.
+Further optimizing it to a single row is tricky since there the previous diagonal value cannot be easily fetched (it is the previous value of dp[j-1]). We need extra bookkeeping:
+
+```c++
+// Time: O(mn), Space: O(min(m, n)). Single Row.
+// tmp == dp[i-1][j], per == dp[i-1][j-1], dp[j-1] == dp[i][j-1]
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) return 0;
+        int m = matrix.size(), n = matrix[0].size();
+        vector<int> dp(n+1, 0);
+        int maxSize = 0;
+        int pre = 0;
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 1; j <= n; j++) {
+                int tmp = dp[j];
+                if (matrix[i][j-1] == '1') {
+                    dp[j] = min(dp[j], min(dp[j-1], pre)) + 1;
+                    maxSize = max(maxSize, dp[j]);
+                } else {
+                    dp[j] = 0;
+                }
+                pre = tmp;
+            }
+        }
+        
+        return maxSize * maxSize;
+    }
+};
+```
+
 
 
 ## Non-continous Transfer Functions
