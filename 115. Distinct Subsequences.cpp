@@ -58,3 +58,7 @@ public:
         return dp[m%2][n];
     }
 };
+
+/*
+Remark: We claim that the space complexity can be further reduced to using a single row/column since dp[i][j] only depends on dp[i-1][j] and dp[i-1][j-1]. If it were to depend on dp[i-1][j] and dp[i][j-1], standard trick (rolling array +  recycle the same row/column) can be applied. However, the dependency on the previous diagnonal value is trickier. We will not go any further, but one can refer to Problem 221. Maximal Square (https://leetcode.com/problems/maximal-square/#/description) to see how we did it there with extra bookkeeping.
+*/
