@@ -35,3 +35,26 @@ public:
         return dp[m][n];
     }
 };
+
+// Classic rolling array trick brings the space complexity down to O(min(m,n)).
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        if (t.empty()) return 1;
+        if (s.size() < t.size()) return 0;
+        
+        int m = s.size(), n = t.size();
+        // dp[i][j] = number of subsequences of t[0:i-1] in s[0:j-1]
+        vector<vector<int>> dp(2, vector<int>(n+1, 0));
+        for (int i = 0; i <= m; i++) dp[i%2][0] = 1;
+        for (int j = 1; j <= n; j++) dp[0][j] = 0;
+        
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i%2][j] = s[i-1] == t[j-1] ? (dp[(i-1)%2][j-1] + dp[(i-1)%2][j]) : dp[(i-1)%2][j];
+            }
+        }
+        
+        return dp[m%2][n];
+    }
+};
