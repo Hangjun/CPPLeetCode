@@ -68,11 +68,15 @@ public:
 
 
 
-/* DP Implementation 1: O(n^4) Time, O(n^3) Space */
+/*
+The above implementation repeats a lot of identical searches. This should ring the "DP bell" in your head: we can use DP as a memorizaton tool to keep track of the intermediate (optimal) results we have alrady computed. In this case the optimal result is knowning substring of s1 and s2 are scrambling string or not.
+
+DP Memorization: O(n^4) Time, O(n^3) Space.
+*/
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
-        // base case
+        // base case 1;
         if (s1.size() != s2.size())  return false;
         if (s1 == s2)  return true;
         int n = s1.size();
@@ -87,7 +91,7 @@ public:
     int isScrambleRecur(string s1, string s2, vector<vector<vector<int>>> &dp, int len, int n1, int n2) {
         if (dp[len][n1][n2] != 0)  return dp[len][n1][n1];
         if (s1.substr(n1, len) == s2.substr(n2, len)) {
-            dp[len][n1][n2] = 1;
+            dp[len][n1][n2] =
             return dp[len][n1][n2];
         }
         // basecase for recursion
