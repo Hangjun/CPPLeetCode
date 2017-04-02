@@ -78,7 +78,6 @@ DP Memorization + DFS: O(n^4) Time, O(n^3) Space.
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
-        // base case 1;
         if (s1.size() != s2.size())  return false;
         if (s1 == s2)  return true;
         int n = s1.size();
@@ -88,26 +87,23 @@ public:
         vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(n, vector<int>(n, 0)));
         return isScrambleRecur(s1, s2, dp, n, 0, 0) == 1 ? true : false;
     }
-    // compute if s1.substr(n1, len) and s2.substr(n2, len) are scrambling
-    // len test has already passed
+    
+     // compute if s1.substr(n1, len) and s2.substr(n2, len) are scrambling
     int isScrambleRecur(string s1, string s2, vector<vector<vector<int>>> &dp, int len, int n1, int n2) {
-        if (dp[len][n1][n2] != 0)  return dp[len][n1][n1];
+        if (dp[len][n1][n2]) return dp[len][n1][n2];
         if (s1.substr(n1, len) == s2.substr(n2, len)) {
             dp[len][n1][n2] = 1;
             return dp[len][n1][n2];
         }
-        // basecase for recursion
-        vector<int> charSet(256, 0);
-        for (int i = n1; i < n1+len; i++) {
-           charSet[s1[i] - 'a']++;
-        }
-        for (int j = n2; j < n2+len; j++) {
-            if (--charSet[s2[j] - 'a'] < 0) {
+        vector<int> ht(256, 0);
+        for (int i = n1; i < n1 + len; i++) ht[s1[i] - 'a']++;
+        for (int i = n2; i < n2 + len; i++) {
+            if (--ht[s2[i] - 'a'] < 0) {
                 dp[len][n1][n2] = -1;
                 return dp[len][n1][n2];
             }
         }
-        // begin "DFS" on its "neighbors": k = cut location index
+        
         for (int k = 1; k < len; k++) {
             if (isScrambleRecur(s1, s2, dp, k, n1, n2) == 1 && isScrambleRecur(s1, s2, dp, len-k, n1+k, n2+k) == 1) {
                 dp[len][n1][n2] = 1;
@@ -118,6 +114,7 @@ public:
                 return dp[len][n1][n2];
             }
         }
+        
         dp[len][n1][n2] = -1;
         return dp[len][n1][n2];
     }
