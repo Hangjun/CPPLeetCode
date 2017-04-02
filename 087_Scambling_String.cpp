@@ -71,7 +71,9 @@ public:
 /*
 The above implementation repeats a lot of identical searches. This should ring the "DP bell" in your head: we can use DP as a memorizaton tool to keep track of the intermediate (optimal) results we have alrady computed. In this case the optimal result is knowning substring of s1 and s2 are scrambling string or not.
 
-DP Memorization: O(n^4) Time, O(n^3) Space.
+Everytime DP is used a memorization, there is usually DFS/BFS around since the DFS/BFS *defines* what intermediate means.
+
+DP Memorization + DFS: O(n^4) Time, O(n^3) Space.
 */
 class Solution {
 public:
