@@ -93,7 +93,7 @@ public:
     int isScrambleRecur(string s1, string s2, vector<vector<vector<int>>> &dp, int len, int n1, int n2) {
         if (dp[len][n1][n2] != 0)  return dp[len][n1][n1];
         if (s1.substr(n1, len) == s2.substr(n2, len)) {
-            dp[len][n1][n2] =
+            dp[len][n1][n2] = 1;
             return dp[len][n1][n2];
         }
         // basecase for recursion
