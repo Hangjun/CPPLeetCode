@@ -49,24 +49,19 @@ public:
         if (s1.size() != s2.size())  return false;
         if (s1 == s2)  return true;
         int n = s1.size();
+        
         // check if s1 and s2 contain the characters
-        vector<int> charSet(256,0);
-        for (int i = 0; i < n; i++) {
-            charSet[s1[i] - 'a']++;
-            charSet[s2[i] - 'a']--;
+        vector<int> ht(256,0);
+        for (char c : s1) ht[c - 'a']++;
+        for (char c : s2) {
+            if (--ht[c - 'a'] < 0) return false;
         }
-        for (int i = 0; i < 256; i++) {
-            if (charSet[i] != 0)  return false;
-        }
-        // begin recursion
+      
         for (int k = 1; k < n; k++) {
-            if(isScramble(s1.substr(0, k), s2.substr(0, k)) &&
-            isScramble(s1.substr(k), s2.substr(k)))
-                return true;
-            if(isScramble(s1.substr(0, k), s2.substr(n-k)) &&
-            isScramble(s1.substr(k), s2.substr(0, n-k)))
-                return true;
+            if(isScramble(s1.substr(0, k), s2.substr(0, k)) && isScramble(s1.substr(k), s2.substr(k))) return true;
+            if(isScramble(s1.substr(0, k), s2.substr(n-k)) && isScramble(s1.substr(k), s2.substr(0, n-k))) return true;
         }
+        
         return false;
     }
 };
