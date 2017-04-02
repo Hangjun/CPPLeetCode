@@ -124,7 +124,7 @@ public:
 
 
 
-/* DP Implementation 1: O(n^4) Time, O(n^3) Space */
+/* DP Implementation 2: O(n^4) Time, O(n^3) Space */
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
