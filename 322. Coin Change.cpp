@@ -18,7 +18,7 @@ Analysis: This is obviously a DP problem. The subproblems are also easy to const
 
 This problem is essentially the same as problem 279. Perfect Squares (https://leetcode.com/problems/perfect-squares/#/description). Whenever it comes to finding the minimum number of summands.
 
-Time: O(n*amount), Space: O(amount). We cannot optimize the space complexity as the state transition functon is not continuous.
+Time: O(n*amount), Space: O(amount). We cannot optimize the space complexity as the state transition function is not continuous.
 */
 
 class Solution {
