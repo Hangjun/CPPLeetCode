@@ -36,3 +36,32 @@ public:
         return dp[amount] > amount ? -1 : dp[amount];
     }
 };
+
+/*
+Follow up: What if we want to output the total number of different ways to sum up to the target amount? It is still a DP problem, and the subproblem becomes dp[i][j] := the number of ways to sum up to value i with the coins[0:j].\
+
+When counting the number of ways to arrange the summands to sum up to a target value, the state can be divided into two cases: including the current value or not - just like the 0/1 Knapsack Problem.
+
+Problem Link: http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/.
+Github Link: 
+*/
+int count(vector<int> &coins, int amount) {
+    if (coins.empty() || amount < 0) return 0;
+    int n = coins.size();
+    vector<vector<int>> dp(amount+1, vector<int>(n, 0));
+    for (int i = 0; i < n; i++) dp[0][i] = 0;
+    
+    for (int i = 1; i <= amount; i++) {
+        for (int j = 0; j < n; j++) {
+            // count the solution including s[j]
+            int x = i >= s[j] ? dp[i-s[j]][j] : 0;
+            
+            // count the solution excluding s[j]
+            int y = j >= 1 ? dp[i][j-1] : 0;
+            
+            dp[i][j]= x+ y;
+        }
+    }
+    
+    return dp[amount][n-1];
+}
