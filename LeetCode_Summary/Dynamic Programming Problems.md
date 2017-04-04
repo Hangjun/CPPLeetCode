@@ -1,5 +1,18 @@
 # Dynamic Programming Problem
 [toc]
+## Introduction
+Dynamic Programming is an algorithmic paradigm that solves a given complex problem by breaking it into subproblems and stores the results of subproblems to avoid computing the same results again. Following are the two main properties of a problem that suggest that the given problem can be solved using Dynamic programming.
+
+### Overlapping Subproblems:
+Like Divide and Conquer, Dynamic Programming combines solutions to sub-problems. Dynamic Programming is mainly used when solutions of same subproblems are needed again and again. In dynamic programming, computed solutions to subproblems are stored in a table so that these don’t have to recomputed. So Dynamic Programming is not useful when there are no common (overlapping) subproblems because there is no point storing the solutions if they are not needed again. For example, Binary Search doesn’t have common subproblems. If we take example of following recursive program for Fibonacci Numbers, there are many subproblems which are solved again and again.
+
+### Optimal Substructure: A given problems has Optimal Substructure Property if optimal solution of the given problem can be obtained by using optimal solutions of its subproblems.
+
+For example, the Shortest Path problem has following optimal substructure property:
+If a node x lies in the shortest path from a source node u to destination node v then the shortest path from u to v is combination of shortest path from u to x and shortest path from x to v. The standard All Pair Shortest Path algorithms like Floyd–Warshall and Bellman–Ford are typical examples of Dynamic Programming.
+
+The dimension of a DP problem usually depends on the number of free variables. 
+
 ## Bottom-Up
 ### String Matching Problems
 [72. Edit Distance](https://leetcode.com/problems/edit-distance/#/description)
@@ -41,8 +54,82 @@ public:
 };
 ```
 
+[115. Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/#/description) ([Github Solution](https://github.com/Hangjun/MyLeetCode/blob/master/115.%20Distinct%20Subsequences.cpp))
+```
+Given a string S and a string T, count the number of distinct subsequences of T in S.
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+Here is an example:
+S = "rabbbit", T = "rabbit"
+Return 3.
+```
 
-### Cut/Break Problems
+```c++
+/* Time: O(mn), Space: O(mn). 
+ * Standard rolling array trick brings the space complexity down to O(min(m, n)).
+ */
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        if (t.empty()) return 1;
+        if (s.size() < t.size()) return 0;
+        
+        int m = s.size(), n = t.size();
+        // dp[i][j] = number of subsequences of t[0:i-1] in s[0:j-1]
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+        for (int i = 0; i <= m; i++) dp[i][0] = 1;
+        for (int j = 1; j <= n; j++) dp[0][j] = 0;
+        
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = s[i-1] == t[j-1] ? (dp[i-1][j-1] + dp[i-1][j]) : dp[i-1][j];
+            }
+        }
+        
+        return dp[m][n];
+    }
+};
+```
+
+[97. Interleaving String](https://leetcode.com/problems/interleaving-string/#/description)
+```
+Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
+For example,
+Given:
+s1 = "aabcc",
+s2 = "dbbca",
+When s3 = "aadbbcbcac", return true.
+When s3 = "aadbbbaccc", return false.
+```
+
+```c++
+
+Time: O(mn), Space: O(mn).
+*/
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size();
+        if (s3.size() != m + n) return false;
+        // dp[i][j] = whether s3 is interleaving at (i+j-1)th element if s1 is at the ith, s2 is at the jth element, resp.
+        vector<vector<bool>> dp (m+1, vector<bool>(n+1, false)); 
+        
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+               if (i == 0 && j == 0) dp[i][j] = true;
+               else if (i == 0) dp[i][j] = dp[i][j-1] && s2[j-1] == s3[i+j-1];
+               else if (j == 0) dp[i][j] = dp[i-1][j] && s1[i-1] == s3[i+j-1];
+               else dp[i][j] = (dp[i-1][j] && s1[i-1] == s3[i+j-1]) || (dp[i][j-1] && s2[j-1] == s3[i+j-1]);
+            }
+        }
+        
+        return dp[m][n];
+    }
+};
+
+```
+
+
+### Cut/Break/Sliding Window Problems
 For problems in which we need to make cuts of a range, and find the optimal cuts, it is often a 2D DP problem dp[k][i]: = optimal solution that cuts [0, ..., i] into k parts. The state transfer function is often computed by moving a j pointer from i to the left.
 
 [139. Word Break](https://leetcode.com/problems/word-break/#/description) ([Github Solution](https://github.com/Hangjun/MyLeetCode/blob/master/139_Word_Break.cpp))
@@ -127,6 +214,44 @@ public:
 };
 ```
 
+[312. Burst Balloons](https://leetcode.com/problems/burst-balloons/#/description) ([Github Solution](https://github.com/Hangjun/MyLeetCode/blob/master/312.%20Burst%20Balloons.cpp))
+```
+Given n balloons, indexed from 0 to n-1. Each balloon is painted with a number on it represented by array nums. You are asked to burst all the balloons. If the you burst balloon i you will get nums[left] * nums[i] * nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then becomes adjacent.
+Find the maximum coins you can collect by bursting the balloons wisely.
+Note: 
+(1) You may imagine nums[-1] = nums[n] = 1. They are not real therefore you can not burst them.
+(2) 0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100
+Example:
+Given [3, 1, 5, 8]
+Return 167
+nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
+coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
+```
+
+```c++
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        int n = nums.size();
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
+        vector<vector<int>> dp(n+2, vector<int>(n+2, 0));  // dp[i][j] = max coins generated from interval [i, j] inclusive
+        
+        for (int len = 1; len <= n; len++) { // all possible sliding window length
+            for (int left = 1; left <= n-len+1; left++) {
+                int right = left+len-1;
+                // index of last balloon to burst
+                for (int k = left; k <= right; k++) {
+                    dp[left][right] = max(dp[left][right], nums[left-1]*nums[k]*nums[right+1] + dp[left][k-1] + dp[k+1][right]);
+                }
+            }
+        }
+        
+        return dp[1][n];
+    }
+};
+```
+
 ### Knapsack Problems
 [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/#/description)
 ```
@@ -171,6 +296,54 @@ public:
     }
 };
 ```
+
+### Local/Global Problems
+Usually for this type of DP problem, local stores the current state that ends at the current index, global stores the optimal state that's up to and including the current index.
+
+[188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/#/description)
+```
+Say you have an array for which the ith element is the price of a given stock on day i.
+Design an algorithm to find the maximum profit. You may complete at most k transactions.
+Note:
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+```
+
+```c++
+// Local-Global DP with standard rolling array trick. Time: O(nk), Space: O(k).
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if (prices.empty()) return 0;
+        if (k >= prices.size()) return maxProfit(prices); // can make transaction every day - reduces to part II of this series
+        int n = prices.size();
+        // local[i][j] = max profit with at most j transactions and the ith day a sell
+        vector<vector<int>> local(2, vector<int>(k+1, 0));
+        // global[i][j] = max profit with at most j transactions from 0th day to ith day
+        vector<vector<int>> global(2, vector<int>(k+1, 0));
+        
+        for (int i = 1; i < n; i++) {
+            int delta = prices[i] - prices[i-1];
+            for (int j = 1; j <= k; j++) {
+                local[i%2][j] = max(global[(i-1)%2][j-1] + max(delta, 0), local[(i-1)%2][j] + delta);
+                global[i%2][j] = max(local[i%2][j], global[(i-1)%2][j]);
+            }
+        }
+        
+        return global[(n-1)%2][k];
+    }
+    
+    int maxProfit(vector<int> &prices) {
+        int res = 0;
+        for (int i = 1; i < prices.size(); i++) {
+            int delta = prices[i] - prices[i-1];
+            if (delta > 0) res += delta;
+        }
+        
+        return res;
+    }
+};
+```
+
 
 ## Top-Down: Memorization (Combination of DFS/BFS)
 We can also compute DP values from the top-down. This is called **memorization**. We recursively solve problems of smaller size and store all the intermediate computations.
@@ -285,6 +458,10 @@ public:
 ```
 The ski problem has many variants.
 
+
+Here is a general template for problems with DFS/BFS + DP memorization:
+
+
 ## Space Complexity Optimization
 Suppose we are looking at a 2d DP problem. If the state $dp[i][j]$ only depends on a subset of $dp[i-1][j]$, $dp[i][j-1]$ and $dp[i-1][j-1]$, we can optimize the space complexity in two successive procedures. 
 
@@ -369,13 +546,64 @@ public:
 };
 ```
 
+Let look at another example:
+[97. Interleaving String](https://leetcode.com/problems/interleaving-string/#/description): Previously we have solved in with space O(mn). We can use the method of rolling arrays to reduce the space complexity to O(min(m,n)). 2 Rows.
+
+```c++
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size();
+        if (s3.size() != m + n) return false;
+        // dp[i][j] = whether s3 is interleaving at (i+j-1)th element if s1 is at the ith, s2 is at the jth element, resp.
+        vector<vector<bool>> dp (2, vector<bool>(n+1, false)); 
+        
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+               if (i == 0 && j == 0) dp[i%2][j] = true;
+               else if (i == 0) dp[i%2][j] = dp[i%2][j-1] && s2[j-1] == s3[i+j-1];
+               else if (j == 0) dp[i%2][j] = dp[(i-1)%2][j] && s1[i-1] == s3[i+j-1];
+               else dp[i%2][j] = (dp[(i-1)%2][j] && s1[i-1] == s3[i+j-1]) || (dp[i%2][j-1] && s2[j-1] == s3[i+j-1]);
+            }
+        }
+        
+        return dp[m%2][n];
+    }
+};
+```
+
+We can further reduce the space complexity to only one row. 
+
+```c++
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size();
+        if (s3.size() != m + n) return false;
+        // dp[i][j] = whether s3 is interleaving at (i+j-1)th element if s1 is at the ith, s2 is at the jth element, resp.
+        vector<bool> dp(n+1, false);
+        dp[0] = true;
+        for (int j = 1; j <= n; j++) dp[j] = dp[j-1] && s2[j-1] == s3[j-1];
+        
+        for (int i = 1; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+               if (j == 0) dp[j] = dp[j] && s1[i-1] == s3[i+j-1];
+               else dp[j] = (dp[j] && s1[i-1] == s3[i+j-1]) || (dp[j-1] && s2[j-1] == s3[i+j-1]);
+            }
+        }
+        
+        return dp[n];
+    }
+};
+```
+
 Here is a general template for this type DP problem with the above space optimizations:
 
 ```c++
 // DP: Space Optimization Template. Time: O(mn), Space: O(min(m, n)). One Row.
 int m = rows, n = cols;
 vector<int> dp(n, initialValue);
-for (int j = 0; j < n; j++) dp[0][j] = InitialValue; // initialize first row
+for (int j = 0; j < n; j++) dp[j] = InitialValue; // initialize first row
 
 for (int i = 1; i < m; i++) {
     for (int j = 0; j < n; j++) {
@@ -521,4 +749,67 @@ public:
 };
 ```
 
+[279. Perfect Squares](https://leetcode.com/problems/perfect-squares/#/description)
+```
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+```
+
+```c++
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> dp(n+1, 0);
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = i; // sum of i 1's
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = min(dp[i], 1 + dp[i - j * j]);
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+A problem essentially the same we the above is given in the following. The key takeaway is that, whenever we want to find the **minimum** number of summands to construct a target sum, we use this non-continuous state transition function:
+
+\begin{equation}
+dp[i] = \min(dp[i], dp[i-j] + 1), \forall\, j <= i.
+\end{equation}
+
+[322. Coin Change](https://leetcode.com/problems/coin-change/#/description) ([Github Solution](https://github.com/Hangjun/MyLeetCode/blob/master/322.%20Coin%20Change.cpp))
+```
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+Example 1:
+coins = [1, 2, 5], amount = 11
+return 3 (11 = 5 + 5 + 1)
+Example 2:
+coins = [2], amount = 3
+return -1.
+Note:
+You may assume that you have an infinite number of each kind of coin.
+```
+
+_Analysis_: This is obviously a DP problem. The subproblems are also easy to construct: if we can know the minimum number of coins need to sum up to a value less than the target amount, then we can compute the minimum number of coins need to sum up to target amount. This actually also defines the states as well as the state transition functions.
+This problem is essentially the same as problem 279. Perfect Squares (https://leetcode.com/problems/perfect-squares/#/description). Whenever it comes to finding the minimum number of summands.
+Time: $O(n*amount)$, Space: $O(amount)$. We cannot optimize the space complexity as the state transition function is not continuous.
+
+```c++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if (coins.empty() || amount < 0) return -1;
+        int n = coins.size();
+        vector<int> dp(amount+1, amount+1); // dp[i] = min # of coins needed to sum up to value i
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i >= coins[j]) dp[i] = min(dp[i], dp[i-coins[j]]+1);
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
+```
 
