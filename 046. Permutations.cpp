@@ -31,7 +31,7 @@ public:
             return;
         }
         for (int i = 0; i < nums.size(); i++) {
-            if (canUse[i] == true) {
+            if (canUse[i]) {
                 canUse[i] = false;
                 curSoln.push_back(nums[i]);
                 permuteDFS(nums, start+1, canUse, curSoln, res);
