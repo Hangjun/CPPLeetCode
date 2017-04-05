@@ -91,3 +91,7 @@ public:
     }
     
 };
+
+/*
+Remark: There are a couple different next table constructions with the same idea but different implementations. We will stick to this implementation for all the LPS problems.
+*/
