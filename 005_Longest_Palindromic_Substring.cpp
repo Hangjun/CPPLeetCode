@@ -9,30 +9,31 @@ Challenge
 O(n2) time is acceptable. Can you do it in O(n) time.
 */
 
-/* Dynamic Programming Solution: O(n^2) Time, O(n^2) Space: Time Limit Exceeded by LeetCode OJ */
+/* 
+DP Solution. Time: O(n^2), Space: O(n^2).
+*/
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int len = s.size();
-        if (len <= 1)  return s;
-        // dp[i][j]: whether s[i,...,j] is palindrome
-        vector<vector<bool>> dp(len, vector<bool>(len, false));
-        int maxLen = 1;
+        if (s.size() <= 1) return s;
+        int n = s.size();
+        int maxLen = 0;
         int start = 0;
-        for (int i = len-1; i >= 0; i--) {
-            for (int j = i; j < len; j++) {
-                if ((j-i<=2 || dp[i+1][j-1] == true) && s[i] == s[j]) {
-                    dp[i][j] = true;
-                    if (j-i+1 > maxLen) {
-                        maxLen = j-i+1;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        
+        // This is the joseki for computing whether any substring s[i...j] is palindromic. Memorize it!
+        for (int i = n-1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+                if ((j - i < 2 || dp[i+1][j-1]) && s[i] == s[j]) {
+                    dp[i][j] = true; // this also includes the initial state of dp[i][i] being true, for all i
+                    if (j - i + 1 > maxLen) {
+                        maxLen = j - i + 1;
                         start = i;
                     }
                 }
             }
         }
-        // now the maxLen palindrome substring starts at i
+        
         return s.substr(start, maxLen);
     }
 };
-
-Note: O(n) Time solution to be updated. 
