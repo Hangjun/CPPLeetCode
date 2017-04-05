@@ -16,6 +16,7 @@ Follow up:
     In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches the border of the array. How would you address these problems?
 */
 
+// Time: O(mn), Space: O(1). In place, 2 passes.
 class Solution {
 public:
     void gameOfLife(vector<vector<int>>& board) {
@@ -74,3 +75,69 @@ public:
         }
     }
 };
+
+// Or more compactly:
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        if (board.empty() || board[0].empty()) return;
+        int m = board.size(), n = board[0].size();
+        
+        // encode
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int lives = 0;
+                for (int x = max(0, i-1); x <= min(i+1, m-1); x++) {
+                    for (int y = max(0, j-1); y <= min(j+1, n-1); y++) {
+                        if (x == i && y == j) continue;
+                        lives += (board[x][y] == 1 || board[x][y] == 2) ? 1: 0; // current state of (x, y) is live
+                    }
+                }
+                if (board[i][j] == 1 && (lives < 2 || lives > 3)) board[i][j] = 2;
+                else if (board[i][j] == 0 && lives == 3) board[i][j] = 3;
+            }
+        }
+        
+        // decode
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] %= 2;
+            }
+        }
+    }
+};
+
+/*
+One typical follow up is that, suppose the board can loop around at boundary points, how does that changes the solution. The answer is, not really. We can simply use the mod trick to lopp neighbors back.
+*/
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        if (board.empty() || board[0].empty()) return;
+        int m = board.size(), n = board[0].size();
+        
+        // encode
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int lives = 0;
+                for (int x = i+m-1; x <= i+m+1; x++) {
+                    for (int y = y+n-1; y <= j+n+1; y++) {
+                        if (x == i && y == j) continue;
+                        lives += (board[x%m][y%n] == 1 || board[x%m][y%n] == 2) ? 1: 0; // current state of (x, y) is live
+                    }
+                }
+                if (board[i][j] == 1 && (lives < 2 || lives > 3)) board[i][j] = 2;
+                else if (board[i][j] == 0 && lives == 3) board[i][j] = 3;
+            }
+        }
+        
+        // decode
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] %= 2;
+            }
+        }
+    }
+};
+
+// This is a nice trick to remember.
