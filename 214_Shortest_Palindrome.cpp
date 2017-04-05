@@ -54,48 +54,40 @@ public:
 };
 
 /* Analysis:
-Can we find the LPS prefix faster than O(n2) time? The idea is to use KMP algorithm. This is what we do: we reverse a copy of the input 
-string, and concatenate it at the end of the original string. Then we search in the combined string the longest prefix that is also a 
-suffix. This substring is then a LPS prefix in the original string. To compute this substring, we use KMP algorithm and compute the next 
-table.
+Can we find the LPS prefix faster than O(n2) time? The idea is to use KMP algorithm. This is what we do: we reverse a copy of the input string, and concatenate it at the end of the original string. Then we search in the combined string the longest prefix that is also a suffix. This substring is then a LPS prefix in the original string. To compute this substring, we use KMP algorithm and compute the next table.
+
+The next table is the most important data structure for all the palindromic substring problems.
+
 For references see: https://github.com/HaochenLiu/My-LeetCode/blob/master/214-1. cpp.
-*/
 
-/* Solution #2:
-Time: O(n)
-Space: O(1)
+KMP next table: Time: O(n), Space: O(1).
 */
-
 class Solution {
 public:
     string shortestPalindrome(string s) {
+        if (s.size() <= 1) return s;
         int n = s.size();
-        if (n <= 1)  return s;
-        string combineReverse = preProcessing(s);
-        int lpsLen = preFixLPS(combineReverse)+1;
-        if (lpsLen == s.size()) // s is palindromic
-            return s;
-        string prefix = s.substr(lpsLen, n-lpsLen);
-        reverse(prefix.begin(), prefix.end());
-        return prefix + s;
-    }
-    
-    string preProcessing(string s) {
-        // s+#+reverse(s)
-        string t = s.substr(0, s.size());
+        string t = s;
         reverse(t.begin(), t.end());
-        return s+"#"+t;
+        int palPrefixLength = prefixLPS(s + "#" + t);
+        if (palPrefixLength == n) return s;
+        string suffix = s.substr(palPrefixLength, n-palPrefixLength);
+        reverse(suffix.begin(), suffix.end());
+        return suffix + s;
     }
     
-    int preFixLPS(string s) {
+    // Just memorize the next table construction. If you can memorize it, that means you already understand it.
+    int prefixLPS(string s) {
         int n = s.size();
-        vector<int>next(n, -1);
+        vector<int> next(n, -1);
         int j = -1;
+        
         for (int i = 1; i < n; i++) {
-            while (j >= 0 && s[i] != s[j+1]) {j = next[j];}
-            if (s[i] == s[j+1]) {j++;}
-            next[i] = j;
+            while (j >= 0 && s[i] != s[j+1]) j = next[j];
+            if (s[i] == s[j+1]) next[i] = ++j;
         }
-        return next[n-1];
+        
+        return next[n-1] + 1;
     }
+    
 };
