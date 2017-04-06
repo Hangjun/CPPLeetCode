@@ -41,7 +41,7 @@ public:
 };
 
 /* Solution #2:
-We can optimize the space utilization to O(1). Here is the key idea: suppose we let cut[i] to be the minimum number of cuts for the first 
+We can optimize the space utilization to O(n). Here is the key idea: suppose we let cut[i] to be the minimum number of cuts for the first 
 i characters, i.e. the substring s[0,...,i-1]. Suppose that we are now at s[i], which is b. Its neighboring charac- ters are s[0], 
 s[0], ..., a, b, a, s[i+2],.... Since s[i-1, i, i+2] is palindromic, cut[i+2] (min cuts for s[0,...,i+1]) is no greater than cut[i-1] + 1. 
 This makes use of the symmetric property of palindromic strings. The case with even number of characters can be handled in a similar 
@@ -51,7 +51,7 @@ fashion.
 class Solution {
 public:
     int minCut(string s) {
-        /* O(n^{2}) Time, O(1) Space */
+        /* O(n^{2}) Time, O(n) Space */
         int n = s.size();
         if (n <= 1)  return 0;
         // cut[i] = min # cut for s[0,...,i-1]
