@@ -7,7 +7,7 @@ For example, given s = "aab",
 Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut. 
 */
 
-// Solution #1
+// Solution #1: The is obviously a DP problem. In particular, this is a DP cut problem. 
 class Solution {
 public:
     int minCut(string s) {
