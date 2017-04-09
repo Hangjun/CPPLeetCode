@@ -80,3 +80,7 @@ private:
         return x >= 0 && x < maze.size() && y >= 0 && y < maze[0].size();
     }
 };
+
+/*
+Remark: This is essentially a graph problem where we traverse from one node u to another node v. A follow up question is to compute the minimum path from u to v.
+*/
