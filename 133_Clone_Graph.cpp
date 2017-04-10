@@ -36,11 +36,10 @@ class Solution {
 public:
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
         if (!node) return NULL;
-        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> ht; // old node -> cloned node
+        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> ht;
         ht[node] = new UndirectedGraphNode(node->label);
         queue<UndirectedGraphNode *> q;
         q.push(node);
-        
         /*
          * Loop invariant: at the beginning of each loop, the front node's been cloned already, but its neighboring nodes
          * might not.
@@ -48,15 +47,15 @@ public:
         while (!q.empty()) {
             UndirectedGraphNode *curNode = q.front();
             q.pop();
-            vector<UndirectedGraphNode *> neighborNodes = curNode->neighbors;
-            for(auto n : neighborNodes) {
+            for (UndirectedGraphNode *n : curNode->neighbors) {
                 if (ht.find(n) == ht.end()) {
                     ht[n] = new UndirectedGraphNode(n->label);
                     q.push(n);
-                } 
+                }
                 ht[curNode]->neighbors.push_back(ht[n]);
             }
         }
+        
         return ht[node];
     }
 };
