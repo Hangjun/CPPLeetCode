@@ -1,5 +1,7 @@
 # Palindrome Substring Problems
 
+The key to solving palindrome substring problems is to make use of the **symmetry**.
+
 [5. Longest Palindromic Substring Add to List
 ](https://leetcode.com/problems/longest-palindromic-substring/#/description)
 
@@ -211,6 +213,212 @@ public:
         }
     }
     
+};
+```
+
+[131. Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/#/description)
+```
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return all possible palindrome partitioning of s.
+For example, given s = "aab",
+Return
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+```
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        if (s.empty()) return res;
+        vector<string> localSoln;
+        int n = s.size();
+        
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for (int i = n-1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+                dp[i][j] = (j - i < 2 || dp[i+1][j-1]) && s[i] == s[j];
+            }
+        }
+        
+        dfs(s, 0, localSoln, res, dp);
+        return res;
+    }
+    
+    // dfs invariant: the substring before start is palindromic
+    void dfs(string &s, int start, vector<string> &localSoln, vector<vector<string>> &res, vector<vector<bool>> &dp) {
+        if (start == s.size()) {
+            res.push_back(localSoln);
+            return;
+        }
+        
+        for (int i = start; i < s.size(); i++) {
+            if (!dp[start][i]) continue;
+            localSoln.push_back(s.substr(start, i-start+1));
+            dfs(s, i+1, localSoln, res, dp);
+            localSoln.pop_back();
+        }
+    }
+};
+```
+
+[132. Palindrome Partitioning II](https://leetcode.com/problems/palindrome-partitioning-ii/#/description)
+```
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return the minimum cuts needed for a palindrome partitioning of s.
+For example, given s = "aab",
+Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+```
+
+```c++
+// Solution #1: The is obviously a DP problem. In particular, this is a DP cut problem. 
+class Solution {
+public:
+    int minCut(string s) {
+        int n = s.size();
+        if (n <= 1)  return 0;
+        vector<vector<bool>> isPal(n, vector<bool>(n, false));
+        isPalindrome(s, isPal);
+        // dp[i] = min cut for the prefix s[0,...,i-1]
+        vector<int> dp(n+1, INT_MAX);
+        dp[0] = -1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = i-1; j>=0; j--) {
+                if (isPal[j][i-1]) {
+                    // min cuts in s[0,...,j-1] plus the one cut s[j,...,i-1]
+                    dp[i] = min(dp[i], dp[j]+1);
+                }
+            }
+        }
+        return dp[n];
+    }
+    
+    void isPalindrome(string s, vector<vector<bool>> &dp) {
+        int len = s.size();
+        for (int i = len-1; i >= 0; i--) {
+            for (int j = i; j < len; j++) {
+                if ((j-i <= 2 || dp[i+1][j-1]) && s[i] == s[j])
+                    dp[i][j] = true;
+            }
+        }
+    }
+};
+```
+
+We can optimize the space utilization to $O(n)$. Here is the key idea: suppose we let $cut[i]$ to be the minimum number of cuts for the first i characters, i.e. the substring s[0,...,i-1]. Suppose that we are now at s[i], which is b. Its neighboring characters are s[0], s[0], ..., a, b, a, s[i+2],.... Since s[i-1, i, i+2] is palindromic, $cut[i+2]$ (min cuts for s[0,...,i+1]) is no greater than $cut[i-1] + 1$. 
+
+This makes use of the symmetric property of palindromic strings. The case with even number of characters can be handled in a similar fashion.
+
+```c++
+// Time: O(n^2), Space: O(n)
+class Solution {
+public:
+    int minCut(string s) {
+        /* O(n^{2}) Time, O(n) Space */
+        int n = s.size();
+        if (n <= 1)  return 0;
+        // cut[i] = min # cut for s[0,...,i-1]
+        vector<int> cut(n+1, 0);
+        // initialize cut
+        for (int i = 0; i <= n; i++)
+            cut[i] = i-1;
+        for (int i = 0; i < n; i++) {
+            // odd palindromic substring centered at i
+            for (int j = 0; j <= i && i+j < n && s[i+j] == s[i-j]; j++)
+                cut[i+j+1] = min(cut[i+j+1], 1+cut[i-j]);
+            // even palindromic substring centered at i&&i+1
+            for (int j = 1; j <= i+1 && i+j < n && s[i-j+1] == s[i+j]; j++)
+                // s[i-(j-1),...,i-1] == s[j+1,...,i+j]
+                cut[i+j+1] = min(cut[i+j+1], 1+cut[i-j+1]);
+        }
+        return cut[n];
+    }
+};
+```
+
+[266. Palindrome Permutation](https://leetcode.com/problems/palindrome-permutation/#/description)
+```
+Given a string, determine if a permutation of the string could form a palindrome.
+For example,
+"code" -> False, "aab" -> True, "carerac" -> True.
+Hint:
+1. Consider the palindromes of odd vs even length. What difference do you notice?
+2. Count the frequency of each character.
+If each character occurs even number of times, then it must be a palindrome. How about character which occurs odd number of times?
+```
+
+```c++
+class Solution {
+public:
+    bool canPermutePalindrome(string s) {
+        bitset<256> ht;
+        for (char c : s) ht.flip(c);
+        return ht.count() < 2;
+    }
+};
+```
+
+[267. Palindrome Permutation II](https://leetcode.com/problems/palindrome-permutation-ii/#/description)
+```
+Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.
+For example:
+Given s = "aabb", return ["abba", "baab"].
+Given s = "abc", return [].
+Hint:
+1. If a palindromic permutation exists, we just need to generate the first half of the string.
+2. To generate all distinct permutations of a (half of) string, use a similar approach from: Permutations II or Next Permutation.
+```
+
+```c++
+class Solution {
+public:
+    vector<string> generatePalindromes(string s) {
+        vector<string> res;
+        unordered_map<char, int> ht;
+        for (char c : s) ht[c]++;
+        
+        int odd = 0; char mid; string firstHalf;
+        for (auto p : ht) {
+            if (p.second % 2) {
+                mid = p.first;
+                if (++odd > 1) return res;
+            }
+            firstHalf += string(p.second / 2, p.first);
+        }
+        
+        // generate all permutations of the first half
+        string localSoln = "";
+        vector<bool> canUse(firstHalf.size(), true);
+        permuteDFS(firstHalf, canUse, localSoln, res);
+        
+        for (string &str : res) {
+            string t(str);
+            reverse(t.begin(), t.end());
+            if (odd) t = mid + t;
+            str += t;
+        }
+        
+        return res;
+    }
+    
+    void permuteDFS(string &firstHalf, vector<bool> &canUse, string &localSoln, vector<string> &res) {
+        if (localSoln.size() == firstHalf.size()) {
+            res.push_back(localSoln);
+            return;
+        }
+        
+        for (int i = 0; i < firstHalf.size(); i++) {
+            if ((i > 0 && firstHalf[i] == firstHalf[i-1]) && canUse[i-1] || !canUse[i]) continue;
+            canUse[i] = false;
+            localSoln.push_back(firstHalf[i]);
+            permuteDFS(firstHalf, canUse, localSoln, res);
+            localSoln.pop_back();
+            canUse[i] = true;
+        }
+    }
 };
 ```
 
