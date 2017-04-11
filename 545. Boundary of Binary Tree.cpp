@@ -43,3 +43,52 @@ The right boundary are node 1,3,6,10. (10 is the right-most node).
 So order them in anti-clockwise without duplicate nodes we have [1,2,4,7,8,9,10,6,3].
 */
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> res;
+    
+    vector<int> boundaryOfBinaryTree(TreeNode* root) {
+        if (!root) return res;
+        res.push_back(root->val);
+        
+        leftBoundary(root->left);
+        findLeaves(root->left);
+        findLeaves(root->right);
+        rightBoundary(root->right);
+        
+        return res;
+    }
+    
+    void leftBoundary(TreeNode *curNode) {
+        if (!curNode || (!curNode->left && !curNode->right)) return;
+        res.push_back(curNode->val); // add before visiting child nodes
+        if (!curNode->left) leftBoundary(curNode->right);
+        else leftBoundary(curNode->left);
+    }
+    
+    void rightBoundary(TreeNode *curNode) {
+        if (!curNode || (!curNode->left && !curNode->right)) return;
+        if (!curNode->right) rightBoundary(curNode->left);
+        else rightBoundary(curNode->right);
+        res.push_back(curNode->val); // add after having visited all the child nodes
+    }
+    
+    void findLeaves(TreeNode *curNode) {
+        if (!curNode) return;
+        if (!curNode->left && !curNode->right) {
+            res.push_back(curNode->val);
+            return;
+        }
+        findLeaves(curNode->left);
+        findLeaves(curNode->right);
+    }
+};
