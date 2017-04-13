@@ -1,4 +1,5 @@
 # Palindrome Substring Problems
+[toc]
 
 The key to solving palindrome substring problems is to make use of the **symmetry**.
 
