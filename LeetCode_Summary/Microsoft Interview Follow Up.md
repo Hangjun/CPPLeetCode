@@ -3,22 +3,22 @@
 Given N currencies and a matrix M such that M[i][j] represents that currency i can be used to buy M[i][j] units of currency j. Given a particular currency, determine whether there is an optimal way to utilize the arbitrage that might exists in a chain of currency exchanges.
 ```
 
-_**Solution**_: Note that it suffices to find a cycle ${c_{1}, c_{2}, \cdots, c_{k}}$ such that 
+_**Solution**_: Note that it suffices to find a cycle of currencies ${c_{1}, c_{2}, \cdots, c_{k}}$ such that 
 \begin{equation}
 M[c_{1}][c_{2}] \cdot M[c_{2}][c_{3}] \cdots M[c_{k}][c_{1}] > 1.
 \end{equation}
 
 Let $G: = \{V, E\}$ be a directed weighted graph with vertices the N currencies and edges $(i, j)$ if we can exchange $i$ for $j$. In this case we are assuming we can go from any currency to any other, thus $|E| = 
-\binom {N} {2}$. Intuitively, we want to transform the problem of finding a sequence satisfying the above equation to the problem of find a **directed (negative) cycle** in $G$. Therefore we need to define weights in a way that is additive instead of multiplicative as in Equation (1).
+\binom {N} {2}$. Intuitively, we want to transform the problem of finding a currency sequence satisfying the above equation to the problem of finding a **directed (negative) cycle** in $G$. Therefore we need to define weights in a way that is additive instead of multiplicative as in Equation (1).
 
 Set $w[i][j]: = -\log M[i][j]$ for vertices $i$ and $j$. Then Equation (1) is equivalent to 
 \begin{equation}
 w[c_{1}][c_{2}] + w[c_{2}][c_{3}] + \cdots + w[c_{k}][c_{1}] < 0.
 \end{equation}
 
-The problem is now to find a directed negative cycle in $G = \{V, E, w\}$, in which $w$ is the weight function defined above.
+The problem is now to find a directed negative cycle in $G = \{V, E, w\}$, in which $w$ is the weight function defined above. 
 
-The Bellman–Ford algorithm is perfect for this problem as it can compute single source shortest paths as well as detecting negative cycles. For the purpose of this problem we manually add a source node $c_{0}$ that has an edge to all other vertices in the graph with weights identically $0$. We then run Bellman–Ford with $c_{0}$ as the source node.
+The **Bellman–Ford** algorithm is perfect for this problem as it can compute single source shortest paths as well as detecting negative cycles. For the purpose of this problem we manually add a source node $c_{0}$ that has an edge to all other vertices in the graph with weights identically $0$. We then run Bellman–Ford with $c_{0}$ as the source node.
 
 There are many standard implementations of the Bellman–Ford algorithm (see http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/ for example). 
 
