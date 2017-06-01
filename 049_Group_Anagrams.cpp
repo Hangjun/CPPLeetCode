@@ -10,29 +10,32 @@ Return:
   ["bat"]
 ]
 
-Note:
-
-    For the return value, each inner list's elements must follow the lexicographic order.
-    All inputs will be in lower-case.
+Note: For the return value, each inner list's elements must follow the lexicographic order. All inputs will be in lower-case.
 */
 
+/*
+Analysis: We build a hash tables for anagrams with keys their character histograms.
+
+Time: O(mn), where m = |strs|, and n = average length of strings. Space: O(mn).
+*/
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>> res;
-        if (strs.empty())  return res;
-        map<vector<int>, vector<string>> ht;
-        for (int i = 0; i < strs.size(); i++) {
-            vector<int> count(26, 0);
-            string s = strs[i];
-            for (int j = 0; j < s.size(); j++)
-                ++count[s[j]-'a'];
-            ht[count].push_back(s);
+        if (strs.empty()) return res;
+        
+        map<vector<int>, vector<string>> ht; // histogram -> strings with that histogram
+        for (string s : strs) {
+            vector<int> hist(256, 0);
+            for (char c : s) ++hist[c-'a'];
+            ht[hist].push_back(s);
         }
-        for (auto n:ht) {
-            sort(n.second.begin(), n.second.end());
-            res.push_back(n.second);
+        
+        for (auto p : ht) {
+            sort(p.second.begin(), p.second.end());
+            res.push_back(p.second);
         }
+        
         return res;
     }
 };
