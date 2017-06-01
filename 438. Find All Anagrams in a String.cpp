@@ -57,3 +57,34 @@ public:
         return res;
     }
 };
+
+/*
+Remark: There are a lot of duplicated computation in the above solution. An natural way to improve the time complexity of such problems is via a sliding window. Refer to Problem 76. Minimum Window Substring (https://leetcode.com/problems/minimum-window-substring/#/description). This way we only need to keep one histogram of size k to match with p's histogram.
+
+Time: O(n), Space: O(k).
+*/
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> res;
+        int n = s.size(), k = p.size();
+        if (n < k) return res;
+        
+        vector<int> base(256, 0);
+        vector<int> match(256, 0);
+        for (int i = 0; i < k; i++) {
+            ++base[p[i] - 'a'];
+            ++match[s[i] - 'a'];
+        }
+        if (match == base) res.push_back(0);
+        
+        // window [i-k, i-1]
+        for (int i = k; i < n; i++) {
+            ++match[s[i] - 'a'];
+            --match[s[i-k] - 'a'];
+            if (match == base) res.push_back(i-k+1);
+        }
+        
+        return res;
+    }
+};
