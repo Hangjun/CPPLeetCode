@@ -19,3 +19,46 @@ There will only be '(', ')', '-' and '0' ~ '9' in the input string.
 An empty tree is represented by "" instead of "()".
 */
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* str2tree(string s) {
+       int i = 0;
+       return s.empty() ? NULL : build(s, i);
+    }
+
+private:
+    TreeNode* build(string& s, int& i) {
+        int start = i;
+        bool neg = false;
+        if (s[i] == '-') {
+            neg = true;
+            i++;
+        }
+        int label = 0;
+        while (isdigit(s[i])) {
+            label = label * 10 + (s[i] - '0');
+            i++;
+        }
+        if (neg) label = -label;
+        TreeNode *curNode = new TreeNode(label);
+        if (s[i] == '(') {
+            curNode->left = build(s, ++i);
+            i++; // move pass the corresponding ')'
+        }
+        if (s[i] == '(') { // meet '(' the second time
+            curNode->right = build(s, ++i);
+            i++;
+        }
+        
+        return curNode;
+    }
+};
