@@ -78,7 +78,7 @@ public:
         }
         if (match == base) res.push_back(0);
         
-        // window [i-k, i-1]
+        // window [i-k+1, i]
         for (int i = k; i < n; i++) {
             ++match[s[i] - 'a'];
             --match[s[i-k] - 'a'];
