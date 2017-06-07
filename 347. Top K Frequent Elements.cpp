@@ -21,9 +21,10 @@ public:
         
         for (auto p : ht) bucket[p.second].push_back(p.first);
         
-        for (int i = bucket.size()-1; i > 0 && res.size() < k; i--) {
-            if (!bucket[i].empty()) {
-                for (int n : bucket[i]) res.push_back(n);
+        for (int i = bucket.size()-1; i > 0; i--) {
+            // if (bucket[i].empty()) continue;
+            for (int j = 0; j < bucket[i].size() && res.size() < k; j++) {
+                res.push_back(bucket[i][j]);
             }
         }
         
