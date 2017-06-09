@@ -5,7 +5,7 @@ Input is guaranteed to be within the range from 1 to 3999.
 */
 
 // reference: http://bangbingsyb.blogspot.com/2014/11/leetcode-integer-to-roman.html
-
+/*
 I: 1
 V: 5
 X: 10
@@ -13,6 +13,7 @@ L: 50
 C: 100
 D: 500
 M: 1000
+*/
 
 class Solution {
 public:
@@ -33,11 +34,13 @@ public:
     }
 };
 
+/*
+Remark: Here is another way of handling the subtractive notation: instead of viewing IX as 10 - 1, we can view it additively as 
+1 + (10 - 2 *1). Therefore we can simply push all the roman numeral bases into a hash table with keys their corresponding 
+values. We then scan the input string, and if we find such an increasing consecutively characters, we do the subtraction:
+*/
 
-Here is another way of handling the subtractive notation: instead of viewing \verb+IX+ as $10 - 1$, we can view it additively as 
-$1 + (10 - 2 *1)$. Therefore we can simply push all the roman numeral bases into a hash table with keys their corresponding 
-values. We then scan the input string, and if we find such an \emph{increasing} consecutively characters, we do the subtraction:
-
+// Time: O(n), Space: O(1).
 class Solution {
 public:
     int romanToInt(string s) {
