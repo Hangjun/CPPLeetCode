@@ -25,7 +25,9 @@ public:
             if (num >= val[i]) {
                 int count = num / val[i];
                 num %= val[i];
-                res.append(count, dict[i]);
+                for (int j = 0; j < count; j++) {
+                    res.append(dict[i]);
+                }
             }
         }
         return res;
