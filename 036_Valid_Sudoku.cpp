@@ -59,3 +59,24 @@ private:
         return (++count[c - '1'] <= 1);
     }
 };
+
+// Here is a more compact solution:
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for (int i = 0; i < board.size(); i++) {
+            unordered_set<char> rows, cols, cubes;
+            for (int j = 0; j < board[0].size(); j++) {
+                if (board[i][j] != '.' && rows.count(board[i][j])) return false;
+                if (board[j][i] != '.' && cols.count(board[j][i])) return false;
+                int rowIndex = 3*(i/3), colIndex = 3*(i%3);
+                if (board[rowIndex + j/3][colIndex + j%3] != '.' && cubes.count(board[rowIndex + j/3][colIndex + j%3])) return false;
+                rows.insert(board[i][j]);
+                cols.insert(board[j][i]);
+                cubes.insert(board[rowIndex + j/3][colIndex + j%3]);
+            }
+        }
+        
+        return true;
+    }
+};
