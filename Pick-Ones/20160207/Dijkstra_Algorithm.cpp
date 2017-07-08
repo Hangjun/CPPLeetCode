@@ -47,7 +47,7 @@ void Graph::dijkstra(int s) {
         int u = minHeap.pop().first;
         explored.insert(u);
         for (int v = 0; v < V; v++) {
-            if (adj[u][v] != 0) {
+            if (adj[u][v] != 0 && !explored.count(v)) {
                 relax(u, v, adj, minHeap);
             }
         }
