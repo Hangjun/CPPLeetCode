@@ -88,7 +88,22 @@ public:
         }
         return curRow != lastRow;
     }
-    
+  
+    /* Removes from the underlying collection the last element returned 
+     * by this iterator (optional operation). This method can be called 
+     * only once per call to next(). The behavior of an iterator is unspecified 
+     * if the underlying collection is modified while the iteration is 
+     * in progress in any way other than by calling this method.
+     * So the remove() method actually removes the element returned from the next(). 
+     * Whether remove the inner vector or not depends on the specific situation.
+     */
+    int remove() {
+        int res = (*curRow)[--pos]; // remove() is called after next(), so pos will not be 0
+        curRow->erase(curRow->begin() + pos); // now pos automatically points to the next element
+        if (curRow->empty()) curRow++;
+        return res;
+    }
+  
 private:
     int pos = 0; // traversing the current element
     vector<vector<int>>::iterator curRow; // traversing the rows
