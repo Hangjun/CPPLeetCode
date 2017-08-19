@@ -28,4 +28,23 @@ To do so, we keep a track of the element with minimum value(min\_valmin_val) and
 For every new array, aa considered, we find the distance a[n-1]-min\_vala[n−1]−min_val and max\_val - a[0]max_val−a[0] to compete with the maximum distance found so far. Here, nn refers to the number of elements in the current array, aa. Further, we need to note that the maximum distance found till now needs not always be contributed by the end points of the distance being max\_valmax_val and min\_valmin_val.
 
 But, such points could help in maximizing the distance in the future. Thus, we need to keep track of these maximum and minimum values along with the maximum distance found so far for future calculations. But, in general, the final maximum distance found will always be determined by one of these extreme values, max\_valmax_val and min\_valmin_val, or in some cases, by both of them.
+
+Time: O(n), Space: O(1).
 */
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& arrays) {
+        int curMin = arrays[0][0], curMax = arrays[0][arrays[0].size()-1];
+        int res = 0;
+        for (int i = 1; i < arrays.size(); i++) {
+            int n = arrays[i].size();
+            int left = arrays[i][0], right = arrays[i][n-1];
+            // compute current res
+            res = max(res, max(abs(curMax - left), abs(right - curMin)));
+            curMin = min(curMin, left);
+            curMax = max(curMax, right);
+        }
+        
+        return res;
+    }
+};
