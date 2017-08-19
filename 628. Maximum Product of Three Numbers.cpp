@@ -33,3 +33,39 @@ public:
         return max(nums[n-1] * nums[n-2] * nums[n-3], nums[0] * nums[1] * nums[n-1]);
     }
 };
+
+/*
+Analysis: We need not necessarily sort the given numsnums array to find the maximum product. Instead, we can only find the required 2 smallest values(min1 and min2) and the three largest values(max1, max2, max3max1,max2,max3) in the numsnums array, by iterating over the numsnums array only once.
+
+At the end, again we can find out the larger value out of min1xmin2xmax1 and max1xmax2xmax3 to find the required maximum product.
+Time: O(n), single scan; Space: O(1).
+*/
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        int min1 = INT_MAX, min2 = INT_MAX;
+        int max1 = INT_MIN, max2 = INT_MIN, max3 = INT_MIN;
+        
+        for (int n : nums) {
+            if (n <= min1) {
+                min2 = min1;
+                min1 = n;
+            } else if (n <= min2) {
+                min2 = n;
+            }
+            
+            if (n >= max1) {
+                max3 = max2;
+                max2 = max1;
+                max1 = n;
+            } else if (n >= max2) {
+                max3 = max2;
+                max2 = n;
+            } else if (n >= max3) {
+                max3 = n;
+            }
+        }
+        
+        return max(max1 * max2 * max3, min1 * min2 * max1);
+    }
+};
