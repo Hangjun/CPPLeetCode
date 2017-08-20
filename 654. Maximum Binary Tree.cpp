@@ -88,5 +88,4 @@ in an expression tree, the leaves are all operands, and internal nodes are all o
 operator. Therefore, we can assign weights to the operators and operands, where operators get the maximum weights, and higher 
 priority operator get higher weights. Then the min tree associated with this array of weights correspond exactly to the 
 expression tree. This approach is documented above in LintCode Problem 367: Expression Tree Build.
-
 */
