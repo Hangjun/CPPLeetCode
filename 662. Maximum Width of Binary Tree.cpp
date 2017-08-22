@@ -50,6 +50,58 @@ Output: 8
 Explanation:The maximum width existing in the fourth level with the length 8 (6,null,null,null,null,null,null,7).
 
 Note: Answer will in the range of 32-bit signed integer.
+
+/*
+Solution: We use level order traversal and we keep track of the indices for each level. Since the input binary tree is complete, we can think of it as an array in which the left and right child of the ith node is 2i and 2i + 1, respectively.
 */
 
-
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if (!root) return 0;
+        queue<TreeNode *> level;
+        queue<int> indices;
+        int res = 1;
+        
+        level.push(root);
+        indices.push(0);
+        
+        while (!level.empty()) {
+            int curLevelSize = level.size();
+            int left = 0, right = 0;
+            for (int i = 0; i < curLevelSize; i++) {
+                TreeNode *curNode = level.front();
+                level.pop();
+                int curIndex = indices.front();
+                indices.pop();
+                
+                if (i == 0) left = curIndex;
+                if (i == curLevelSize-1) right = curIndex;
+                
+                if (curNode->left) {
+                    level.push(curNode->left);
+                    indices.push(2 * curIndex);
+                }
+                
+                if (curNode->right) {
+                    level.push(curNode->right);
+                    indices.push(2 * curIndex + 1);
+                }
+            }
+            
+            res = max(res, right - left + 1);
+        }
+        
+        return res;
+    }
+};
