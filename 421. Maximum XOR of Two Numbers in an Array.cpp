@@ -15,7 +15,11 @@ Explanation: The maximum result is 5 ^ 25 = 28.
 */
 
 /*
-This problem is a very neat application of the trie data structure. An O(n^2) time solution is trivial. The requirement that it should run in O(n) with this type of problem hints that for every number, it should be comparing (xor in this case) with ALL other numbers at the same time. This is the only possible way to make this linear. Trie is then a very natural outcome of this thought. What are we storing in the trie? Well, if we are matching words we store characters. Now we are xor-ing bits and hence we store all the bits.
+This problem is a very neat application of the trie data structure. An O(n^2) time solution is trivial. The requirement that 
+it should run in O(n) with this type of problem hints that for every number, it should be comparing (xor in this case) with 
+ALL other numbers at the same time. This is the only possible way to make this linear. Trie is then a very natural outcome of 
+this thought. What are we storing in the trie? Well, if we are matching words we store characters. Now we are xor-ing bits 
+and hence we store all the bits.
 
 Time: O(32n), Space: O(n).
 */
