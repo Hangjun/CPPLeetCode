@@ -32,7 +32,7 @@ public:
             if (count == t.size()) { // found all of t's characters
                 // compute window size: shrink i to the right as far as possible before
                 while (needToFind[s[i]] == 0 || hasFound[s[i]] > needToFind[s[i]]) {
-                    if (hasFound[s[i]] > needToFind[s[i]]) {
+                    if (needToFind.count(s[i]) && hasFound[s[i]] > needToFind[s[i]]) {
                         hasFound[s[i]]--;
                     }
                     i++;
