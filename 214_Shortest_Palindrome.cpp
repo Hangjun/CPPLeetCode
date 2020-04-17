@@ -54,7 +54,10 @@ public:
 };
 
 /* Analysis:
-Can we find the LPS prefix faster than O(n2) time? The idea is to use KMP algorithm. This is what we do: we reverse a copy of the input string, and concatenate it at the end of the original string. Then we search in the combined string the longest prefix that is also a suffix. This substring is then a LPS prefix in the original string. To compute this substring, we use KMP algorithm and compute the next table.
+Can we find the LPS prefix faster than O(n2) time? The idea is to use KMP algorithm. This is what we do: we reverse a copy of 
+the input string, and concatenate it at the end of the original string. Then we search in the combined string the longest 
+prefix that is also a suffix. This substring is then a LPS prefix in the original string. To compute this substring, we use 
+KMP algorithm and compute the next table.
 
 The next table is the most important data structure for all the palindromic substring problems.
 
