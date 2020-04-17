@@ -39,7 +39,10 @@ public:
 };
 
 /*
-The second algorithm takes constant space. The idea is to, for every character in the string, check how long a palindromic substring can it expand to with it being its center. What is the total number of such centers given that there are n characters in the string? The answer is 2n+1, not n, since there is a possible center between any two consecutive characters (think about the case where a palindromic subtring has even number of characters).
+The second algorithm takes constant space. The idea is to, for every character in the string, check how long a palindromic 
+substring can it expand to with it being its center. What is the total number of such centers given that there are n 
+characters in the string? The answer is 2n+1, not n, since there is a possible center between any two consecutive characters 
+(think about the case where a palindromic subtring has even number of characters).
 
 Time: O(n^2), Space: O(1).
 */
@@ -70,9 +73,15 @@ public:
 };
 
 /*
-This is still not the optimal solution. It is quite obvious that we are re-computing a lot of the overlapping substrings for two centers in the above expansion algorithm. The optimal solution in fact takes O(n) time, and O(n) space, and is called the Manachers Algorithm.
+This is still not the optimal solution. It is quite obvious that we are re-computing a lot of the overlapping substrings for 
+two centers in the above expansion algorithm. The optimal solution in fact takes O(n) time, and O(n) space, and is called the 
+Manachers Algorithm.
 
-The basic idea is that if we need to calculate Longest Palindromic Substring at each 2n+1 positions from left to right, then palindrome’s symmetric property could help to avoid some of the unnecessary computations (i.e. character comparison). If there is a palindrome of some length L cantered at any position P, then we may not need to compare all characters in left and right side at position P+1. We already calculated LPS at positions before P and they can help to avoid some of the comparisons after position P.
+The basic idea is that if we need to calculate Longest Palindromic Substring at each 2n+1 positions from left to right, then 
+palindrome’s symmetric property could help to avoid some of the unnecessary computations (i.e. character comparison). 
+If there is a palindrome of some length L cantered at any position P, then we may not need to compare all characters in left 
+and right side at position P+1. We already calculated LPS at positions before P and they can help to avoid some of the 
+comparisons after position P.
 
 See this post for a detailed explaination: http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/.
 
