@@ -7,9 +7,11 @@ T is "ece" which its length is 3.
 */
 
 /*
-Analysis: Similar to Problem 3. Longest Substring Without Repeating Characters, we can use a sliding window with two pointers plus a hash table to solve this problem and its follow up Problem 340. Longest Substring with At Most K Distinct Characters.
+Analysis: Similar to Problem 3. Longest Substring Without Repeating Characters, we can use a sliding window with two pointers 
+plus a hash table to solve this problem and its follow up Problem 340. Longest Substring with At Most K Distinct Characters.
 
-The most important idea in solving this kind of questions is "how to update the "start" pointer" and the solution to these questions seem usually differ only in this respect.
+The most important idea in solving this kind of questions is "how to update the "start" pointer" and the solution to these 
+questions seem usually differ only in this respect.
 
 Time: O(n), Space: O(1).
 */
