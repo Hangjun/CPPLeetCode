@@ -18,7 +18,7 @@ A Simple Solution is to traverse every array element and find the highest bars o
 two heights. The difference between smaller height and height of current element is the amount of water that can be stored in 
 this array element. Time complexity of this solution is O(n^2).
 
-An Efficient Solution is to prre-compute highest bar on left and right of every bar in O(n) time. Then use these pre-computed 
+An Efficient Solution is to pre-compute highest bar on left and right of every bar in O(n) time. Then use these pre-computed 
 values to find the amount of water in every array element.
 
 Time: O(n), Space: O(n). 3 Passes.
