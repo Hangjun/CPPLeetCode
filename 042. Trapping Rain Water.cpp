@@ -9,11 +9,17 @@ The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In th
 */
 
 /*
-Analysis: An element of array can store water if there are higher bars on left and right. We can find amount of water to be stored in every element by finding the heights of bars on left and right sides. The idea is to compute amount of water that can be stored in every element of array. For example, consider the array {3, 0, 0, 2, 0, 4}, we can store two units of water at indexes 1 and 2, and one unit of water at index 2.
+Analysis: An element of array can store water if there are higher bars on left and right. We can find amount of water to be 
+stored in every element by finding the heights of bars on left and right sides. The idea is to compute amount of water that 
+can be stored in every element of array. For example, consider the array {3, 0, 0, 2, 0, 4}, we can store two units of water 
+at indexes 1 and 2, and one unit of water at index 2.
 
-A Simple Solution is to traverse every array element and find the highest bars on left and right sides. Take the smaller of two heights. The difference between smaller height and height of current element is the amount of water that can be stored in this array element. Time complexity of this solution is O(n^2).
+A Simple Solution is to traverse every array element and find the highest bars on left and right sides. Take the smaller of 
+two heights. The difference between smaller height and height of current element is the amount of water that can be stored in 
+this array element. Time complexity of this solution is O(n^2).
 
-An Efficient Solution is to prre-compute highest bar on left and right of every bar in O(n) time. Then use these pre-computed values to find the amount of water in every array element.
+An Efficient Solution is to prre-compute highest bar on left and right of every bar in O(n) time. Then use these pre-computed 
+values to find the amount of water in every array element.
 
 Time: O(n), Space: O(n). 3 Passes.
 */
@@ -108,5 +114,8 @@ public:
 };
 
 /* 
-Remark: the key takeaway of this problem is to note that, we drop water from the smaller height direction within. For each iteration, we first identify which side has a smaller heighter, and we can safely pouring water since we know that the other side has bigger height and can thus be provide a valid boundary. This realization is critical for the part II of this problem (https://leetcode.com/problems/trapping-rain-water-ii/?tab=Description).
+Remark: the key takeaway of this problem is to note that, we drop water from the smaller height direction within. For each 
+iteration, we first identify which side has a smaller heighter, and we can safely pouring water since we know that the other 
+side has bigger height and can thus be provide a valid boundary. This realization is critical for the part II of this problem 
+(https://leetcode.com/problems/trapping-rain-water-ii/?tab=Description).
 */
