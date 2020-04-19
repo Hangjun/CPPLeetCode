@@ -5,7 +5,8 @@ For example,
 Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 
 
-The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped. Thanks Marcos for contributing this image!
+The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) 
+are being trapped. Thanks Marcos for contributing this image!
 */
 
 /*
@@ -45,7 +46,10 @@ public:
 };
 
 /*
-Analysis: Can we do better than this? It turns out that we do not need to spare O(n) to store the maximum heights to the left and to the right. Instead we can first scan the whole array to find the maximum height. Then we traverse the array the second time. If the current index is less than the maximum element’s index, we only need to know the maximum height to its left, which can be gather while we traverse up to that element. Here is a constant space solution.
+Analysis: Can we do better than this? It turns out that we do not need to spare O(n) to store the maximum heights to the left 
+and to the right. Instead we can first scan the whole array to find the maximum height. Then we traverse the array the second 
+time. If the current index is less than the maximum element’s index, we only need to know the maximum height to its left, 
+which can be gather while we traverse up to that element. Here is a constant space solution.
 
 Time: O(n), Space: O(1). 2 Passes.
 */
@@ -84,7 +88,9 @@ public:
 };
 
 /*
-Can we do even better? This problem looks really similar to the Container with Most Water problem, where we used two pointers and performed a single pass to solve. Can we use two pointers and a single pass here as well? Suppose we start from the two ends. We can transform our analysis above to the following implementation:
+Can we do even better? This problem looks really similar to the Container with Most Water problem, where we used two pointers
+and performed a single pass to solve. Can we use two pointers and a single pass here as well? Suppose we start from the two
+ends. We can transform our analysis above to the following implementation:
 
 Time: O(n), Space: O(1). 1 Pass. Colliding two pointers.
 */
