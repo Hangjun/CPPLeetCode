@@ -8,7 +8,8 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
 */
 
 /*
-Analysis: We use local-global DP algorithm. Usually for this type of DP problem, local stores the current state that ends at the current index, global stores the optimal state that's up to and including the current index.
+Analysis: We use local-global DP algorithm. Usually for this type of DP problem, local stores the current state that ends at 
+the current index, global stores the optimal state that's up to and including the current index.
 
 Time: O(nk), Space: O(nk).
 */
