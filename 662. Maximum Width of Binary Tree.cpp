@@ -55,7 +55,6 @@ Note: Answer will in the range of 32-bit signed integer.
 Solution: We use level order traversal and we keep track of the indices for each level. Since the input binary tree is complete, we can think of it as an array in which the left and right child of the ith node is 2i and 2i + 1, respectively.
 */
 
-*/
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
