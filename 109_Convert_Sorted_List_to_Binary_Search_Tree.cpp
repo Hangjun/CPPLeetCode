@@ -2,7 +2,7 @@
 Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
 */
 
-// Solution #1: Recursion. Time = O(nlogn), Space = O(1).
+// Solution #1: Recursion. Time = O(nlogn), Space = O(logn).
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -45,7 +45,7 @@ public:
     }
 };
 
-// Solution #2: Time = O(n), Space = O(1)
+// Solution #2: Time = O(n), Space = O(logn)
 /**
  * Definition for singly-linked list.
  * struct ListNode {
