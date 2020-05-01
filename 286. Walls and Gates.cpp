@@ -86,7 +86,8 @@ private:
 };
 
 /*
-The above naive BFS solution is still O(m^2n^2) in the worst case. An improvement is to perform the BFS update for all gates at the same time.
+The above naive BFS solution is still O(m^2n^2) in the worst case. An improvement is to perform the BFS update for all gates 
+at the same time.
 */
 
 class Solution {
@@ -134,11 +135,14 @@ private:
 Remark: 
 If you are having difficulty to derive the time complexity, start simple.
 
-Let us start with the case with only one gate. The breadth-first search takes at most m * n steps to reach all rooms, therefore the time complexity is O(mn). But what if you are doing breadth-first search from k gates?
+Let us start with the case with only one gate. The breadth-first search takes at most m * n steps to reach all rooms, 
+therefore the time complexity is O(mn). But what if you are doing breadth-first search from k gates?
 
-Once we set a room's distance, we are basically marking it as visited, which means each room is visited at most once. Therefore, the time complexity does not depend on the number of gates and is O(mn).
+Once we set a room's distance, we are basically marking it as visited, which means each room is visited at most once. 
+Therefore, the time complexity does not depend on the number of gates and is O(mn).
 
-We can actually also use DFS to solve this problem. The key is to pass on the "rooms[x][y] + 1 < rooms[nx][ny]" information during each DFS recursion call:
+We can actually also use DFS to solve this problem. The key is to pass on the "rooms[x][y] + 1 < rooms[nx][ny]" information 
+during each DFS recursion call:
 */
 
 class Solution {
