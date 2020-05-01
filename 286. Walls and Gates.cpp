@@ -19,9 +19,12 @@ After running your function, the 2D grid should be:
 */
 
 /*
-Analysis: The first idea is we BFS search for the nearest gate from every empty room. We need to keep a distance variable to record the shortest distances found. However, this is not the optimal solution as it takes O(m^2n^2) time since for each point in the m*n size grid, the gate could be at most m*n steps away.
+Analysis: The first idea is we BFS search for the nearest gate from every empty room. We need to keep a distance variable to 
+record the shortest distances found. However, this is not the optimal solution as it takes O(m^2n^2) time since for each 
+point in the m*n size grid, the gate could be at most m*n steps away.
 
-Space complexity : O(mn). The space complexity depends on the queue's size. Since we won't insert points that have been visited before into the queue, we insert at most m * n points into the queue.
+Space complexity : O(mn). The space complexity depends on the queue's size. Since we won't insert points that have been 
+visited before into the queue, we insert at most m * n points into the queue.
 */
 
 /*
