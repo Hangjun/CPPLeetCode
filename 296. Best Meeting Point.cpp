@@ -12,7 +12,10 @@ The point (0,2) is an ideal meeting point, as the total travel distance of 2+2+2
 */
 
 /*
-Analysis: This is really a computational geometry problem. The key is to note that the best meeting point with respect to the Manhattan Distance is exactly the median point whose x coordinate is the median of the x coordinates of all the people, and y coordinate the median of the y coordinates of all the people. This idea is also used in solving LintCode Post Office Problem. This problem is the k = 1 case of the post office problem.
+Analysis: This is really a computational geometry problem. The key is to note that the best meeting point with respect to the 
+Manhattan Distance is exactly the median point whose x coordinate is the median of the x coordinates of all the people, and y 
+coordinate the median of the y coordinates of all the people. This idea is also used in solving LintCode Post Office Problem. 
+This problem is the k = 1 case of the post office problem.
 */
 
 class Solution {
