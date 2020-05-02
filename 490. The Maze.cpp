@@ -42,12 +42,15 @@ Explanation: There is no way for the ball to stop at the destination.
 Note:
 There is only one ball and one destination in the maze.
 Both the ball and the destination exist on an empty space, and they will not be at the same position initially.
-The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of the maze are all walls.
+The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of 
+the maze are all walls.
 The maze contains at least 2 empty spaces, and both the width and height of the maze won't exceed 100.
 */
 
 /*
-DFS is the straightforward solution. There is one catch about how the stopping condition. Whenever we hit a wall in any direction, we view it as having reached a destination. If that destination equals to the destination required, we return true. Otherwise we can resume from where we hit the wall.
+DFS is the straightforward solution. There is one catch about how the stopping condition. Whenever we hit a wall in any 
+direction, we view it as having reached a destination. If that destination equals to the destination required, we return true. 
+Otherwise we can resume from where we hit the wall.
 */
 class Solution {
 public:
