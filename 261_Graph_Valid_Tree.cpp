@@ -44,7 +44,7 @@ public:
             }
         }
         // no cycle found: it is a tree
-        return components == 1 ? true : false;
+        return components == 1;
     }
     
     bool dfs(int curNode, vector<bool> &visited, vector<unordered_set<int>> &adj, int parent) {
