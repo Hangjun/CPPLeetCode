@@ -14,9 +14,12 @@ You may assume that you have an infinite number of each kind of coin.
 */
 
 /*
-Analysis: This is obviously a DP problem. The subproblems are also easy to construct: if we can know the minimum number of coins need to sum up to a value less than the target amount, then we can compute the minimum number of coins need to sum up to target amount. This actually also defines the states as well as the state transition functions.
+Analysis: This is obviously a DP problem. The subproblems are also easy to construct: if we can know the minimum number of 
+coins need to sum up to a value less than the target amount, then we can compute the minimum number of coins need to sum up to 
+target amount. This actually also defines the states as well as the state transition functions.
 
-This problem is essentially the same as problem 279. Perfect Squares (https://leetcode.com/problems/perfect-squares/#/description). Whenever it comes to finding the minimum number of summands.
+This problem is essentially the same as problem 279. Perfect Squares (https://leetcode.com/problems/perfect-squares/#/description). 
+Whenever it comes to finding the minimum number of summands.
 
 Time: O(n*amount), Space: O(amount). We cannot optimize the space complexity as the state transition function is not continuous.
 */
