@@ -22,7 +22,8 @@ Output: [-34, -14, -10, -10, 10]
 */
 
 /* 
-The key to solving this problem is to note that, to generate all possible ways to add parentheses is equivalent to evaluate every operation in its highest priority. The leads naturally to a recursive solution. 
+The key to solving this problem is to note that, to generate all possible ways to add parentheses is equivalent to evaluate 
+every operation in its highest priority. The leads naturally to a recursive solution. 
 
 Time: O(3^n), Space O(3^n).
 */
