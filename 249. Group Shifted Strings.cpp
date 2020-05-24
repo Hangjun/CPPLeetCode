@@ -16,13 +16,18 @@ A solution is:
 */
 
 /*
-Analysis: The key to this problem is how to identify strings that are in the same shifting sequence. There are different ways to encode this.
+Analysis: The key to this problem is how to identify strings that are in the same shifting sequence. There are different ways 
+to encode this.
 
-In the following code, this manner is adopted: for a string s of length n, we encode its shifting feature as "s[1] - s[0], s[2] - s[1], ..., s[n - 1] - s[n - 2],".
+In the following code, this manner is adopted: for a string s of length n, we encode its shifting feature as 
+"s[1] - s[0], s[2] - s[1], ..., s[n - 1] - s[n - 2],".
 
-Then we build an unordered_map, using the above shifting feature string as key and strings that share the shifting feature as value. We store all the strings that share the same shifting feature in a vector. Well, remember to sort the vector since the problem requires them to be in lexicographic order :-)
+Then we build an unordered_map, using the above shifting feature string as key and strings that share the shifting feature as 
+value. We store all the strings that share the same shifting feature in a vector. Well, remember to sort the vector since the 
+problem requires them to be in lexicographic order :-)
 
-A final note, since the problem statement has given that "az" and "ba" belong to the same shifting sequence. So if s[i] - s[i - 1] is negative, we need to add 26 to it to make it positive and give the correct result. 
+A final note, since the problem statement has given that "az" and "ba" belong to the same shifting sequence. So if 
+s[i] - s[i - 1] is negative, we need to add 26 to it to make it positive and give the correct result. 
 */
 
 class Solution {
