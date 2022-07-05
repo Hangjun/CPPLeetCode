@@ -78,16 +78,22 @@ public:
 };
 
 /*
-Notice that on Line 67 above, once we find a legitimate neighbor word, we erase it from the dictionary. This severs the same purpose as a visited array. Now why can we erase this word? To justify this, there are two cases: 
+Notice that on Line 67 above, once we find a legitimate neighbor word, we erase it from the dictionary. This severs the same purpose as a visited array. 
+Now why can we erase this word? To justify this, there are two cases: 
 
 1. First, this word won't be reached on a later traversal. In this case we can certainly erase it from the dictionary.
-2. Second, this word will be reached on this level's traversal or at a later level. If we will reach this word again on the current level, that means there are at least two ways to reach this word, and they all take the same number of steps (this is what reaching this word again on the current level means). Erasing this word won't change the output answer since it is already covered.
+2. Second, this word will be reached on this level's traversal or at a later level. If we will reach this word again on the current level, that means 
+there are at least two ways to reach this word, and they all take the same number of steps (this is what reaching this word again on the current level
+means). Erasing this word won't change the output answer since it is already covered.
 
-If, on the other hand, this word will be reached at a later traversal. That means that keeping this word won't provide a better solution, since we are only looking for the shortest length here. 
+If, on the other hand, this word will be reached at a later traversal. That means that keeping this word won't provide a better solution, since we are 
+only looking for the shortest length here. 
 
 However, if we were to print out all the minimal length paths or simply all paths from beginWord to endWord, we cannot simply erase any intermediate word.
 
-We have mentioned that this problem is really finding the smallest path from one word to another, where each step is restricted to one edit distance away. If we want to clearly separate each level during our traversal, we can use two queues instead of one. This is very similar to the Binary Tree Level Order Traversal problem:
+We have mentioned that this problem is really finding the smallest path from one word to another, where each step is restricted to one edit distance away.
+If we want to clearly separate each level during our traversal, we can use two queues instead of one. This is very similar to the Binary Tree Level Order 
+Traversal problem:
 */
 
 class Solution {
