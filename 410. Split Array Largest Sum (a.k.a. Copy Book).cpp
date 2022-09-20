@@ -24,11 +24,14 @@ where the largest sum among the two subarrays is only 18.
 /*
 Analysis: This is exactly the famous (notorious) Copy Book problem (http://www.lintcode.com/en/problem/copy-books/).
 
-The non-dp solution should be straightforward. The maximum possible answer is the total sum, the minimum possible answer if the largest element. Then we binary search. For each value mid, we traverse the array and partition in a greedy fashion - as long as we can still fit more (i.e. total sum is <= mid) we add the current element into the current partition.
+The non-dp solution should be straightforward. The maximum possible answer is the total sum, the minimum possible answer if the largest element. Then we 
+binary search. For each value mid, we traverse the array and partition in a greedy fashion - as long as we can still fit more (i.e. total sum is <= mid) 
+we add the current element into the current partition.
 
 Remark: This solution is very similar to the binary search solution to Problem 209. Minimum Size Subarray Sum (https://leetcode.com/problems/minimum-size-subarray-sum/#/description). 
 
-Caution: We can do this also because the elements in the array are non-negative. For arbitrary numbers, we cannot use greedy algorithm. In that case, DP is necessary.
+Caution: We can do this also because the elements in the array are non-negative. For arbitrary numbers, we cannot use greedy algorithm. In that case, DP 
+is necessary.
 
 Whenever we are looking for a minimum sized solution, try binary search.
 
