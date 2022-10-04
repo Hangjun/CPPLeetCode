@@ -14,7 +14,9 @@ To generate all distinct permutations of a (half of) string, use a similar appro
 */
 
 /*
-Analysis: According to the hint, the key is to find the first half of the palindromic string, and then generate all possible permutations of the first half. The permutation part is easy. The slightly trikier part is getting thet first half in cases where some characters appear more than 2 times (but still even number of times). The C++ string constructor allows us to generate a given number of copies of a character. This solves the problem.
+Analysis: According to the hint, the key is to find the first half of the palindromic string, and then generate all possible permutations of the first 
+half. The permutation part is easy. The slightly trikier part is getting thet first half in cases where some characters appear more than 2 times 
+(but still even number of times). The C++ string constructor allows us to generate a given number of copies of a character. This solves the problem.
 */
 class Solution {
 public:
